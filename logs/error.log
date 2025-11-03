@@ -1366,3 +1366,29 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:42:34] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    },
+    {
+      "field": "organizationWebsite",
+      "message": "Organization Website must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
