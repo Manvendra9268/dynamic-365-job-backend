@@ -11,7 +11,12 @@ const app = express();
 
 // Security Middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(
+  cors({
+    origin: "http://localhost:8080", // your frontend URL
+    credentials: true,               // allow credentials (cookies, auth headers)
+  })
+);
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
