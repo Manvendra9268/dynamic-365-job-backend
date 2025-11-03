@@ -1,5 +1,6 @@
 const { body, validationResult, param, query } = require('express-validator');
 const Error = require('./error');
+const User = require('../models/User');
 
 const validateUser = [
   // Email
@@ -151,6 +152,86 @@ const validateOtpVerify = [
     .withMessage('OTP must be a 6-digit number'),
 ];
 
+const validateJobRequest = [
+  body('employerId')
+    .exists({ checkFalsy: true })
+    .withMessage('Employer ID is required.')
+    .isMongoId()
+    .withMessage('Invalid employer ID.')
+    .bail()
+    .custom(async (value) => {
+      const employer = await User.findById(value).populate('role');
+      if (!employer) {
+        return Promise.reject('Employer not found.');
+      }
+      if (!employer.role || employer.role.roleName.toLowerCase() !== 'employer') {
+        return Promise.reject('User is not authorized to create a job request.');
+      }
+      return true;
+    }),
+
+  body('jobTitle')
+    .exists({ checkFalsy: true })
+    .withMessage('Job title is required.')
+    .trim(),
+
+  body('workMode')
+    .optional()
+    .isIn(['Full-Time', 'Part-Time'])
+    .withMessage('Invalid workMode! Valid values: Full-Time, Part-Time.'),
+
+  body('jobType')
+    .optional()
+    .isIn(['Remote', 'Hybrid', 'Onsite'])
+    .withMessage('Invalid job type. Valid values: Remote, Hybrid, Onsite.'),
+
+  body('upperCompensation')
+    .optional()
+    .isNumeric()
+    .withMessage('Upper compensation must be a number.')
+    .custom((value, { req }) => {
+      if (req.body.lowerCompensation && value < req.body.lowerCompensation) {
+        throw new Error('Upper compensation must be greater than or equal to lower compensation.');
+      }
+      return true;
+    }),
+
+  body('lowerCompensation')
+    .optional()
+    .isNumeric()
+    .withMessage('Lower compensation must be a number.'),
+
+  body('roleLevel')
+    .optional()
+    .isIn(['Senior Level', 'Associate', 'Apprenticeship'])
+    .withMessage('Invalid role level.'),
+
+  body('roleDescription')
+    .optional()
+    .isString()
+    .trim(),
+
+  body('keyResponsibilities')
+    .optional()
+    .isArray()
+    .withMessage('Key responsibilities must be an array of strings.'),
+
+  body('requirements')
+    .optional()
+    .isArray()
+    .withMessage('Requirements must be an array of strings.'),
+
+  body('skills')
+    .optional()
+    .isArray()
+    .withMessage('Skills must be an array of strings.'),
+
+  body('country')
+    .optional()
+    .isString()
+    .trim(),
+  ];
+
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -172,5 +253,6 @@ module.exports = {
   validatePagination,
   validateOtpGenerate,
   validateOtpVerify,
+  validateJobRequest,
   handleValidationErrors,
 };
