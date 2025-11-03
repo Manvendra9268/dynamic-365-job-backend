@@ -3,86 +3,207 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const logger = require('../utils/logger');
 const Error = require('../utils/error');
-
+const Role = require('../models/Role');
+const { OAuth2Client } = require("google-auth-library");
+const axios = require('axios');
 const createUser = async ({
-  fullName, email, password, role, organizationName, organizationSize, founded, headquarters, organizationLinkedIn, organizationWebsite, phoneNumber, areasOfInterest, currentRole, country, contactSharing
+  fullName,
+  email,
+  password,
+  role,
+  organizationName,
+  organizationSize,
+  founded,
+  headquarters,
+  organizationLinkedIn,
+  organizationWebsite,
+  phoneNumber,
+  areasOfInterest,
+  currentRole,
+  country,
+  contactSharing,
 }) => {
   // Check if email already exists
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({$or: [{ email }, { phoneNumber }]});
   if (existingUser) {
-    const error = new Error("User already exists with this email.");
+    const error = new Error("User already exists with this email or Phone number.");
     error.statusCode = 400;
     throw error;
   }
 
-  // Base user data
+  // Fetch the role document
+  const roleDoc = await Role.findById(role);
+  if (!roleDoc) {
+    const error = new Error("Invalid role ID provided.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const roleName = roleDoc.roleName.toLowerCase();
+
   const userData = {
     email,
     password,
     fullName,
-    role,
-    phoneNumber
+    role: roleDoc._id,
+    phoneNumber,
   };
 
-  // Employer-specific validation
-  if (role === "employer") {
-    if (!organizationName?.trim()) {
-      const error = new Error("Organization name is required for employers.");
-      error.statusCode = 400;
-      throw error;
-    }
-    if (!headquarters?.trim()) {
-      const error = new Error("Headquarters is required for employers.");
-      error.statusCode = 400;
-      throw error;
-    }
-    if (!organizationSize?.trim()){
-      const error = new Error("Organization size is required for employers.");
-      error.statusCode = 400;
-      throw error;
-    }
-    if(!founded?.trim()){
-      const error = new Error("Founded year is required for employers.");
-      error.statusCode = 400;
-      throw error;
-    }
-    if (organizationLinkedIn?.trim()){
-      userData.organizationLinkedIn = organizationLinkedIn;
-    }
-    if (organizationWebsite?.trim()){
-      userData.organizationWebsite = organizationWebsite;
-    }
-    userData.organizationSize = organizationSize;
-    userData.founded = founded;
-    userData.headquarters =headquarters;
-    userData.organizationName = organizationName;
+  // ✅ Employer-specific validation
+  if (roleName === "employer") {
+    if (!organizationName?.trim()) throw new Error("Organization name is required for employers.");
+    if (!headquarters?.trim()) throw new Error("Headquarters is required for employers.");
+    if (!organizationSize?.trim()) throw new Error("Organization size is required for employers.");
+    if (!founded?.trim()) throw new Error("Founded year is required for employers.");
+
+    userData.organizationName = organizationName.trim();
+    userData.organizationSize = organizationSize.trim();
+    userData.founded = founded.trim();
+    userData.headquarters = headquarters.trim();
+
+    if (organizationLinkedIn?.trim()) userData.organizationLinkedIn = organizationLinkedIn.trim();
+    if (organizationWebsite?.trim()) userData.organizationWebsite = organizationWebsite.trim();
   }
 
-  // jobseeker–specific validation
-  if (role === "jobseeker") {
+  // ✅ Jobseeker-specific validation
+  if (roleName === "jobseeker") {
     if (!Array.isArray(areasOfInterest) || areasOfInterest.length === 0) {
       const error = new Error("Please select at least one area of interest.");
       error.statusCode = 400;
       throw error;
     }
 
-    userData.areasOfInterest = areasOfInterest;
-    if (currentRole) userData.currentRole = currentRole;
-    if (phoneNumber) userData.phoneNumber = phoneNumber;
-    if (country) userData.country = country;
+    userData.areasOfInterest = areasOfInterest.map(a => a.trim());
+    if (currentRole) userData.currentRole = currentRole.trim();
+    if (country) userData.country = country.trim();
   }
 
-  // Create and save user
+  // ✅ Create user
   const user = new User(userData);
   await user.save();
 
-  logger.info(`${role.charAt(0).toUpperCase() + role.slice(1)} created: ${email}`);
+  logger.info(`${roleName} created: ${email}`);
 
   return {
-    user: {
+    id: user._id,
+    email: user.email,
+    role: roleName,
+  };
+};
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const googleAuthService = async ({
+  role,
+  organizationName,
+  organizationSize,
+  founded,
+  headquarters,
+  organizationLinkedIn,
+  organizationWebsite,
+  phoneNumber,
+  areasOfInterest,
+  currentRole,
+  country,
+  contactSharing,
+  access_token,
+}) => {
+  
+  const { data: payload } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  const email = payload.email;
+  const fullName = payload.name;
+  const picture = payload.picture;
+
+  // 2️⃣ Check if user exists
+  let user = await User.findOne({$or: [{ email }, { phoneNumber }]}).populate("role");
+
+  if (user) {
+    const error = new Error("User already exists with this email or Phone number.");
+    error.statusCode = 400;
+    throw error;
+  } else {
+    // 3️⃣ Fetch role document
+    const roleDoc = await Role.findById(role);
+    if (!roleDoc) {
+      const error = new Error("Invalid role ID provided.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const roleName = roleDoc.roleName.toLowerCase();
+
+    const userData = {
+      email,
+      fullName,
+      password: null, // no password for Google users
+      role: roleDoc._id,
+      phoneNumber,
+    };
+
+    // ✅ Employer-specific validation
+    if (roleName === "employer") {
+      if (!organizationName?.trim())
+        throw new Error("Organization name is required for employers.");
+      if (!headquarters?.trim())
+        throw new Error("Headquarters is required for employers.");
+      if (!organizationSize?.trim())
+        throw new Error("Organization size is required for employers.");
+      if (!founded?.trim())
+        throw new Error("Founded year is required for employers.");
+
+      userData.organizationName = organizationName.trim();
+      userData.organizationSize = organizationSize.trim();
+      userData.founded = founded.trim();
+      userData.headquarters = headquarters.trim();
+
+      if (organizationLinkedIn?.trim())
+        userData.organizationLinkedIn = organizationLinkedIn.trim();
+      if (organizationWebsite?.trim())
+        userData.organizationWebsite = organizationWebsite.trim();
+    }
+
+    // ✅ Jobseeker-specific validation
+    if (roleName === "jobseeker") {
+      if (!Array.isArray(areasOfInterest) || areasOfInterest.length === 0) {
+        const error = new Error("Please select at least one area of interest.");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
+      if (currentRole) userData.currentRole = currentRole.trim();
+      if (country) userData.country = country.trim();
+    }
+
+    // 4️⃣ Create new Google user
+    user = new User(userData);
+    await user.save();
+
+    logger.info(`New Google user created: ${email}`);
+  }
+
+  // 5️⃣ Generate JWT
+  const jwtToken = jwt.sign(
+    {
       id: user._id,
       email: user.email,
       role: user.role,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  // 6️⃣ Return token and user info
+  return {
+    token: jwtToken,
+    user: {
+      id: user._id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role?.roleName,
     },
   };
 };
@@ -165,6 +286,7 @@ const createUser = async ({
 
 module.exports = {
   createUser,
+  googleAuthService,
   // loginUserAdmin,
   // getUserById,
   // updateUser,
