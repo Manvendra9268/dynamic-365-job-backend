@@ -1392,3 +1392,386 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:07:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:12] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:58] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:14] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:00] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:15] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:00] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:06] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:217:11)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:30:54] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:14] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:17] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:40] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:44] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:45] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:09] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:10] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+

@@ -6,6 +6,7 @@ const Error = require('../utils/error');
 const Role = require('../models/Role');
 const { OAuth2Client } = require("google-auth-library");
 const axios = require('axios');
+
 const createUser = async ({
   fullName,
   email,
@@ -90,8 +91,6 @@ const createUser = async ({
     role: roleName,
   };
 };
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleAuthService = async ({
   role,
@@ -208,23 +207,21 @@ const googleAuthService = async ({
   };
 };
 
+const loginUser = async ({ email, password }) => {
+  const user = await User.findOne({ email}).select('+password');
+  if (!user) {
+    throw new Error('Invalid credentials', 401);
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error('Invalid credentials', 401);
+  }
+  const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
+  });
 
-
-// const loginUserAdmin = async ({ email, password }) => {
-//   const user = await User.findOne({ email}).select('+password');
-//   if (!user) {
-//     throw new Error('Invalid credentials', 401);
-//   }
-//   const isMatch = await bcrypt.compare(password, user.password);
-//   if (!isMatch) {
-//     throw new Error('Invalid credentials', 401);
-//   }
-//   const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
-//     expiresIn: '24h',
-//   });
-
-//   return { token, data: { id: user._id, email: user.email, role: user.role } };
-// };
+  return {id: user._id, email: user.email, role: user.role, token: token};
+};
 
 // const getUserById = async (userId, requestingUser) => {
 //   const user = await User.findOne({ _id: userId, deleted_at: null }).select('-password -otp -otpExpires');
@@ -287,7 +284,7 @@ const googleAuthService = async ({
 module.exports = {
   createUser,
   googleAuthService,
-  // loginUserAdmin,
+  loginUser,
   // getUserById,
   // updateUser,
   // deleteUser,

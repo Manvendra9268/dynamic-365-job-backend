@@ -3380,3 +3380,610 @@ Stack Trace:
 [2025-11-03 15:44:05] info: ::1 - - [03/Nov/2025:10:14:04 +0000] "POST /api/v1/users/google HTTP/1.1" 200 422 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:18] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:18] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:28] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:28] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:34] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:34] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:37] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:37] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:44] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:44] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:49] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:57] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:54:57] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:20] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:20] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:24] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:24] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:45] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:45] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:47] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:01:47] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:05:08] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:05:08] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:05:13] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:05:13] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:07:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:07:46] info: ::1 - - [03/Nov/2025:10:37:46 +0000] "POST /api/v1/users/login HTTP/1.1" 400 640 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:12] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:12] info: ::1 - - [03/Nov/2025:10:38:12 +0000] "POST /api/v1/users/login HTTP/1.1" 400 640 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:54] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:54] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:58] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:58] info: ::1 - - [03/Nov/2025:10:38:58 +0000] "POST /api/v1/users/login HTTP/1.1" 400 640 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:09] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:09] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:14] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:14] info: ::1 - - [03/Nov/2025:10:44:14 +0000] "POST /api/v1/users/login HTTP/1.1" 401 240 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:13] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:13] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:46] info: ::1 - - [03/Nov/2025:10:45:46 +0000] "POST /api/v1/users/login HTTP/1.1" 400 640 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:19:10] info: ::1 - - [03/Nov/2025:10:49:10 +0000] "POST /api/v1/users/login HTTP/1.1" 200 409 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:20:46] info: ::1 - - [03/Nov/2025:10:50:46 +0000] "POST /api/v1/users/login HTTP/1.1" 200 409 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:00] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:00] info: ::1 - - [03/Nov/2025:10:51:00 +0000] "POST /api/v1/users/login HTTP/1.1" 400 766 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:09] info: ::1 - - [03/Nov/2025:10:51:09 +0000] "POST /api/v1/users/login HTTP/1.1" 400 674 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:15] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:15] info: ::1 - - [03/Nov/2025:10:51:15 +0000] "POST /api/v1/users/login HTTP/1.1" 400 674 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:00] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:00] info: ::1 - - [03/Nov/2025:10:57:00 +0000] "POST /api/v1/users/login HTTP/1.1" 401 317 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:06] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:217:11)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:06] info: ::1 - - [03/Nov/2025:10:57:06 +0000] "POST /api/v1/users/login HTTP/1.1" 401 234 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:10] info: ::1 - - [03/Nov/2025:10:57:10 +0000] "POST /api/v1/users/login HTTP/1.1" 200 409 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:30:54] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:30:54] info: ::1 - - [03/Nov/2025:11:00:54 +0000] "POST /api/v1/users/login HTTP/1.1" 400 664 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:09] info: ::1 - - [03/Nov/2025:11:02:09 +0000] "POST /api/v1/users/login HTTP/1.1" 400 664 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:14] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:14] info: ::1 - - [03/Nov/2025:11:02:14 +0000] "POST /api/v1/users/login HTTP/1.1" 400 620 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:17] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:17] info: ::1 - - [03/Nov/2025:11:02:17 +0000] "POST /api/v1/users/login HTTP/1.1" 400 620 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:40] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:40] info: ::1 - - [03/Nov/2025:11:02:40 +0000] "POST /api/v1/users/login HTTP/1.1" 400 620 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:44] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:44] info: ::1 - - [03/Nov/2025:11:02:44 +0000] "POST /api/v1/users/login HTTP/1.1" 401 317 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:45] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:45] info: ::1 - - [03/Nov/2025:11:02:45 +0000] "POST /api/v1/users/login HTTP/1.1" 401 317 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:08] info: MongoDB connected successfully
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:08] info: Server running on port 5000 in development mode
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:09] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:09] info: ::1 - - [03/Nov/2025:11:03:09 +0000] "POST /api/v1/users/login HTTP/1.1" 401 317 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:10] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:10] info: ::1 - - [03/Nov/2025:11:03:10 +0000] "POST /api/v1/users/login HTTP/1.1" 401 317 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:31] info: ::1 - - [03/Nov/2025:11:03:31 +0000] "POST /api/v1/users/login HTTP/1.1" 200 409 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+═══════════════════════════════════════════════════════════════
+

@@ -1,6 +1,6 @@
 const { asyncHandler } = require('../utils/asyncHandler');
 const { validateUser, validateLogin, validateUserId, handleValidationErrors,validateGoogelUser } = require('../utils/validator');
-const { createUser, loginUserAdmin, getUserById, updateUser, deleteUser, googleAuthService } = require('../services/userService');
+const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService } = require('../services/userService');
 const Role = require('../models/Role')
 const mongoose = require('mongoose');
 
@@ -120,13 +120,17 @@ const googleAuth = [
   });
 })];
 
-const loginUser = [
+const userLogin = [
   validateLogin,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
+    console.log("Login request body:", req.body);
     const { email, password } = req.body;
-    const result = await loginUserAdmin({ email, password }, { ipAddress: req.ip });
-    res.status(200).json(result);
+    const result = await loginUser({ email, password });
+    res.status(200).json({
+      message: 'Login successful',
+      data: result,
+    });
   }),
 ];
 
@@ -159,7 +163,7 @@ const deleteUserAccount = [
 
 module.exports = {
   registerUser,
-  loginUser,
+  userLogin,
   getUserProfile,
   updateUserDetails,
   deleteUserAccount,
