@@ -223,6 +223,22 @@ const loginUser = async ({ email, password }) => {
   return {id: user._id, email: user.email, role: user.role, token: token};
 };
 
+const googleLoginService = async ({ access_token }) => {
+    const { data: payload } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+  const email = payload.email;
+  let user
+  user = await User.findOne({ email}).populate("role");
+  if (!user) {
+    throw new Error('User not found, please register first', 404);
+  }
+  const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: '7d',
+  });
+  return {user:{id: user._id, email: user.email, role: user.role.roleName}, token: token};
+}
+
 // const getUserById = async (userId, requestingUser) => {
 //   const user = await User.findOne({ _id: userId, deleted_at: null }).select('-password -otp -otpExpires');
 //   if (!user) {
@@ -285,6 +301,7 @@ module.exports = {
   createUser,
   googleAuthService,
   loginUser,
+  googleLoginService
   // getUserById,
   // updateUser,
   // deleteUser,

@@ -1,6 +1,6 @@
 const { asyncHandler } = require('../utils/asyncHandler');
 const { validateUser, validateLogin, validateUserId, handleValidationErrors,validateGoogelUser } = require('../utils/validator');
-const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService } = require('../services/userService');
+const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService, googleLoginService } = require('../services/userService');
 const Role = require('../models/Role')
 const mongoose = require('mongoose');
 
@@ -114,12 +114,28 @@ const googleAuth = [
       access_token});
 
   res.status(200).json({
-    message: "Google login successful",
+    message: "Registration successful",
     token: result.token,
     data: result.user,
   });
 })];
 
+const googleLogin = [
+  asyncHandler(async(req,res)=>{
+    const { access_token } = req.body;
+
+    if (!access_token) {
+      return res.status(400).json({ message: "Google token is required." });
+    }
+    const result = await googleLoginService({ access_token });
+
+    res.status(200).json({
+      message: "Login successful",
+      token: result.token,
+      data: result.user,
+    });
+  })
+]
 const userLogin = [
   validateLogin,
   handleValidationErrors,
@@ -168,6 +184,7 @@ module.exports = {
   updateUserDetails,
   deleteUserAccount,
   googleAuth,
+  googleLogin
 };
 
 // const generateOtpHandler = [
