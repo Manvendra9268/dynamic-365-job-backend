@@ -29,7 +29,7 @@ const validateUser = [
     .exists({ checkFalsy: true })
     .withMessage("Role is required.")
     .isIn(["employer", "jobseeker", "admin"])
-    .withMessage("Role must be either employer, jobseeker, or admin."),
+    .withMessage("Role must be either employer, jobseeker, or admin"),
 
   //Phone Number
   body("phoneNumber")
@@ -95,6 +95,77 @@ const validateUser = [
     .withMessage("Contact sharing must be a boolean."),
 ];
 
+const validateGoogelUser = [
+  // Role
+  body("role")
+    .exists({ checkFalsy: true })
+    .withMessage("Role is required.")
+    .isIn(["employer", "jobseeker", "admin"])
+    .withMessage("Role must be either employer, jobseeker, or admin"),
+
+  //Phone Number
+  body("phoneNumber")
+    .exists({ checkFalsy: true })
+    .withMessage("Phone number is required.")
+    .isMobilePhone()
+    .withMessage("Invalid phone number."),
+
+  // Employer-specific validations
+  body("organizationName")
+    .if(body("role").equals("employer"))
+    .exists({ checkFalsy: true })
+    .withMessage("Organization name is required for employers."),
+
+  body("organizationSize")
+    .if(body("role").equals("employer"))
+    .isInt({ min: 1 })
+    .withMessage("Organization size must be a positive integer."),
+  
+  body("founded")
+    .if(body("role").equals("employer"))
+    .isInt({ min: 1000, max: new Date().getFullYear() })
+    .withMessage("Founded year must be a valid year."),
+  
+  body("headquarters")
+    .if(body("role").equals("employer"))
+    .isString()
+    .trim(),
+  
+  body("organizationLinkedIn")
+    .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("Organization LinkedIn must be a valid URL."),
+  
+  body("organizationWebsite")
+    .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("Organization Website must be a valid URL."),
+  // jobseeker–specific validations
+  body("areasOfInterest")
+    .if(body("role").equals("jobseeker"))
+    .isArray({ min: 1 })
+    .withMessage("jobseekers must select at least one area of interest."),
+
+  body("currentRole")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
+  body("country")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
+  body("contactSharing")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isBoolean()
+    .withMessage("Contact sharing must be a boolean."),
+];
 
 const validateLogin = [
   body('email')
@@ -106,8 +177,6 @@ const validateLogin = [
   body('password')
     .notEmpty()
     .withMessage('Password is required')
-    .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters'),
 ];
 
 const validateUserId = [
@@ -255,4 +324,5 @@ module.exports = {
   validateOtpVerify,
   validateJobRequest,
   handleValidationErrors,
+  validateGoogelUser
 };

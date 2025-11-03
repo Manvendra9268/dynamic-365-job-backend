@@ -760,3 +760,1018 @@ Stack Trace:
       at async startServer (E:\dynamic-job-backend\index.js:12:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:30:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters."
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Phone number is required."
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Invalid phone number."
+    },
+    {
+      "field": "contactSharing",
+      "message": "Contact sharing must be a boolean."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:162:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:43:43] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationName",
+      "message": "Organization name is required for employers."
+    },
+    {
+      "field": "organizationSize",
+      "message": "Organization size must be a positive integer."
+    },
+    {
+      "field": "founded",
+      "message": "Founded year must be a valid year."
+    },
+    {
+      "field": "headquarters",
+      "message": "Invalid value"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:162:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:45:41] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationSize",
+      "message": "Organization size must be a positive integer."
+    },
+    {
+      "field": "founded",
+      "message": "Founded year must be a valid year."
+    },
+    {
+      "field": "headquarters",
+      "message": "Invalid value"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:162:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:46:12] error: Error 500: mongoose is not defined
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  ReferenceError: mongoose is not defined
+      at E:\dynamic-job-backend\controllers\userController.js:33:7
+      at E:\dynamic-job-backend\utils\asyncHandler.js:2:21
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:164:3)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:47:04] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "role",
+      "message": "Role must be either employer, jobseeker, or admin"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:162:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 11:49:19] error: Error 500: Role is not defined
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  ReferenceError: Role is not defined
+      at createUser (E:\dynamic-job-backend\services\userService.js:33:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:06:23] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:06:40] error: Error 500: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:07:02] error: Error 500: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:11:18] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:12:10] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:12:13] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:13:36] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:13:41] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:17:59] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:18:11] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:18:16] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:18:45] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:18:54] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:22:44] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 12:51:04] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:28:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 14:50:21] error: Error 500: Wrong number of segments in token: ya29.A0ATi6K2uZsnE8-5vNxDoLP06CtgJsRf3MO1BLzVn-yljrTJIRDBUvzb03-uNO6dKJO8NMLLq6eR8JIPjiCm5F6E93txo-QLWM__dNFcrKZ54Sj1d-cy2APU_btbtqpHuYcimYYWjkUBUY33J3WhgUl2Vona-0fyymR4rETYbYAREj3ALQ7oLPyZdaIrzh6gsLpLlg7J3j7hn9uj70uJ-1cjGGY0ai8EQw1LvDhYwp8IIuRfOhXZSsZHJ8DEbgmIMMqoq-s_c_nU_-KNzJkeE1eL4mMAbDaCgYKAVkSARUSFQHGX2MitdBb0BljVLdgDi96fgMXMg0291
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: Wrong number of segments in token: ya29.A0ATi6K2uZsnE8-5vNxDoLP06CtgJsRf3MO1BLzVn-yljrTJIRDBUvzb03-uNO6dKJO8NMLLq6eR8JIPjiCm5F6E93txo-QLWM__dNFcrKZ54Sj1d-cy2APU_btbtqpHuYcimYYWjkUBUY33J3WhgUl2Vona-0fyymR4rETYbYAREj3ALQ7oLPyZdaIrzh6gsLpLlg7J3j7hn9uj70uJ-1cjGGY0ai8EQw1LvDhYwp8IIuRfOhXZSsZHJ8DEbgmIMMqoq-s_c_nU_-KNzJkeE1eL4mMAbDaCgYKAVkSARUSFQHGX2MitdBb0BljVLdgDi96fgMXMg0291
+      at OAuth2Client.verifySignedJwtWithCertsAsync (E:\dynamic-job-backend\node_modules\google-auth-library\build\src\auth\oauth2client.js:692:19)
+      at OAuth2Client.verifyIdTokenAsync (E:\dynamic-job-backend\node_modules\google-auth-library\build\src\auth\oauth2client.js:541:34)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async googleAuthService (E:\dynamic-job-backend\services\userService.js:112:18)
+      at async E:\dynamic-job-backend\controllers\userController.js:99:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 14:55:00] error: Error 500: axios is not defined
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  ReferenceError: axios is not defined
+      at googleAuthService (E:\dynamic-job-backend\services\userService.js:111:29)
+      at E:\dynamic-job-backend\controllers\userController.js:100:24
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 14:55:37] error: Error 500: User validation failed: password: Path `password` is required.
+Method: POST
+Path: /api/v1/users/google
+Meta:
+{
+  "errors": {
+    "password": {
+      "name": "ValidatorError",
+      "message": "Path `password` is required.",
+      "properties": {
+        "message": "Path `password` is required.",
+        "type": "required",
+        "path": "password",
+        "value": null
+      },
+      "kind": "required",
+      "path": "password",
+      "value": null
+    }
+  }
+}
+Stack Trace:
+  ValidationError: User validation failed: password: Path `password` is required.
+      at Document.invalidate (E:\dynamic-job-backend\node_modules\mongoose\lib\document.js:3362:32)
+      at E:\dynamic-job-backend\node_modules\mongoose\lib\document.js:3123:17
+      at E:\dynamic-job-backend\node_modules\mongoose\lib\schemaType.js:1420:9
+      at process.processTicksAndRejections (node:internal/process/task_queues:77:11)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:02:48] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/google
+Meta:
+{
+  "errors": [
+    {
+      "field": "role",
+      "message": "Role is required."
+    },
+    {
+      "field": "role",
+      "message": "Role must be either employer, jobseeker, or admin"
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Phone number is required."
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Invalid phone number."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:06:51] error: Error 500: User validation failed: password: Path `password` is required.
+Method: POST
+Path: /api/v1/users/google
+Meta:
+{
+  "errors": {
+    "password": {
+      "name": "ValidatorError",
+      "message": "Path `password` is required.",
+      "properties": {
+        "message": "Path `password` is required.",
+        "type": "required",
+        "path": "password",
+        "value": null
+      },
+      "kind": "required",
+      "path": "password",
+      "value": null
+    }
+  }
+}
+Stack Trace:
+  ValidationError: User validation failed: password: Path `password` is required.
+      at Document.invalidate (E:\dynamic-job-backend\node_modules\mongoose\lib\document.js:3362:32)
+      at E:\dynamic-job-backend\node_modules\mongoose\lib\document.js:3123:17
+      at E:\dynamic-job-backend\node_modules\mongoose\lib\schemaType.js:1420:9
+      at process.processTicksAndRejections (node:internal/process/task_queues:77:11)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:09:01] error: Error 500: Illegal arguments: object, string
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: Illegal arguments: object, string
+      at _async (E:\dynamic-job-backend\node_modules\bcryptjs\umd\index.js:233:15)
+      at E:\dynamic-job-backend\node_modules\bcryptjs\umd\index.js:245:11
+      at new Promise (<anonymous>)
+      at Object.hash (E:\dynamic-job-backend\node_modules\bcryptjs\umd\index.js:244:16)
+      at model.<anonymous> (E:\dynamic-job-backend\models\User.js:74:32)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:13:17] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at googleAuthService (E:\dynamic-job-backend\services\userService.js:124:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:102:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:14:28] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at googleAuthService (E:\dynamic-job-backend\services\userService.js:124:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:102:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:14:44] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at googleAuthService (E:\dynamic-job-backend\services\userService.js:124:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:102:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:15:48] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/google
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at googleAuthService (E:\dynamic-job-backend\services\userService.js:124:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:102:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:17:57] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:18:23] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:32:37] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    },
+    {
+      "field": "organizationWebsite",
+      "message": "Organization Website must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:40:04] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:29:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:40:15] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (E:\dynamic-job-backend\services\userService.js:29:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:44:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:41:44] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/google
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    },
+    {
+      "field": "organizationWebsite",
+      "message": "Organization Website must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 15:42:34] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "organizationLinkedIn",
+      "message": "Organization LinkedIn must be a valid URL."
+    },
+    {
+      "field": "organizationWebsite",
+      "message": "Organization Website must be a valid URL."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:07:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:12] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:08:58] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:14:14] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:15:46] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:00] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:21:15] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password is required"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:00] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:27:06] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:217:11)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:30:54] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:09] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    },
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:14] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:17] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:40] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:233:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:44] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:32:45] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:09] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 16:33:10] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (E:\dynamic-job-backend\services\userService.js:213:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:129:20
+═══════════════════════════════════════════════════════════════
+

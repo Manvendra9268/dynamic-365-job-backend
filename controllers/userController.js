@@ -1,39 +1,136 @@
 const { asyncHandler } = require('../utils/asyncHandler');
-const { validateUser, validateLogin, validateUserId, handleValidationErrors } = require('../utils/validator');
-const { createUser, loginUserAdmin, getUserById, updateUser, deleteUser } = require('../services/userService');
+const { validateUser, validateLogin, validateUserId, handleValidationErrors,validateGoogelUser } = require('../utils/validator');
+const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService } = require('../services/userService');
+const Role = require('../models/Role')
+const mongoose = require('mongoose');
 
 const registerUser = [
   validateUser,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    let {fullName, email, password, role, organizationName, organizationSize, founded, headquarters, organizationLinkedIn, organizationWebsite, phoneNumber, areasOfInterest, currentRole, country, contactSharing } = req.body;
+    let {
+      fullName,
+      email,
+      password,
+      role, // can be a role name (string) or ObjectId
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+    } = req.body;
 
+    // Clean up string fields
     if (email) email = email.trim().toLowerCase();
     if (fullName) fullName = fullName.trim();
-    if (organizationName) organizationName = organizationName.trim();
-    if (headquarters) headquarters = headquarters.trim();
-    if (organizationLinkedIn) organizationLinkedIn = organizationLinkedIn.trim();
-    if (phoneNumber) phoneNumber = phoneNumber.trim();
-    if (country) country = country.trim();
-    if (currentRole) currentRole = currentRole.trim();
-    if (Array.isArray(areasOfInterest)) {
-      areasOfInterest = areasOfInterest.map(a => a.trim());
+
+    // Resolve Role
+    const roleDoc = await Role.findOne(
+      mongoose.Types.ObjectId.isValid(role)
+        ? { _id: role }
+        : { roleName: role.toLowerCase() }
+    );
+
+    if (!roleDoc) {
+      return res.status(400).json({ message: "Invalid role specified." });
     }
-    const user = await createUser({ fullName, email, password, role, organizationName, organizationSize, founded, headquarters, organizationLinkedIn, phoneNumber, areasOfInterest, currentRole, country, contactSharing });
+
+    const user = await createUser({
+      fullName,
+      email,
+      password,
+      role: roleDoc._id, // pass ObjectId
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+    });
+
     res.status(201).json({
-      message: 'User registered successfully',
-      data: { id: user._id, email, role: user.role },
+      message: "User registered successfully",
+      data: { id: user.id, email: user.email, role: roleDoc.roleName },
     });
   }),
 ];
 
-const loginUser = [
+const googleAuth = [
+  validateGoogelUser,
+  handleValidationErrors,
+  asyncHandler(async (req, res) => {
+  const {
+      role,
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+      access_token } = req.body;
+
+  if (!access_token) {
+    return res.status(400).json({ message: "Google token is required." });
+  }
+
+  const roleDoc = await Role.findOne(
+      mongoose.Types.ObjectId.isValid(role)
+        ? { _id: role }
+        : { roleName: role.toLowerCase() }
+    );
+
+    if (!roleDoc) {
+      return res.status(400).json({ message: "Invalid role specified." });
+    }
+
+  const result = await googleAuthService({role: roleDoc._id,
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+      access_token});
+
+  res.status(200).json({
+    message: "Google login successful",
+    token: result.token,
+    data: result.user,
+  });
+})];
+
+const userLogin = [
   validateLogin,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
+    console.log("Login request body:", req.body);
     const { email, password } = req.body;
-    const result = await loginUserAdmin({ email, password }, { ipAddress: req.ip });
-    res.status(200).json(result);
+    const result = await loginUser({ email, password });
+    res.status(200).json({
+      message: 'Login successful',
+      data: result,
+    });
   }),
 ];
 
@@ -66,10 +163,11 @@ const deleteUserAccount = [
 
 module.exports = {
   registerUser,
-  loginUser,
+  userLogin,
   getUserProfile,
   updateUserDetails,
   deleteUserAccount,
+  googleAuth,
 };
 
 // const generateOtpHandler = [
