@@ -70,7 +70,6 @@ const createUser = async ({
     if (currentRole) userData.currentRole = currentRole;
     if (phoneNumber) userData.phoneNumber = phoneNumber;
     if (country) userData.country = country;
-    if (typeof contactSharing === 'boolean') userData.contactSharing = contactSharing;
   }
 
   // Create and save user
