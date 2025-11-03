@@ -1,0 +1,762 @@
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:01:47] error: MongoDB connection failed: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+Meta:
+{
+  "errorLabelSet": {},
+  "reason": {
+    "type": "ReplicaSetNoPrimary",
+    "servers": {
+      "ac-vvgzrwl-shard-00-00.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-00.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528577,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-vvgzrwl-shard-00-01.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-01.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528583,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-vvgzrwl-shard-00-02.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-02.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528637,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      }
+    },
+    "stale": false,
+    "compatible": true,
+    "heartbeatFrequencyMS": 10000,
+    "localThresholdMS": 15,
+    "setName": "atlas-9q9zb0-shard-0",
+    "maxElectionId": null,
+    "maxSetVersion": null,
+    "commonWireVersion": 0,
+    "logicalSessionTimeoutMinutes": null
+  },
+  "cause": {
+    "type": "ReplicaSetNoPrimary",
+    "servers": {
+      "ac-vvgzrwl-shard-00-00.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-00.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528577,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-vvgzrwl-shard-00-01.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-01.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528583,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-vvgzrwl-shard-00-02.p01xmtu.mongodb.net:27017": {
+        "address": "ac-vvgzrwl-shard-00-02.p01xmtu.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1285528637,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      }
+    },
+    "stale": false,
+    "compatible": true,
+    "heartbeatFrequencyMS": 10000,
+    "localThresholdMS": 15,
+    "setName": "atlas-9q9zb0-shard-0",
+    "maxElectionId": null,
+    "maxSetVersion": null,
+    "commonWireVersion": 0,
+    "logicalSessionTimeoutMinutes": null
+  }
+}
+Stack Trace:
+  MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+      at _handleConnectionErrors (E:\backend_blueprint\node_modules\mongoose\lib\connection.js:1169:11)
+      at NativeConnection.openUri (E:\backend_blueprint\node_modules\mongoose\lib\connection.js:1100:11)
+      at async connectDB (E:\backend_blueprint\config\db.js:7:5)
+      at async startServer (E:\backend_blueprint\index.js:12:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:15:08] error: Error 500: phone is not defined
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  ReferenceError: phone is not defined
+      at E:\backend_blueprint\controllers\userController.js:11:29
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:18:01] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:8:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:19:48] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:8:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:19:55] error: Error 500: User validation failed: fullName: Path `fullName` is required.
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": {
+    "fullName": {
+      "name": "ValidatorError",
+      "message": "Path `fullName` is required.",
+      "properties": {
+        "message": "Path `fullName` is required.",
+        "type": "required",
+        "path": "fullName"
+      },
+      "kind": "required",
+      "path": "fullName"
+    }
+  }
+}
+Stack Trace:
+  ValidationError: User validation failed: fullName: Path `fullName` is required.
+      at Document.invalidate (E:\backend_blueprint\node_modules\mongoose\lib\document.js:3362:32)
+      at E:\backend_blueprint\node_modules\mongoose\lib\document.js:3123:17
+      at E:\backend_blueprint\node_modules\mongoose\lib\schemaType.js:1420:9
+      at process.processTicksAndRejections (node:internal/process/task_queues:77:11)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:23:40] error: Error 400: Expected double-quoted property name in JSON at position 166
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  SyntaxError: Expected double-quoted property name in JSON at position 166
+      at JSON.parse (<anonymous>)
+      at parse (E:\backend_blueprint\node_modules\body-parser\lib\types\json.js:77:19)
+      at E:\backend_blueprint\node_modules\body-parser\lib\read.js:123:18
+      at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+      at invokeCallback (E:\backend_blueprint\node_modules\raw-body\index.js:238:16)
+      at done (E:\backend_blueprint\node_modules\raw-body\index.js:227:7)
+      at IncomingMessage.onEnd (E:\backend_blueprint\node_modules\raw-body\index.js:287:7)
+      at IncomingMessage.emit (node:events:519:28)
+      at endReadableNT (node:internal/streams/readable:1696:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:23:47] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:94:17)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:24:17] error: Error 500: Organization name is required for employers.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: Organization name is required for employers.
+      at createUser (E:\backend_blueprint\services\userService.js:29:21)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:10:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:29:30] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters."
+    },
+    {
+      "field": "fullName",
+      "message": "Full name is required."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:142:17)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:29:51] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "fullName",
+      "message": "Full name is required."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:142:17)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:30:01] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:10:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 13:57:13] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "errors": [
+    {
+      "field": "subscriptionType",
+      "message": "Subscription type is required for employers."
+    },
+    {
+      "field": "subscriptionType",
+      "message": "Subscription type must be either one_time or monthly."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:142:17)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:15:14] error: Error 500: Assignment to constant variable.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  TypeError: Assignment to constant variable.
+      at E:\backend_blueprint\controllers\userController.js:11:22
+      at E:\backend_blueprint\utils\asyncHandler.js:2:21
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:137:3)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:16:33] error: Error 500: Assignment to constant variable.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  TypeError: Assignment to constant variable.
+      at E:\backend_blueprint\controllers\userController.js:11:22
+      at E:\backend_blueprint\utils\asyncHandler.js:2:21
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at handleValidationErrors (E:\backend_blueprint\utils\validator.js:137:3)
+      at Layer.handleRequest (E:\backend_blueprint\node_modules\router\lib\layer.js:152:17)
+      at next (E:\backend_blueprint\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\backend_blueprint\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:17:23] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:22:56] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:23:34] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:25:29] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:25:37] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:27:48] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:29:11] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-10-31 14:31:36] error: Error 500: User already exists with this email.
+Method: POST
+Path: /api/v1/users/register
+Stack Trace:
+  Error: User already exists with this email.
+      at createUser (E:\backend_blueprint\services\userService.js:13:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\backend_blueprint\controllers\userController.js:19:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-03 10:20:10] error: MongoDB connection failed: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+Meta:
+{
+  "errorLabelSet": {},
+  "reason": {
+    "type": "ReplicaSetNoPrimary",
+    "servers": {
+      "ac-qiegp7f-shard-00-00.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-00.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048414,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-qiegp7f-shard-00-01.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-01.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048907,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-qiegp7f-shard-00-02.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-02.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048411,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      }
+    },
+    "stale": false,
+    "compatible": true,
+    "heartbeatFrequencyMS": 10000,
+    "localThresholdMS": 15,
+    "setName": "atlas-dlqn78-shard-0",
+    "maxElectionId": null,
+    "maxSetVersion": null,
+    "commonWireVersion": 0,
+    "logicalSessionTimeoutMinutes": null
+  },
+  "cause": {
+    "type": "ReplicaSetNoPrimary",
+    "servers": {
+      "ac-qiegp7f-shard-00-00.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-00.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048414,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-qiegp7f-shard-00-01.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-01.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048907,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      },
+      "ac-qiegp7f-shard-00-02.l8amh3u.mongodb.net:27017": {
+        "address": "ac-qiegp7f-shard-00-02.l8amh3u.mongodb.net:27017",
+        "type": "Unknown",
+        "hosts": [],
+        "passives": [],
+        "arbiters": [],
+        "tags": {},
+        "minWireVersion": 0,
+        "maxWireVersion": 0,
+        "roundTripTime": -1,
+        "minRoundTripTime": 0,
+        "lastUpdateTime": 1535048411,
+        "lastWriteDate": 0,
+        "error": {
+          "errorLabelSet": {},
+          "beforeHandshake": false
+        },
+        "topologyVersion": null,
+        "setName": null,
+        "setVersion": null,
+        "electionId": null,
+        "logicalSessionTimeoutMinutes": null,
+        "maxMessageSizeBytes": null,
+        "maxWriteBatchSize": null,
+        "maxBsonObjectSize": null,
+        "primary": null,
+        "me": null,
+        "$clusterTime": null,
+        "iscryptd": false
+      }
+    },
+    "stale": false,
+    "compatible": true,
+    "heartbeatFrequencyMS": 10000,
+    "localThresholdMS": 15,
+    "setName": "atlas-dlqn78-shard-0",
+    "maxElectionId": null,
+    "maxSetVersion": null,
+    "commonWireVersion": 0,
+    "logicalSessionTimeoutMinutes": null
+  }
+}
+Stack Trace:
+  MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+      at _handleConnectionErrors (E:\dynamic-job-backend\node_modules\mongoose\lib\connection.js:1169:11)
+      at NativeConnection.openUri (E:\dynamic-job-backend\node_modules\mongoose\lib\connection.js:1100:11)
+      at async connectDB (E:\dynamic-job-backend\config\db.js:7:5)
+      at async startServer (E:\dynamic-job-backend\index.js:12:5)
+═══════════════════════════════════════════════════════════════
+
