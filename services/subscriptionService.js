@@ -15,3 +15,16 @@ exports.addSubscription = async (data) => {
         throw new ApiError('Failed to add subscription', 500, error.message)
     }
 };
+
+//get-all subscriptions
+exports.getAllSubscriptions = async () => {
+  try {
+    const subscriptions = await Subscription.find().sort({ createdAt: -1 });
+
+    logger.info('Fetched all subscriptions');
+    return subscriptions;
+  } catch (error) {
+    logger.error('Error fetching subscriptions', { error: error.message, stack: error.stack });
+    throw new ApiError('Failed to fetch subscriptions', 500, error.message);
+  }
+};

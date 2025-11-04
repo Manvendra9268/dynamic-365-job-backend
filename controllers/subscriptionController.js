@@ -6,6 +6,7 @@ const {
   checkAdminRole,
 } = require("../utils/validator");
 
+
 const createSubcription = [
   validateSubscription,
   handleValidationErrors,
@@ -19,6 +20,18 @@ const createSubcription = [
   }),
 ];
 
+const getAllSubscriptions = [
+  //checkAdminRole,
+  asyncHandler(async (req, res) => {
+    const subscriptions = await subscriptionService.getAllSubscriptions();
+    res.status(200).json({
+      message: "All subscriptions fetched successfully",
+      data: subscriptions,
+    });
+  }),
+];
+
 module.exports = {
   createSubcription,
+  getAllSubscriptions
 };

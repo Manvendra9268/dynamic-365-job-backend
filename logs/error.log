@@ -190,3 +190,90 @@ Stack Trace:
       at async E:\dynamic-job-backend\controllers\userController.js:172:16
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-04 15:36:51] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "role",
+      "message": "Role must be either employer, jobseeker, or admin"
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Phone number is required."
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Invalid phone number."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:383:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-04 17:32:47] error: Error 403: Only admins can add subscription.
+Method: GET
+Path: /api/v1/subs/plans
+Meta:
+{
+  "status": 403
+}
+Stack Trace:
+  Error: Only admins can add subscription.
+      at checkAdminRole (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:367:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-04 17:32:58] error: Error 403: Only admins can add subscription.
+Method: GET
+Path: /api/v1/subs/plans
+Meta:
+{
+  "status": 403
+}
+Stack Trace:
+  Error: Only admins can add subscription.
+      at checkAdminRole (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:367:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-04 17:33:52] error: Error 403: Only admins can add subscription.
+Method: GET
+Path: /api/v1/subs/plans
+Meta:
+{
+  "status": 403
+}
+Stack Trace:
+  Error: Only admins can add subscription.
+      at checkAdminRole (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:367:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-04 17:34:21] error: Error 403: Only admins can add subscription.
+Method: GET
+Path: /api/v1/subs/plans
+Meta:
+{
+  "status": 403
+}
+Stack Trace:
+  Error: Only admins can add subscription.
+      at checkAdminRole (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:367:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+

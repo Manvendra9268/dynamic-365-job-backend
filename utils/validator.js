@@ -300,7 +300,7 @@ const validateJobRequest = [
 
   body('status')
     .optional()
-    .isIn(['Active', 'In Review', 'Expire'])
+    .isIn(['Active', 'In Review', 'Expired'])
     .withMessage('Invalid job status'),
 ];
 
@@ -314,6 +314,9 @@ body('name')
     .notEmpty().withMessage('Price is required')
     .isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
 
+  body('description')
+    .notEmpty().withMessage('Please provide plan description'),
+
   body('features')
     .isArray({ min: 1 }).withMessage('Features must be a non-empty array')
     .custom((arr) => arr.every((f) => typeof f === 'string' && f.trim() !== ''))
@@ -324,6 +327,7 @@ body('name')
     .isInt({ gt: 0 }).withMessage('Total credits must be a positive integer'),
 
   body('period')
+    .optional()
     .notEmpty().withMessage('Period is required')
     .isInt({ gt: 0 }).withMessage('Period must be a positive integer'),
 ];

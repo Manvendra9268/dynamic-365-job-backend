@@ -64,7 +64,7 @@ const jobRequestSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ['Active', 'In Review', 'Expire'],
+            enum: ['Active', 'In Review', 'Expired'],
             default: 'In Review'
         }
     },
