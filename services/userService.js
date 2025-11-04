@@ -244,21 +244,21 @@ const googleLoginService = async ({ access_token }) => {
   return { user: { id: user._id, email: user.email, role: user.role.roleName }, token: token };
 }
 
-// const getUserById = async (userId, requestingUser) => {
-//   const user = await User.findOne({ _id: userId, deleted_at: null }).select('-password -otp -otpExpires');
-//   if (!user) {
-//     throw new Error('User not found', 404);
-//   }
+const getUserById = async (userId, requestingUser) => {
+  const user = await User.findOne({ _id: userId}).populate("role", "roleName");
+  if (!user) {
+    throw new Error('User not found', 404);
+  }
 
-//   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
-//     throw new Error('Unauthorized to access this user', 403);
-//   }
+  if (requestingUser.id !== userId) {
+    throw new Error('Unauthorized to access this user', 403);
+  }
 
-//   return {
-//     message: 'User fetched successfully',
-//     data: user
-//   };
-// };
+  return {
+    message: 'User fetched successfully',
+    data: user
+  };
+};
 
 // const updateUser = async (userId, updates, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
@@ -306,8 +306,8 @@ module.exports = {
   createUser,
   googleAuthService,
   loginUser,
-  googleLoginService
-  // getUserById,
+  googleLoginService,
+  getUserById,
   // updateUser,
   // deleteUser,
 };

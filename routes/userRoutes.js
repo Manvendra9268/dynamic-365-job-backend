@@ -16,6 +16,6 @@ router.post('/register',upload.single("profileImage"), registerUser);
 router.post('/google', upload.single("profileImage"), googleAuth)
 router.post('/login', userLogin);
 router.post('/google-login', googleLogin);
-router.get('/profile', authMiddleware, getUserProfile);
+router.get('/my-profile', authMiddleware, getUserProfile);
 
 module.exports = router;

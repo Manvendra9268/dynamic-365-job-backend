@@ -1775,3 +1775,25 @@ Stack Trace:
       at async E:\dynamic-job-backend\controllers\userController.js:129:20
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-04 12:50:50] error: Error 500: {(intermediate value)}.populate is not a function
+Method: GET
+Path: /api/v1/users/my-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: {(intermediate value)}.populate is not a function
+      at getUserById (E:\dynamic-job-backend\services\userService.js:248:50)
+      at E:\dynamic-job-backend\controllers\userController.js:172:22
+      at E:\dynamic-job-backend\utils\asyncHandler.js:2:21
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at authMiddleware (E:\dynamic-job-backend\middleware\authMiddleware.js:17:5)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at Route.dispatch (E:\dynamic-job-backend\node_modules\router\lib\route.js:117:3)
+      at handle (E:\dynamic-job-backend\node_modules\router\index.js:435:11)
+═══════════════════════════════════════════════════════════════
+
