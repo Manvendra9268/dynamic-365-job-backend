@@ -1,6 +1,6 @@
 const { body, validationResult, param, query } = require('express-validator');
-const Error = require('./error');
-const User = require('../models/User');
+const ApiError = require('./error');
+const Role = require('../models/Role')
 
 const validateUser = [
   // Email
@@ -232,23 +232,6 @@ const validateOtpVerify = [
 ];
 
 const validateJobRequest = [
-  body('employerId')
-    .exists({ checkFalsy: true })
-    .withMessage('Employer ID is required.')
-    .isMongoId()
-    .withMessage('Invalid employer ID.')
-    .bail()
-    .custom(async (value) => {
-      const employer = await User.findById(value).populate('role');
-      if (!employer) {
-        return Promise.reject('Employer not found.');
-      }
-      if (!employer.role || employer.role.roleName.toLowerCase() !== 'employer') {
-        return Promise.reject('User is not authorized to create a job request.');
-      }
-      return true;
-    }),
-
   body('jobTitle')
     .exists({ checkFalsy: true })
     .withMessage('Job title is required.')
@@ -270,7 +253,7 @@ const validateJobRequest = [
     .withMessage('Upper compensation must be a number.')
     .custom((value, { req }) => {
       if (req.body.lowerCompensation && value < req.body.lowerCompensation) {
-        throw new Error('Upper compensation must be greater than or equal to lower compensation.');
+        throw new ApiError('Upper compensation must be greater than or equal to lower compensation.');
       }
       return true;
     }),
@@ -309,7 +292,65 @@ const validateJobRequest = [
     .optional()
     .isString()
     .trim(),
-  ];
+
+  body('applyLink')
+    .optional()
+    .isString()
+    .trim(),
+
+  body('status')
+    .optional()
+    .isIn(['Active', 'In Review', 'Expire'])
+    .withMessage('Invalid job status'),
+];
+
+const validateSubscription = [
+
+];
+
+//check employer
+const checkEmployerRole = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return next(new ApiError('Unauthorized: Token not found or invalid', 401));
+    }
+
+    const roleDoc = await Role.findById(req.user.role);
+    if (!roleDoc) {
+      return next(new ApiError('Role not found for user', 403));
+    }
+
+    if (roleDoc.roleName.toLowerCase() !== 'employer') {
+      return next(new ApiError('Only employers can create job requests', 403));
+    }
+
+    next();
+  } catch (error) {
+    next(new ApiError('Role validation failed', 500, error.message));
+  }
+};
+
+//check admin
+const checkAdminRole = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return next(new ApiError('Unauthorized: Token not found or invalid', 401));
+    }
+
+    const roleDoc = await Role.findById(req.user.role);
+    if (!roleDoc) {
+      return next(new ApiError('Role not found', 403));
+    }
+
+    if (roleDoc.roleName.toLowerCase() !== 'admin') {
+      return next(new ApiError('Only admins can add subscription.', 403));
+    }
+
+    next();
+  } catch (error) {
+    next(new ApiError('Role validation failed', 500, error.message));
+  }
+};
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -319,7 +360,7 @@ const handleValidationErrors = (req, res, next) => {
       message: err.msg,
     }));
 
-    return next(new Error('Validation failed', 400, formattedErrors));
+    return next(new ApiError('Validation failed', 400, formattedErrors));
   }
   next();
 };
@@ -333,6 +374,9 @@ module.exports = {
   validateOtpGenerate,
   validateOtpVerify,
   validateJobRequest,
+  validateSubscription,
   handleValidationErrors,
-  validateGoogelUser
+  validateGoogelUser,
+  checkEmployerRole,
+  checkAdminRole
 };
