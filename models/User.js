@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    profileImage:{
+      type: String,
+      default: ''
+    },
     // Employer-specific
 
     organizationName: {
@@ -45,6 +49,9 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     organizationWebsite:{
+      type: String,
+    },
+    industry:{
       type: String,
     },
     // jobseeker–specific
