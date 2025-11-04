@@ -9,14 +9,15 @@ const userRoutes = require('./routes/userRoutes');
 const jobRequestRoute = require('./routes/jobRequestRoute');
 
 const app = express();
-
+const path = require("path");
 // Security Middleware
 app.use(helmet());
 app.use(
   cors({
     origin: "http://localhost:8080", // your frontend URL
     credentials: true,               // allow credentials (cookies, auth headers)
-  })
+  }),
+  express.static("uploads")
 );
 app.use(
   rateLimit({
@@ -40,6 +41,9 @@ app.use('/api/v1/post', jobRequestRoute);
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+//Images Uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Error Middleware
 app.use(errorMiddleware);

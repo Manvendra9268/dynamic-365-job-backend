@@ -175,3 +175,18 @@ Stack Trace:
       at handle (E:\dynamic-job-backend\node_modules\router\index.js:435:11)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-04 14:18:20] error: Error 404: User not found
+Method: GET
+Path: /api/v1/users/my-profile
+Meta:
+{
+  "status": 404
+}
+Stack Trace:
+  Error: User not found
+      at getUserById (E:\dynamic-job-backend\services\userService.js:250:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:172:16
+═══════════════════════════════════════════════════════════════
+

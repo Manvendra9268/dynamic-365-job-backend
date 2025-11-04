@@ -123,7 +123,7 @@ const googleAuthService = async ({
   const picture = profileImage?.trim() || payload.picture;
 
   // 2️⃣ Check if user exists
-  let user = await User.findOne({ $or: [{ email }, { phoneNumber }] }).populate("role");
+  let user = await User.findOne({ $or: [{ email }, { phoneNumber }] }).populate("role", "roleName");
 
   if (user) {
     const error = new Error("User already exists with this email or Phone number.");
@@ -185,6 +185,7 @@ const googleAuthService = async ({
     // 4️⃣ Create new Google user
     user = new User(userData);
     await user.save();
+    await user.populate('role', 'roleName');
 
     logger.info(`New Google user created: ${email}`);
   }
@@ -213,7 +214,7 @@ const googleAuthService = async ({
 };
 
 const loginUser = async ({ email, password }) => {
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email }).populate("role", "roleName");
   if (!user) {
     throw new Error('Invalid credentials', 401);
   }
@@ -234,7 +235,7 @@ const googleLoginService = async ({ access_token }) => {
   });
   const email = payload.email;
   let user
-  user = await User.findOne({ email }).populate("role");
+  user = await User.findOne({ email }).populate("role", "roleName");
   if (!user) {
     throw new Error('User not found, please register first', 404);
   }
