@@ -4,8 +4,9 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const { errorMiddleware } = require('./middleware/errorMiddleware');
-const userRoutes = require('./routes/userRoutes');
 const logger = require('./utils/logger');
+const userRoutes = require('./routes/userRoutes');
+const jobRequestRoute = require('./routes/jobRequestRoute');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/post', jobRequestRoute);
 
 // Health Check
 app.get('/health', (req, res) => {

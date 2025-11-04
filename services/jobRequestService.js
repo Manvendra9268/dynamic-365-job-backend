@@ -1,10 +1,13 @@
 const JobRequest = require('../models/JobRequest');
-const Error = require('../utils/error');
+const ApiError = require('../utils/error');
 const logger = require('../utils/logger');
 
 //new job request
 exports.createJobRequest = async (data) => {
   try {
+    if (!data.employerId) {
+      throw new ApiError('Missing employerId while creating job request', 400);
+    }
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
 
@@ -12,7 +15,7 @@ exports.createJobRequest = async (data) => {
     return jobRequest;
   } catch (error) {
     logger.error('Error creating job request', { error: error.message, stack: error.stack });
-    throw new Error('Failed to create job request', 500, error.message);
+    throw new ApiError('Failed to create job request', 500, error.message);
   }
 };
 
@@ -30,7 +33,7 @@ exports.getAllJobRequests = async (filters = {}) => {
     return jobRequests;
   } catch (error) {
     logger.error('Error fetching job requests', { error: error.message, stack: error.stack });
-    throw new Error('Failed to fetch job requests', 500);
+    throw new ApiError('Failed to fetch job requests', 500);
   }
 };
 
@@ -42,7 +45,7 @@ exports.getJobRequestById = async (id) => {
 
     if (!jobRequest) {
       logger.warn(`Job request not found for ID: ${id}`);
-      throw new Error('Job request not found', 404);
+      throw new ApiError('Job request not found', 404);
     }
 
     logger.info(`Fetched job request by ID`, { id });
@@ -50,6 +53,6 @@ exports.getJobRequestById = async (id) => {
   } catch (error) {
     logger.error('Error fetching job request by ID', { id, error: error.message, stack: error.stack });
     if (error instanceof Error) throw error;
-    throw new Error('Failed to fetch job request', 500);
+    throw new ApiError('Failed to fetch job request', 500);
   }
 };

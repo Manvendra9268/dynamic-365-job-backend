@@ -61,6 +61,11 @@ const jobRequestSchema = new mongoose.Schema(
         applyLink: {
             type: String,
             default: null
+        },
+        status: {
+            type: String,
+            enum: ['Active', 'In Review', 'Expire'],
+            default: 'In Review'
         }
     },
     { timestamps: true }
