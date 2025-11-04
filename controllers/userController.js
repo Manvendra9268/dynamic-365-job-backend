@@ -1,5 +1,5 @@
 const { asyncHandler } = require('../utils/asyncHandler');
-const { validateUser, validateLogin, validateUserId, handleValidationErrors,validateGoogelUser } = require('../utils/validator');
+const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser } = require('../utils/validator');
 const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService, googleLoginService } = require('../services/userService');
 const Role = require('../models/Role')
 const mongoose = require('mongoose');
@@ -24,8 +24,13 @@ const registerUser = [
       currentRole,
       country,
       contactSharing,
+      industry
     } = req.body;
+    let profileImage = ''
 
+    if (req.file) {
+      profileImage = req.file.path;
+    }
     // Clean up string fields
     if (email) email = email.trim().toLowerCase();
     if (fullName) fullName = fullName.trim();
@@ -57,6 +62,8 @@ const registerUser = [
       currentRole,
       country,
       contactSharing,
+      industry,
+      profileImage
     });
 
     res.status(201).json({
@@ -70,7 +77,8 @@ const googleAuth = [
   validateGoogelUser,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-  const {
+    const {
+      fullName,
       role,
       organizationName,
       organizationSize,
@@ -83,13 +91,18 @@ const googleAuth = [
       currentRole,
       country,
       contactSharing,
-      access_token } = req.body;
+      access_token,
+      industry, } = req.body;
+    let profileImage = ''
 
-  if (!access_token) {
-    return res.status(400).json({ message: "Google token is required." });
-  }
+    if (req.file) {
+      profileImage = req.file.path;
+    }
+    if (!access_token) {
+      return res.status(400).json({ message: "Google token is required." });
+    }
 
-  const roleDoc = await Role.findOne(
+    const roleDoc = await Role.findOne(
       mongoose.Types.ObjectId.isValid(role)
         ? { _id: role }
         : { roleName: role.toLowerCase() }
@@ -99,7 +112,9 @@ const googleAuth = [
       return res.status(400).json({ message: "Invalid role specified." });
     }
 
-  const result = await googleAuthService({role: roleDoc._id,
+    const result = await googleAuthService({
+      role: roleDoc._id,
+      fullName,
       organizationName,
       organizationSize,
       founded,
@@ -111,17 +126,20 @@ const googleAuth = [
       currentRole,
       country,
       contactSharing,
-      access_token});
+      access_token,
+      industry,
+      profileImage
+    });
 
-  res.status(200).json({
-    message: "Registration successful",
-    token: result.token,
-    data: result.user,
-  });
-})];
+    res.status(200).json({
+      message: "Registration successful",
+      token: result.token,
+      data: result.user,
+    });
+  })];
 
 const googleLogin = [
-  asyncHandler(async(req,res)=>{
+  asyncHandler(async (req, res) => {
     const { access_token } = req.body;
 
     if (!access_token) {
