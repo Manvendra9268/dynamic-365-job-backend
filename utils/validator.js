@@ -295,7 +295,27 @@ const validateJobRequest = [
 ];
 
 const validateSubscription = [
+body('name')
+    .trim()
+    .notEmpty().withMessage('Subscription name is required')
+    .isString().withMessage('Subscription name must be a string'),
 
+  body('price')
+    .notEmpty().withMessage('Price is required')
+    .isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+
+  body('features')
+    .isArray({ min: 1 }).withMessage('Features must be a non-empty array')
+    .custom((arr) => arr.every((f) => typeof f === 'string' && f.trim() !== ''))
+    .withMessage('Each feature must be a non-empty string'),
+
+  body('totalCredits')
+    .notEmpty().withMessage('Total credits are required')
+    .isInt({ gt: 0 }).withMessage('Total credits must be a positive integer'),
+
+  body('period')
+    .notEmpty().withMessage('Period is required')
+    .isInt({ gt: 0 }).withMessage('Period must be a positive integer'),
 ];
 
 //check employer

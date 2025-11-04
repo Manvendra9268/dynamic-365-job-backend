@@ -7,6 +7,7 @@ const { errorMiddleware } = require('./middleware/errorMiddleware');
 const logger = require('./utils/logger');
 const userRoutes = require('./routes/userRoutes');
 const jobRequestRoute = require('./routes/jobRequestRoute');
+const subscriptionRoute = require('./routes/subscriptionRoute');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/post', jobRequestRoute);
+app.use('/api/v1/subs', subscriptionRoute);
 
 // Health Check
 app.get('/health', (req, res) => {
