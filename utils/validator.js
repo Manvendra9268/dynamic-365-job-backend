@@ -70,6 +70,11 @@ const validateUser = [
     .optional({ checkFalsy: true })
     .isURL()
     .withMessage("Organization Website must be a valid URL."),
+  
+  body("industry")
+    .if(body("role").equals("employer"))
+    .exists({ checkFalsy: true })
+    .withMessage("Industry name is required for employers."),
   // jobseeker–specific validations
   body("areasOfInterest")
     .if(body("role").equals("jobseeker"))
@@ -142,6 +147,11 @@ const validateGoogelUser = [
     .optional({ checkFalsy: true })
     .isURL()
     .withMessage("Organization Website must be a valid URL."),
+
+  body("industry")
+    .if(body("role").equals("employer"))
+    .exists({ checkFalsy: true })
+    .withMessage("Industry name is required for employers."),
   // jobseeker–specific validations
   body("areasOfInterest")
     .if(body("role").equals("jobseeker"))
