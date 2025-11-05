@@ -1,9 +1,30 @@
-const { asyncHandler } = require('../utils/asyncHandler');
-const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser, validateResetPassword, validateEditUser } = require('../utils/validator');
-const { createUser, loginUser, getUserById, updateUser, softDeleteUser, googleAuthService, googleLoginService, resetPasswordService } = require('../services/userService');
+const { asyncHandler } = require("../utils/asyncHandler");
+const {
+  validateUser,
+  validateLogin,
+  validateUserId,
+  handleValidationErrors,
+  validateGoogelUser,
+  validateResetPassword,
+  validateEditUser,
+  validateSubscriptionId,
+  validateUserAndSubscribe
+} = require("../utils/validator");
+const {
+  createUser,
+  loginUser,
+  getUserById,
+  updateUser,
+  softDeleteUser,
+  googleAuthService,
+  googleLoginService,
+  resetPasswordService,
+  createMapping,
+} = require("../services/userService");
 
-const Role = require('../models/Role')
-const mongoose = require('mongoose');
+const Role = require("../models/Role");
+const Subscription = require("../models/Subscription");
+const mongoose = require("mongoose");
 
 const registerUser = [
   validateUser,
@@ -25,9 +46,9 @@ const registerUser = [
       currentRole,
       country,
       contactSharing,
-      industry
+      industry,
     } = req.body;
-    let profileImage = ''
+    let profileImage = "";
 
     if (req.file) {
       profileImage = req.file.path;
@@ -64,7 +85,7 @@ const registerUser = [
       country,
       contactSharing,
       industry,
-      profileImage
+      profileImage,
     });
 
     res.status(201).json({
@@ -93,8 +114,9 @@ const googleAuth = [
       country,
       contactSharing,
       access_token,
-      industry, } = req.body;
-    let profileImage = ''
+      industry,
+    } = req.body;
+    let profileImage = "";
 
     if (req.file) {
       profileImage = req.file.path;
@@ -129,7 +151,7 @@ const googleAuth = [
       contactSharing,
       access_token,
       industry,
-      profileImage
+      profileImage,
     });
 
     res.status(200).json({
@@ -137,7 +159,8 @@ const googleAuth = [
       token: result.token,
       data: result.user,
     });
-  })];
+  }),
+];
 
 const googleLogin = [
   asyncHandler(async (req, res) => {
@@ -153,8 +176,8 @@ const googleLogin = [
       token: result.token,
       data: result.user,
     });
-  })
-]
+  }),
+];
 
 const userLogin = [
   validateLogin,
@@ -163,7 +186,7 @@ const userLogin = [
     const { email, password } = req.body;
     const result = await loginUser({ email, password });
     res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       data: result,
     });
   }),
@@ -172,8 +195,8 @@ const userLogin = [
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await getUserById(req.user.id, req.user);
   res.status(200).json({
-    message: 'User profile fetched successfully',
-    data: user.data
+    message: "User profile fetched successfully",
+    data: user.data,
   });
 });
 
@@ -197,9 +220,9 @@ const updateUserDetails = [
       currentRole,
       country,
       contactSharing,
-      industry
+      industry,
     } = req.body;
-    let profileImage = ''
+    let profileImage = "";
     if (req.file) {
       profileImage = req.file.path;
     }
@@ -215,7 +238,7 @@ const updateUserDetails = [
     if (!roleDoc) {
       return res.status(400).json({ message: "Invalid role specified." });
     }
-    const userId = req.user.id
+    const userId = req.user.id;
     const user = await updateUser({
       fullName,
       email,
@@ -234,7 +257,7 @@ const updateUserDetails = [
       contactSharing,
       industry,
       profileImage,
-      userId
+      userId,
     });
 
     res.status(200).json({
@@ -251,8 +274,8 @@ const deleteUserAccount = [
     const deletedBy = req.user?.id;
     // console.log("req.user----", req.user);
     const result = await softDeleteUser(req.params.id, deletedBy);
-    res.status(200).json({ message: 'User account deleted.', ...result });
-  })
+    res.status(200).json({ message: "User account deleted.", ...result });
+  }),
 ];
 
 const resetUserPassword = [
@@ -266,6 +289,54 @@ const resetUserPassword = [
   }),
 ];
 
+const userSubscribeAndRegister = [
+  validateSubscriptionId,
+  validateUserAndSubscribe,
+  handleValidationErrors,
+  asyncHandler(async (req, res) => {
+    const subscriptionId = req.query.id;
+    
+    const employerRole = await Role.findOne({ roleName: "employer" });
+    if (!employerRole) {
+      logger.error("Employer role not found in DB");
+      return res.status(500).json({ message: "Employer role not configured." });
+    }
+    const userData = {
+      ...req.body,
+      role: employerRole._id,
+    };
+    //register-user
+    const createdUser = await createUser(userData);
+    //fetch subscription details
+    const subscription = await Subscription.findById(subscriptionId);
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription not found" });
+    }
+    //calculate dates and credits
+    const startDate = new Date();
+    const endDate = subscription.period
+      ? new Date(startDate.setDate(startDate.getDate() + subscription.period))
+      : null;
+    const totalCredits = subscription.totalCredits;
+    const usedCredits = 0;
+    //create-record
+    const mapping = await createMapping({
+      userId: createdUser.id,
+      subscriptionId,
+      startDate,
+      endDate,
+      totalCredits,
+      usedCredits,
+    });
+
+    res.status(201).json({
+      message: "User registered and subscription activated.",
+      user: createdUser.email,
+      subscription: mapping,
+    });
+  }),
+];
+
 module.exports = {
   registerUser,
   userLogin,
@@ -274,7 +345,8 @@ module.exports = {
   deleteUserAccount,
   googleAuth,
   googleLogin,
-  resetUserPassword
+  resetUserPassword,
+  userSubscribeAndRegister,
 };
 
 // const generateOtpHandler = [
