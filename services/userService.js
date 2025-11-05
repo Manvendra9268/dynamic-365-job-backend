@@ -54,17 +54,11 @@ const createUser = async ({
   if (profileImage?.trim()) userData.profileImage = profileImage.trim();  
   // ✅ Employer-specific validation
   if (roleName === "employer") {
-    if (!organizationName?.trim()) throw new Error("Organization name is required for employers.");
-    if (!headquarters?.trim()) throw new Error("Headquarters is required for employers.");
-    if (!organizationSize?.trim()) throw new Error("Organization size is required for employers.");
-    if (!founded?.trim()) throw new Error("Founded year is required for employers.");
-    if (!industry?.trim()) throw new Error("Industry is required for employers.");
-    userData.organizationName = organizationName.trim();
-    userData.organizationSize = organizationSize.trim();
-    userData.founded = founded.trim();
-    userData.headquarters = headquarters.trim();
-    userData.industry = industry.trim();
-
+    if (organizationName?.trim()) userData.organizationName = organizationName.trim();
+    if (headquarters?.trim()) userData.headquarters = headquarters.trim();
+    if (organizationSize?.trim())  userData.organizationSize = organizationSize.trim();
+    if (founded?.trim()) userData.founded = founded.trim();
+    if (industry?.trim()) userData.industry = industry.trim();
     if (organizationLinkedIn?.trim()) userData.organizationLinkedIn = organizationLinkedIn.trim();
     if (organizationWebsite?.trim()) userData.organizationWebsite = organizationWebsite.trim();
   }
