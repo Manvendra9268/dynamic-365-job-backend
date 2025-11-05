@@ -426,7 +426,7 @@ module.exports = {
   getUserById,
   resetPasswordService,
   softDeleteUser,
-  updateUser,
+  updateUser, 
   // updateUser,
 };
 
