@@ -1,6 +1,7 @@
 const { asyncHandler } = require('../utils/asyncHandler');
-const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser, validateEditUser } = require('../utils/validator');
-const { createUser, loginUser, getUserById, updateUser, deleteUser, googleAuthService, googleLoginService } = require('../services/userService');
+const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser, validateResetPassword, validateEditUser } = require('../utils/validator');
+const { createUser, loginUser, getUserById, updateUser, softDeleteUser, googleAuthService, googleLoginService, resetPasswordService } = require('../services/userService');
+
 const Role = require('../models/Role')
 const mongoose = require('mongoose');
 
@@ -154,6 +155,7 @@ const googleLogin = [
     });
   })
 ]
+
 const userLogin = [
   validateLogin,
   handleValidationErrors,
@@ -246,8 +248,21 @@ const deleteUserAccount = [
   validateUserId,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    const user = await deleteUser(req.params.id, req.user);
-    res.status(200).json({ message: 'User deleted successfully', data: user });
+    const deletedBy = req.user?.id;
+    // console.log("req.user----", req.user);
+    const result = await softDeleteUser(req.params.id, deletedBy);
+    res.status(200).json({ message: 'User account deleted.', ...result });
+  })
+];
+
+const resetUserPassword = [
+  validateResetPassword,
+  handleValidationErrors,
+  asyncHandler(async (req, res) => {
+    const userId = req.user?.id;
+    const { oldPassword, newPassword } = req.body;
+    const result = await resetPasswordService(userId, oldPassword, newPassword);
+    res.status(200).json(result);
   }),
 ];
 
@@ -258,7 +273,8 @@ module.exports = {
   updateUserDetails,
   deleteUserAccount,
   googleAuth,
-  googleLogin
+  googleLogin,
+  resetUserPassword
 };
 
 // const generateOtpHandler = [
