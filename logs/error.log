@@ -277,3 +277,156 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:43:19] error: Error 400: User already exists with this email or Phone number.
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at createUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:34:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:49:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:51:05] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:229:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:163:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:52:42] error: Error 401: User not exists.
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: User not exists.
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:229:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:163:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:27:48] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:233:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:164:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:27:54] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:233:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:164:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:35:54] error: Error 404: User not found
+Method: GET
+Path: /api/v1/users/my-profile
+Meta:
+{
+  "status": 404
+}
+Stack Trace:
+  Error: User not found
+      at getUserById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:300:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:173:16
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:39:17] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "password",
+      "message": "Password must be at least 8 characters."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:402:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:48:23] error: Error 500: ApiError is not defined
+Method: POST
+Path: /api/v1/users/reset-password
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  ReferenceError: ApiError is not defined
+      at resetPasswordService (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:283:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:207:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:49:02] error: Error 400: Old password is incorrect
+Method: POST
+Path: /api/v1/users/reset-password
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Old password is incorrect
+      at resetPasswordService (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:283:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:207:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:52:15] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:233:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:164:20
+═══════════════════════════════════════════════════════════════
+

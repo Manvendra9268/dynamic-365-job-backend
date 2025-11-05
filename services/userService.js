@@ -1,11 +1,11 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const logger = require('../utils/logger');
-const Error = require('../utils/error');
-const Role = require('../models/Role');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const logger = require("../utils/logger");
+const Error = require("../utils/error");
+const Role = require("../models/Role");
 const { OAuth2Client } = require("google-auth-library");
-const axios = require('axios');
+const axios = require("axios");
 
 const createUser = async ({
   fullName,
@@ -24,12 +24,16 @@ const createUser = async ({
   country,
   contactSharing,
   industry,
-  profileImage
+  profileImage,
 }) => {
   // Check if email already exists
-  const existingUser = await User.findOne({ $or: [{ email }, { phoneNumber }] });
+  const existingUser = await User.findOne({
+    $or: [{ email }, { phoneNumber }],
+  });
   if (existingUser) {
-    const error = new Error("User already exists with this email or Phone number.");
+    const error = new Error(
+      "User already exists with this email or Phone number."
+    );
     error.statusCode = 400;
     throw error;
   }
@@ -51,22 +55,20 @@ const createUser = async ({
     role: roleDoc._id,
     phoneNumber,
   };
-  if (profileImage?.trim()) userData.profileImage = profileImage.trim();  
+  if (profileImage?.trim()) userData.profileImage = profileImage.trim();
   // ✅ Employer-specific validation
   if (roleName === "employer") {
-    if (!organizationName?.trim()) throw new Error("Organization name is required for employers.");
-    if (!headquarters?.trim()) throw new Error("Headquarters is required for employers.");
-    if (!organizationSize?.trim()) throw new Error("Organization size is required for employers.");
-    if (!founded?.trim()) throw new Error("Founded year is required for employers.");
-    if (!industry?.trim()) throw new Error("Industry is required for employers.");
-    userData.organizationName = organizationName.trim();
-    userData.organizationSize = organizationSize.trim();
-    userData.founded = founded.trim();
-    userData.headquarters = headquarters.trim();
-    userData.industry = industry.trim();
-
-    if (organizationLinkedIn?.trim()) userData.organizationLinkedIn = organizationLinkedIn.trim();
-    if (organizationWebsite?.trim()) userData.organizationWebsite = organizationWebsite.trim();
+    if (organizationName?.trim())
+      userData.organizationName = organizationName.trim();
+    if (headquarters?.trim()) userData.headquarters = headquarters.trim();
+    if (organizationSize?.trim())
+      userData.organizationSize = organizationSize.trim();
+    if (founded?.trim()) userData.founded = founded.trim();
+    if (industry?.trim()) userData.industry = industry.trim();
+    if (organizationLinkedIn?.trim())
+      userData.organizationLinkedIn = organizationLinkedIn.trim();
+    if (organizationWebsite?.trim())
+      userData.organizationWebsite = organizationWebsite.trim();
   }
 
   // ✅ Jobseeker-specific validation
@@ -77,7 +79,7 @@ const createUser = async ({
       throw error;
     }
 
-    userData.areasOfInterest = areasOfInterest.map(a => a.trim());
+    userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
     if (currentRole) userData.currentRole = currentRole.trim();
     if (country) userData.country = country.trim();
   }
@@ -111,22 +113,29 @@ const googleAuthService = async ({
   contactSharing,
   access_token,
   industry,
-  profileImage
+  profileImage,
 }) => {
-
-  const { data: payload } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-    headers: { Authorization: `Bearer ${access_token}` },
-  });
+  const { data: payload } = await axios.get(
+    "https://www.googleapis.com/oauth2/v3/userinfo",
+    {
+      headers: { Authorization: `Bearer ${access_token}` },
+    }
+  );
 
   const email = payload.email;
   const finalFullName = fullName?.trim() || payload.name;
   const picture = profileImage?.trim() || payload.picture;
 
   // 2️⃣ Check if user exists
-  let user = await User.findOne({ $or: [{ email }, { phoneNumber }] }).populate("role", "roleName");
+  let user = await User.findOne({ $or: [{ email }, { phoneNumber }] }).populate(
+    "role",
+    "roleName"
+  );
 
   if (user) {
-    const error = new Error("User already exists with this email or Phone number.");
+    const error = new Error(
+      "User already exists with this email or Phone number."
+    );
     error.statusCode = 400;
     throw error;
   } else {
@@ -158,7 +167,8 @@ const googleAuthService = async ({
         throw new Error("Organization size is required for employers.");
       if (!founded?.trim())
         throw new Error("Founded year is required for employers.");
-      if (!industry?.trim()) throw new Error("Industry is required for employers.");
+      if (!industry?.trim())
+        throw new Error("Industry is required for employers.");
       userData.organizationName = organizationName.trim();
       userData.organizationSize = organizationSize.trim();
       userData.founded = founded.trim();
@@ -185,7 +195,7 @@ const googleAuthService = async ({
     // 4️⃣ Create new Google user
     user = new User(userData);
     await user.save();
-    await user.populate('role', 'roleName');
+    await user.populate("role", "roleName");
 
     logger.info(`New Google user created: ${email}`);
   }
@@ -216,49 +226,99 @@ const googleAuthService = async ({
 const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email }).populate("role", "roleName");
   if (!user) {
-    throw new Error('Invalid credentials', 401);
+    throw new Error("User not exists.", 401);
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error('Invalid credentials', 401);
+    throw new Error("Invalid credentials", 401);
   }
-  const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-  });
+  const token = jwt.sign(
+    { id: user._id, email: user.email, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 
   return { id: user._id, email: user.email, role: user.role, token: token };
 };
 
 const googleLoginService = async ({ access_token }) => {
-  const { data: payload } = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-    headers: { Authorization: `Bearer ${access_token}` },
-  });
+  const { data: payload } = await axios.get(
+    "https://www.googleapis.com/oauth2/v3/userinfo",
+    {
+      headers: { Authorization: `Bearer ${access_token}` },
+    }
+  );
   const email = payload.email;
-  let user
+  let user;
   user = await User.findOne({ email }).populate("role", "roleName");
   if (!user) {
-    throw new Error('User not found, please register first', 404);
+    throw new Error("User not found, please register first", 404);
   }
-  const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-  });
-  return { user: { id: user._id, email: user.email, role: user.role.roleName }, token: token };
-}
+  const token = jwt.sign(
+    { id: user._id, email: user.email, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+  return {
+    user: { id: user._id, email: user.email, role: user.role.roleName },
+    token: token,
+  };
+};
+
+const resetPasswordService = async (userId, oldPassword, newPassword) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    logger.error(`User not found for ID: ${userId}`);
+    throw new Error("User not found", 404);
+  }
+
+  // Verify old password
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) {
+    logger.warn(`Invalid old password for user ID: ${userId}`);
+    throw new Error("Old password is incorrect", 400);
+  }
+
+  // Hash new password
+  // const salt = await bcrypt.genSalt(10);
+  // const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+  user.password = newPassword;
+  await user.save();
+
+  logger.info(`Password updated successfully for userID: ${userId}`);
+  return { message: "Password updated successfully." };
+};
 
 const getUserById = async (userId, requestingUser) => {
-  const user = await User.findOne({ _id: userId}).populate("role", "roleName");
+  const user = await User.findOne({ _id: userId }).populate("role", "roleName");
   if (!user) {
-    throw new Error('User not found', 404);
+    throw new Error("User not found", 404);
   }
 
   if (requestingUser.id !== userId) {
-    throw new Error('Unauthorized to access this user', 403);
+    throw new Error("Unauthorized to access this user", 403);
   }
 
   return {
-    message: 'User fetched successfully',
-    data: user
+    message: "User fetched successfully",
+    data: user,
   };
+};
+
+const softDeleteUser = async (id, deletedByUserId) => {
+  const user = await User.findById(id);
+  if (!user) {
+    logger.error(`User not found for ID: ${id}`);
+    throw new Error("User not found", 404);
+  }
+  await User.deleteById(id, deletedByUserId);
+  logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
+  return { message: "User deleted successfully", userId: id };
 };
 
 // const updateUser = async (userId, updates, requestingUser) => {
@@ -309,10 +369,10 @@ module.exports = {
   loginUser,
   googleLoginService,
   getUserById,
+  resetPasswordService,
+  softDeleteUser,
   // updateUser,
-  // deleteUser,
 };
-
 
 // const generateOtp = async (phone) => {
 //   const user = await User.findOne({ phone, deleted_at: null }).select('+otp +otpExpires');

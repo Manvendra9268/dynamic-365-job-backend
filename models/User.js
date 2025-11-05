@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { required } = require('zod/mini');
+const MongooseDelete = require('mongoose-delete');
 
 const userSchema = new mongoose.Schema(
   {
@@ -93,5 +94,12 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+//delete-user-plugin
+userSchema.plugin(MongooseDelete, {
+  deletedAt: true,
+  deletedBy: true,
+  overrideMethods: 'all',
+});
 
 module.exports = mongoose.model("User", userSchema);

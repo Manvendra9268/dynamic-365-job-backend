@@ -41,38 +41,43 @@ const validateUser = [
   // Employer-specific validations
   body("organizationName")
     .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
     .exists({ checkFalsy: true })
     .withMessage("Organization name is required for employers."),
 
   body("organizationSize")
     .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
     .isInt({ min: 1 })
     .withMessage("Organization size must be a positive integer."),
-  
+
   body("founded")
     .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
     .isInt({ min: 1000, max: new Date().getFullYear() })
     .withMessage("Founded year must be a valid year."),
-  
+
   body("headquarters")
     .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
     .isString()
     .trim(),
-  
+
   body("organizationLinkedIn")
     .if(body("role").equals("employer"))
     .optional({ checkFalsy: true })
     .isURL()
     .withMessage("Organization LinkedIn must be a valid URL."),
-  
+
   body("organizationWebsite")
     .if(body("role").equals("employer"))
     .optional({ checkFalsy: true })
     .isURL()
     .withMessage("Organization Website must be a valid URL."),
-  
+
   body("industry")
     .if(body("role").equals("employer"))
+    .optional({ checkFalsy: true })
     .exists({ checkFalsy: true })
     .withMessage("Industry name is required for employers."),
   // jobseeker–specific validations
@@ -125,23 +130,23 @@ const validateGoogelUser = [
     .if(body("role").equals("employer"))
     .isInt({ min: 1 })
     .withMessage("Organization size must be a positive integer."),
-  
+
   body("founded")
     .if(body("role").equals("employer"))
     .isInt({ min: 1000, max: new Date().getFullYear() })
     .withMessage("Founded year must be a valid year."),
-  
+
   body("headquarters")
     .if(body("role").equals("employer"))
     .isString()
     .trim(),
-  
+
   body("organizationLinkedIn")
     .if(body("role").equals("employer"))
     .optional({ checkFalsy: true })
     .isURL()
     .withMessage("Organization LinkedIn must be a valid URL."),
-  
+
   body("organizationWebsite")
     .if(body("role").equals("employer"))
     .optional({ checkFalsy: true })
@@ -193,6 +198,16 @@ const validateUserId = [
   param('id')
     .isMongoId()
     .withMessage('Invalid user ID'),
+];
+
+const validateResetPassword = [
+  body("oldPassword")
+    .notEmpty()
+    .withMessage("Old password is required"),
+
+  body("newPassword")
+    .isLength({ min: 8 })
+    .withMessage("New password must be at least 6 characters long"),
 ];
 
 const validatePagination = [
@@ -397,6 +412,7 @@ module.exports = {
   validatePagination,
   validateOtpGenerate,
   validateOtpVerify,
+  validateResetPassword,
   validateJobRequest,
   validateSubscription,
   handleValidationErrors,
