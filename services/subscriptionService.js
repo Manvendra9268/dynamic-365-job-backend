@@ -8,9 +8,23 @@ exports.addSubscription = async (data) => {
         const newSubscription = new Subscription(data);
         await newSubscription.save();
 
-        logger.info(`New subscription added`, );
+        logger.info(`New subscription added`, { name: data.name });
+        return newSubscription;
     } catch(error){
         logger.error('Error adding to subscription', { error: error.message, stack: error.stack });
         throw new ApiError('Failed to add subscription', 500, error.message)
     }
+};
+
+//get-all subscriptions
+exports.getAllSubscriptions = async () => {
+  try {
+    const subscriptions = await Subscription.find().sort({ createdAt: -1 });
+
+    logger.info('Fetched all subscriptions');
+    return subscriptions;
+  } catch (error) {
+    logger.error('Error fetching subscriptions', { error: error.message, stack: error.stack });
+    throw new ApiError('Failed to fetch subscriptions', 500, error.message);
+  }
 };

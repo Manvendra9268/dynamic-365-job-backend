@@ -10,6 +10,10 @@ const subscriptionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    description: {
+        type: String,
+        default: null
+    },
     features:{
         type: [String],
         default: [],
@@ -21,7 +25,7 @@ const subscriptionSchema = new mongoose.Schema({
     },
     period:{
         type: Number,
-        required: true,
+        default: null
     }
     })
 

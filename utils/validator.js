@@ -200,6 +200,16 @@ const validateUserId = [
     .withMessage('Invalid user ID'),
 ];
 
+const validateResetPassword = [
+  body("oldPassword")
+    .notEmpty()
+    .withMessage("Old password is required"),
+
+  body("newPassword")
+    .isLength({ min: 8 })
+    .withMessage("New password must be at least 6 characters long"),
+];
+
 const validatePagination = [
   query('page')
     .optional()
@@ -305,12 +315,36 @@ const validateJobRequest = [
 
   body('status')
     .optional()
-    .isIn(['Active', 'In Review', 'Expire'])
+    .isIn(['Active', 'In Review', 'Expired'])
     .withMessage('Invalid job status'),
 ];
 
 const validateSubscription = [
+body('name')
+    .trim()
+    .notEmpty().withMessage('Subscription name is required')
+    .isString().withMessage('Subscription name must be a string'),
 
+  body('price')
+    .notEmpty().withMessage('Price is required')
+    .isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+
+  body('description')
+    .notEmpty().withMessage('Please provide plan description'),
+
+  body('features')
+    .isArray({ min: 1 }).withMessage('Features must be a non-empty array')
+    .custom((arr) => arr.every((f) => typeof f === 'string' && f.trim() !== ''))
+    .withMessage('Each feature must be a non-empty string'),
+
+  body('totalCredits')
+    .notEmpty().withMessage('Total credits are required')
+    .isInt({ gt: 0 }).withMessage('Total credits must be a positive integer'),
+
+  body('period')
+    .optional()
+    .notEmpty().withMessage('Period is required')
+    .isInt({ gt: 0 }).withMessage('Period must be a positive integer'),
 ];
 
 //check employer
@@ -378,6 +412,7 @@ module.exports = {
   validatePagination,
   validateOtpGenerate,
   validateOtpVerify,
+  validateResetPassword,
   validateJobRequest,
   validateSubscription,
   handleValidationErrors,
