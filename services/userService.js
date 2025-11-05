@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const JobRequest = require("../models/JobRequest");
 const logger = require("../utils/logger");
 const Error = require("../utils/error");
 const Role = require("../models/Role");
@@ -400,7 +401,6 @@ const softDeleteUser = async (id, deletedByUserId) => {
   logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
   return { message: "User deleted successfully", userId: id };
 };
-
 // const deleteUser = async (userId, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
 //     throw new Error('Unauthorized to delete this user', 403);
@@ -426,8 +426,7 @@ module.exports = {
   getUserById,
   resetPasswordService,
   softDeleteUser,
-  updateUser, 
-  // updateUser,
+  updateUser,
 };
 
 // const generateOtp = async (phone) => {

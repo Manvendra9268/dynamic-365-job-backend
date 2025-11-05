@@ -56,3 +56,62 @@ exports.getJobRequestById = async (id) => {
     throw new ApiError('Failed to fetch job request', 500);
   }
 };
+
+exports.getUserPostedJobs = async ({
+  userId,
+  search = '',
+  pageNumber = 1,
+  limitNumber = 10,
+  status,
+  startDate,
+  endDate,
+}) => {
+  console.log("Service Layer - getUserPostedJobs called with:", { limitNumber, userId, search, pageNumber, status, startDate, endDate });
+  const skip = (pageNumber - 1) * limitNumber;
+
+  // Build the query
+  const query = { employerId: userId };
+
+  // Add search condition if provided
+  if (search) {
+    query.$or = [
+      { jobTitle: { $regex: search, $options: 'i' } },
+      { roleDescription: { $regex: search, $options: 'i' } }
+    ];
+  }
+
+  // Add status filter if provided
+  if (status && ['Active', 'In Review', 'Expired'].includes(status)) {
+    query.status = status;
+  }
+
+  // Add date range filter if provided
+  if (startDate || endDate) {
+    query.createdAt = {};
+    if (startDate) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+  }
+    // Get total count for pagination
+    const totalJobs = await JobRequest.countDocuments(query);
+    const totalPages = Math.ceil(totalJobs / limitNumber);
+    // Get jobs with pagination
+    const jobs = await JobRequest.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNumber)
+      .populate('employerId', 'fullName email organizationName');
+
+    return {
+      jobs,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages,
+        totalItems: totalJobs,
+        limitNumber
+      }
+    };
+}
