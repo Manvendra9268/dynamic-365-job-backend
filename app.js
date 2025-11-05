@@ -34,9 +34,18 @@ app.use(morgan('combined', { stream: { write: (message) => logger.info(message.t
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Disable Caching
+app.disable('etag');
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // Routes
 app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/post', jobRequestRoute);
+app.use('/api/v1/jobs', jobRequestRoute);
 app.use('/api/v1/subs', subscriptionRoute);
 
 // Health Check
