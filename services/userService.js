@@ -5,6 +5,7 @@ const JobRequest = require("../models/JobRequest");
 const logger = require("../utils/logger");
 const Error = require("../utils/error");
 const Role = require("../models/Role");
+const UserSubscription = require('../models/userSubscription');
 const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
 
@@ -401,6 +402,19 @@ const softDeleteUser = async (id, deletedByUserId) => {
   logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
   return { message: "User deleted successfully", userId: id };
 };
+
+const createMapping = async ({ userId, subscriptionId, startDate, endDate, totalCredits, usedCredits }) => {
+  const record = await UserSubscription.create({
+    userId,
+    subscriptionId,
+    startDate,
+    endDate,
+    totalCredits,
+    usedCredits,
+  });
+  return record;
+};
+
 // const deleteUser = async (userId, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
 //     throw new Error('Unauthorized to delete this user', 403);
@@ -427,6 +441,8 @@ module.exports = {
   resetPasswordService,
   softDeleteUser,
   updateUser,
+  createMapping
+  // updateUser,
 };
 
 // const generateOtp = async (phone) => {

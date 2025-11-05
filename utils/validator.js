@@ -291,6 +291,15 @@ const validateUserId = [
     .withMessage('Invalid user ID'),
 ];
 
+const validateSubscriptionId = [
+  query("id")
+    .exists({ checkFalsy: true })
+    .withMessage("Subscription ID is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid subscription ID."),
+];
+
 const validateResetPassword = [
   body("oldPassword")
     .notEmpty()
@@ -438,6 +447,14 @@ body('name')
     .isInt({ gt: 0 }).withMessage('Period must be a positive integer'),
 ];
 
+const validateUserAndSubscribe = [
+  body("fullName").notEmpty().withMessage("Full name is required"),
+  body("email").isEmail().withMessage("Valid email is required"),
+  body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
+  body("phoneNumber").notEmpty().withMessage("Phone number is required"),
+  body("organizationName").notEmpty().withMessage("OrganizationName is required")
+];
+
 //check employer
 const checkEmployerRole = async (req, res, next) => {
   try {
@@ -500,6 +517,7 @@ module.exports = {
   validateUser,
   validateLogin,
   validateUserId,
+  validateSubscriptionId,
   validatePagination,
   validateOtpGenerate,
   validateOtpVerify,
@@ -510,5 +528,6 @@ module.exports = {
   validateGoogelUser,
   checkEmployerRole,
   checkAdminRole,
-  validateEditUser
+  validateEditUser,
+  validateUserAndSubscribe
 };
