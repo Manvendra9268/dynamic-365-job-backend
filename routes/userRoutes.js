@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, userLogin, getUserProfile, googleAuth, googleLogin} = require('../controllers/userController');
+const { registerUser, userLogin, getUserProfile, googleAuth, googleLogin, updateUserDetails} = require('../controllers/userController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 const multer = require('multer');
 
@@ -17,5 +17,6 @@ router.post('/google', upload.single("profileImage"), googleAuth)
 router.post('/login', userLogin);
 router.post('/google-login', googleLogin);
 router.get('/my-profile', authMiddleware, getUserProfile);
+router.put('/update-profile', authMiddleware, upload.single("profileImage"), updateUserDetails);
 
 module.exports = router;

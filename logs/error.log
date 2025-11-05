@@ -190,3 +190,506 @@ Stack Trace:
       at async E:\dynamic-job-backend\controllers\userController.js:172:16
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:52:46] error: Error 401: No token provided
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: No token provided
+      at authMiddleware (E:\dynamic-job-backend\middleware\authMiddleware.js:10:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at Route.dispatch (E:\dynamic-job-backend\node_modules\router\lib\route.js:117:3)
+      at handle (E:\dynamic-job-backend\node_modules\router\index.js:435:11)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at E:\dynamic-job-backend\node_modules\router\index.js:295:15
+      at processParams (E:\dynamic-job-backend\node_modules\router\index.js:582:12)
+      at next (E:\dynamic-job-backend\node_modules\router\index.js:291:5)
+      at Function.handle (E:\dynamic-job-backend\node_modules\router\index.js:186:3)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:54:18] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "organizationName",
+      "message": "Organization name is required for employers."
+    },
+    {
+      "field": "organizationSize",
+      "message": "Organization size must be a positive integer."
+    },
+    {
+      "field": "founded",
+      "message": "Founded year must be a valid year."
+    },
+    {
+      "field": "headquarters",
+      "message": "Invalid value"
+    },
+    {
+      "field": "industry",
+      "message": "Industry name is required for employers."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:466:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:54:41] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "organizationSize",
+      "message": "Organization size must be a positive integer."
+    },
+    {
+      "field": "founded",
+      "message": "Founded year must be a valid year."
+    },
+    {
+      "field": "headquarters",
+      "message": "Invalid value"
+    },
+    {
+      "field": "industry",
+      "message": "Industry name is required for employers."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:466:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:55:20] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "industry",
+      "message": "Industry name is required for employers."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:466:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:55:32] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:287:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:58:05] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:287:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 10:59:11] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:287:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:00:44] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:287:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:00:55] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:287:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:01:40] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:288:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:02:57] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:288:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:221:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:03:51] error: Error 400: Invalid role ID provided.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: Invalid role ID provided.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:288:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:06:10] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:279:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:06:21] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:279:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:06:25] error: Error 500: Cannot read properties of undefined (reading 'trim')
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: Cannot read properties of undefined (reading 'trim')
+      at updateUser (E:\dynamic-job-backend\services\userService.js:310:93)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:07:53] error: Error 404: User not found
+Method: GET
+Path: /api/v1/users/my-profile
+Meta:
+{
+  "status": 404
+}
+Stack Trace:
+  Error: User not found
+      at getUserById (E:\dynamic-job-backend\services\userService.js:245:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:172:16
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:08:15] error: Error 404: User not found, please register first
+Method: POST
+Path: /api/v1/users/google-login
+Meta:
+{
+  "status": 404
+}
+Stack Trace:
+  Error: User not found, please register first
+      at googleLoginService (E:\dynamic-job-backend\services\userService.js:234:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:148:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 11:59:30] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "role",
+      "message": "Role must be either employer, jobseeker, or admin"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:459:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:00:56] error: Error 500: organizationSize?.trim is not a function
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: organizationSize?.trim is not a function
+      at updateUser (E:\dynamic-job-backend\services\userService.js:310:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:14:51] error: Error 500: organizationSize?.trim is not a function
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: organizationSize?.trim is not a function
+      at updateUser (E:\dynamic-job-backend\services\userService.js:310:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:15:28] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:282:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:15:46] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:282:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:16:29] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:282:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:17:01] error: Error 500: organizationSize?.trim is not a function
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: organizationSize?.trim is not a function
+      at updateUser (E:\dynamic-job-backend\services\userService.js:310:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:17:25] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "phoneNumber",
+      "message": "Invalid phone number."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:459:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:17:45] error: Error 500: organizationSize?.trim is not a function
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  TypeError: organizationSize?.trim is not a function
+      at updateUser (E:\dynamic-job-backend\services\userService.js:310:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:19:27] error: Error 400: Validation failed
+Method: POST
+Path: /api/v1/users/register
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "phoneNumber",
+      "message": "Invalid phone number."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (E:\dynamic-job-backend\utils\validator.js:459:17)
+      at Layer.handleRequest (E:\dynamic-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (E:\dynamic-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (E:\dynamic-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-05 12:26:15] error: Error 400: User already exists with this email or Phone number.
+Method: PUT
+Path: /api/v1/users/update-profile
+Meta:
+{
+  "status": 400
+}
+Stack Trace:
+  Error: User already exists with this email or Phone number.
+      at updateUser (E:\dynamic-job-backend\services\userService.js:282:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async E:\dynamic-job-backend\controllers\userController.js:220:18
+═══════════════════════════════════════════════════════════════
+
