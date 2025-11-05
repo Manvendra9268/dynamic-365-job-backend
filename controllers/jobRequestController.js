@@ -47,8 +47,22 @@ const getJobRequestById = asyncHandler(async (req, res) => {
   });
 });
 
+const getUserJobs = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  console.log("Fetching jobs for user:", userId);
+  const { page = 1, limit = 10, search, startDate, endDate, status } = req.query;
+  pageNumber = parseInt(page);
+  limitNumber = parseInt(limit);
+  const result = await jobRequestService.getUserPostedJobs({userId, pageNumber, limitNumber, search, startDate, endDate, status});
+  res.status(200).json({
+    message: "User jobs fetched successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createJobRequest,
   getAllJobRequests,
   getJobRequestById,
+  getUserJobs
 };

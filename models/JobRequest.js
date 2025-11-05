@@ -66,6 +66,14 @@ const jobRequestSchema = new mongoose.Schema(
             type: String,
             enum: ['Active', 'In Review', 'Expired'],
             default: 'In Review'
+        },
+        applyClicks:{
+            type: Number,
+            default: 0
+        },
+        views:{
+            type: Number,
+            default: 0
         }
     },
     { timestamps: true }

@@ -274,7 +274,7 @@ module.exports = {
   deleteUserAccount,
   googleAuth,
   googleLogin,
-  resetUserPassword
+  resetUserPassword,
 };
 
 // const generateOtpHandler = [
