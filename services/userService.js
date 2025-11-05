@@ -61,8 +61,7 @@ const createUser = async ({
     if (organizationName?.trim())
       userData.organizationName = organizationName.trim();
     if (headquarters?.trim()) userData.headquarters = headquarters.trim();
-    if (organizationSize?.trim())
-      userData.organizationSize = organizationSize.trim();
+    if (organizationSize?.trim()) userData.organizationSize = organizationSize.trim();
     if (founded?.trim()) userData.founded = founded.trim();
     if (industry?.trim()) userData.industry = industry.trim();
     if (organizationLinkedIn?.trim())
@@ -310,6 +309,87 @@ const getUserById = async (userId, requestingUser) => {
   };
 };
 
+const updateUser = async ({ fullName,
+  email,
+  password,
+  role,
+  organizationName,
+  organizationSize,
+  founded,
+  headquarters,
+  organizationLinkedIn,
+  organizationWebsite,
+  phoneNumber,
+  areasOfInterest,
+  currentRole,
+  country,
+  contactSharing,
+  industry,
+  profileImage,
+  userId }) => {
+  const existingUser = await User.findOne({
+    $or: [{ email }, { phoneNumber }],
+    _id: { $ne: userId }
+  });
+  if (existingUser) {
+    const error = new Error("User already exists with this email or Phone number.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Fetch the role document
+  const roleDoc = await Role.findById(role);
+  if (!roleDoc) {
+    const error = new Error("Invalid role ID provided.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const roleName = roleDoc.roleName.toLowerCase();
+
+  const userData = {
+    email,
+    password,
+    fullName,
+    role: roleDoc._id,
+    phoneNumber,
+  };
+  if (profileImage !== undefined) {
+  if (profileImage.trim() === "") {
+    // If explicitly an empty string, remove it from DB
+    userData.profileImage = "";
+  } else {
+    // If valid path, update it
+    userData.profileImage = profileImage.trim();
+  }
+}
+  // ✅ Employer-specific validation
+  if (roleName === "employer") {
+    if (!organizationName?.trim()) throw new Error("Organization name is required for employers.");
+    if (!headquarters?.trim()) throw new Error("Headquarters is required for employers.");
+    if (!organizationSize?.trim()) throw new Error("Organization size is required for employers.");
+    if (!founded?.trim()) throw new Error("Founded year is required for employers.");
+    if (!industry?.trim()) throw new Error("Industry is required for employers.");
+    if (organizationLinkedIn?.trim()) userData.organizationLinkedIn = organizationLinkedIn.trim();
+    if (organizationWebsite?.trim()) userData.organizationWebsite = organizationWebsite.trim();
+    userData.organizationName = organizationName.trim();
+    userData.headquarters = headquarters.trim();
+    userData.organizationSize = organizationSize.trim();
+    userData.founded = founded.trim();
+    userData.industry = industry.trim();
+  }
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { $set: userData },
+    { new: true }
+  );
+  if (!user) {
+    throw new Error('User not found', 404);
+  }
+  logger.info(`User updated: ${email}`);
+  return user;
+};
+
 const softDeleteUser = async (id, deletedByUserId) => {
   const user = await User.findById(id);
   if (!user) {
@@ -320,31 +400,6 @@ const softDeleteUser = async (id, deletedByUserId) => {
   logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
   return { message: "User deleted successfully", userId: id };
 };
-
-// const updateUser = async (userId, updates, requestingUser) => {
-//   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
-//     throw new Error('Unauthorized to update this user', 403);
-//   }
-
-//   const allowedUpdates = ['first_name', 'last_name', 'phone', 'email', 'location', 'state', 'city', 'address', 'role'];
-//   const updateKeys = Object.keys(updates);
-//   const isValidUpdate = updateKeys.every(key => allowedUpdates.includes(key));
-//   if (!isValidUpdate) {
-//     throw new Error('Invalid update fields', 400);
-//   }
-
-//   const user = await User.findOne({ _id: userId, deleted_at: null }).select('+password +otp +otpExpires');
-//   if (!user) {
-//     throw new Error('User not found', 404);
-//   }
-
-//   updateKeys.forEach(key => {
-//     user[key] = updates[key];
-//   });
-//   await user.save();
-//   logger.info(`User updated: ${user.phone}`);
-//   return user;
-// };
 
 // const deleteUser = async (userId, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
@@ -371,6 +426,7 @@ module.exports = {
   getUserById,
   resetPasswordService,
   softDeleteUser,
+  updateUser, 
   // updateUser,
 };
 

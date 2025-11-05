@@ -1,6 +1,7 @@
 const { asyncHandler } = require('../utils/asyncHandler');
-const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser, validateResetPassword } = require('../utils/validator');
+const { validateUser, validateLogin, validateUserId, handleValidationErrors, validateGoogelUser, validateResetPassword, validateEditUser } = require('../utils/validator');
 const { createUser, loginUser, getUserById, updateUser, softDeleteUser, googleAuthService, googleLoginService, resetPasswordService } = require('../services/userService');
+
 const Role = require('../models/Role')
 const mongoose = require('mongoose');
 
@@ -159,7 +160,6 @@ const userLogin = [
   validateLogin,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    console.log("Login request body:", req.body);
     const { email, password } = req.body;
     const result = await loginUser({ email, password });
     res.status(200).json({
@@ -178,12 +178,69 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserDetails = [
-  validateUser,
-  validateUserId,
+  validateEditUser,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    const user = await updateUser(req.params.id, req.body, req.user);
-    res.status(200).json({ message: 'User updated successfully', data: user });
+    let {
+      fullName,
+      email,
+      password,
+      role,
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+      industry
+    } = req.body;
+    let profileImage = ''
+    if (req.file) {
+      profileImage = req.file.path;
+    }
+    // Clean up string fields
+    if (email) email = email.trim().toLowerCase();
+    if (fullName) fullName = fullName.trim();
+    // Resolve Role
+    const roleDoc = await Role.findOne(
+      mongoose.Types.ObjectId.isValid(role)
+        ? { _id: role }
+        : { roleName: role.toLowerCase() }
+    );
+    if (!roleDoc) {
+      return res.status(400).json({ message: "Invalid role specified." });
+    }
+    const userId = req.user.id
+    const user = await updateUser({
+      fullName,
+      email,
+      password,
+      role: roleDoc._id,
+      organizationName,
+      organizationSize,
+      founded,
+      headquarters,
+      organizationLinkedIn,
+      organizationWebsite,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      country,
+      contactSharing,
+      industry,
+      profileImage,
+      userId
+    });
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      data: { id: user.id, email: user.email, role: roleDoc.roleName },
+    });
   }),
 ];
 
