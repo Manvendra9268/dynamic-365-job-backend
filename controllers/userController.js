@@ -158,7 +158,6 @@ const userLogin = [
   validateLogin,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    console.log("Login request body:", req.body);
     const { email, password } = req.body;
     const result = await loginUser({ email, password });
     res.status(200).json({
@@ -199,7 +198,6 @@ const updateUserDetails = [
       industry
     } = req.body;
     let profileImage = ''
-    console.log("Request body", req.file);
     if (req.file) {
       profileImage = req.file.path;
     }
@@ -216,7 +214,6 @@ const updateUserDetails = [
       return res.status(400).json({ message: "Invalid role specified." });
     }
     const userId = req.user.id
-    console.log("ROLE ID:", roleDoc._id);
     const user = await updateUser({
       fullName,
       email,

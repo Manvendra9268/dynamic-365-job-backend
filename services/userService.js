@@ -285,7 +285,6 @@ const updateUser = async ({ fullName,
   }
 
   // Fetch the role document
-  console.log("Role ID:", role);
   const roleDoc = await Role.findById(role);
   if (!roleDoc) {
     const error = new Error("Invalid role ID provided.");
