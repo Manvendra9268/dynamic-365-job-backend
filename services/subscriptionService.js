@@ -1,7 +1,7 @@
 const Subscription = require('../models/Subscription');
 const ApiError = require('../utils/error');
 const logger = require('../utils/logger');
-
+const userSubscription = require('../models/userSubscription')
 //add-subscription
 exports.addSubscription = async (data) => {
     try{
@@ -28,3 +28,13 @@ exports.getAllSubscriptions = async () => {
     throw new ApiError('Failed to fetch subscriptions', 500, error.message);
   }
 };
+
+exports.getSubscriptionByUser = async (userId)=>{
+  try {
+    const subscriptions = await userSubscription.findOne({ userId: userId })
+    return subscriptions
+  } catch (error) {
+    logger.error('Error fetching user subscriptions', { error: error.message, stack: error.stack });
+    throw new ApiError('Failed to fetch user subscriptions', 500, error.message);
+  }
+}
