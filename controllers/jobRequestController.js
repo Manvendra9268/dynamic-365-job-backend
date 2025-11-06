@@ -1,11 +1,15 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const jobRequestService = require("../services/jobRequestService");
+const { createMapping } = require("../services/userService");
+const logger = require("../utils/logger");
 const {
   validateJobRequest,
   handleValidationErrors,
   checkEmployerRole,
   validateJobUpdate,
 } = require("../utils/validator");
+
+const Subscription = require("../models/Subscription");
 
 const createJobRequest = [
   validateJobRequest,
@@ -85,11 +89,59 @@ const updateJobDetails = [
     const userId = req.user.id;
     const updateData = req.body;
 
-    const updatedJob = await jobRequestService.editJobDetails(jobId, userId, updateData);
+    const updatedJob = await jobRequestService.editJobDetails(
+      jobId,
+      userId,
+      updateData
+    );
 
     res.status(200).json({
       message: "Job details updated successfully",
       data: updatedJob,
+    });
+  }),
+];
+
+const postJobAndSubscribe = [
+  validateJobRequest,
+  handleValidationErrors,
+  asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+    const isSubscription = await Subscription.findOne({
+      name: "Monthly Subscription",
+    });
+    if (!isSubscription) {
+      logger.error("Monthly Subscription not configured in DB.");
+      return res
+        .status(500)
+        .json({ message: "Monthly Subscription ot configured." });
+    }
+    const jobData = {
+      ...req.body,
+      employerId: userId,
+    };
+    const postJob = await jobRequestService.createJobRequest(jobData);
+    //calculate date n credits
+    const startDate = new Date();
+    const endDate = isSubscription.period
+      ? new Date(startDate.setDate(startDate.getDate() + isSubscription.period))
+      : null;
+    const totalCredits = isSubscription.totalCredits;
+    const usedCredits = 1;
+    const userSubscriptionRecord = await createMapping({
+      userId: userId,
+      subscriptionId: isSubscription.id,
+      startDate,
+      endDate,
+      totalCredits,
+      usedCredits,
+    });
+
+    logger.info(`Subscription activated and job posted for user ${userId}`);
+    res.status(201).json({
+      message: "Subscription activated and Job posted successfully.",
+      subscriptionData: userSubscriptionRecord,
+      jobData: postJob,
     });
   }),
 ];
@@ -99,5 +151,6 @@ module.exports = {
   getAllJobRequests,
   getJobRequestById,
   getUserJobs,
-  updateJobDetails
+  updateJobDetails,
+  postJobAndSubscribe,
 };
