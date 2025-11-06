@@ -195,3 +195,173 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-06 13:17:30] error: Error fetching job request by ID
+Meta:
+{
+  "id": "my-jobs",
+  "error": "Cast to ObjectId failed for value \"my-jobs\" (type string) at path \"_id\" for model \"JobRequest\""
+}
+Stack Trace:
+  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
+      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
+      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
+      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
+      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
+      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
+      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
+      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:43:24)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 13:17:30] error: Error 500: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+Method: GET
+Path: /api/v1/jobs/my-jobs?search=&status=All
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
+      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
+      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
+      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
+      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
+      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
+      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
+      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:43:24)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 14:08:47] error: Error 500: employerId is not defined
+Method: PUT
+Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  ReferenceError: employerId is not defined
+      at exports.editJobDetails (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:168:7)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\jobRequestController.js:88:24
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 14:10:07] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "workMode",
+      "message": "Invalid work mode."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 14:12:57] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "skills",
+      "message": "Skills must be an array of strings."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 14:13:43] error: Error fetching job request by ID
+Meta:
+{
+  "id": "my-jobs",
+  "error": "Cast to ObjectId failed for value \"my-jobs\" (type string) at path \"_id\" for model \"JobRequest\""
+}
+Stack Trace:
+  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
+      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
+      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
+      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
+      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
+      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
+      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
+      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:52:24)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 14:13:43] error: Error 500: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+Method: GET
+Path: /api/v1/jobs/my-jobs
+Meta:
+{
+  "status": 500
+}
+Stack Trace:
+  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
+      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
+      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
+      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
+      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
+      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
+      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
+      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
+      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:52:24)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 15:40:54] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "status",
+      "message": "Invalid job status"
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+

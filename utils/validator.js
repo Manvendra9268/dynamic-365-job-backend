@@ -419,6 +419,29 @@ const validateJobRequest = [
     .withMessage('Invalid job status'),
 ];
 
+const validateJobUpdate = [
+  param("id")
+    .exists({ checkFalsy: true })
+    .withMessage("Job ID is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid Job ID format."),
+
+  body("jobTitle").optional().isString().trim().notEmpty().withMessage("Job title must be a non-empty string."),
+  body("workMode").optional().isIn(["Full-Time", "Part-Time"]).withMessage("Invalid work mode."),
+  body("jobType").optional().isIn(["Remote", "Hybrid", "Onsite"]).withMessage("Invalid job type."),
+  body("upperCompensation").optional().isNumeric().withMessage("Upper compensation must be a number."),
+  body("lowerCompensation").optional().isNumeric().withMessage("Lower compensation must be a number."),
+  body("roleLevel").optional().isIn(["Senior Level", "Associate", "Apprenticeship"]).withMessage("Invalid role level."),
+  body("roleDescription").optional().isString(),
+  body("keyResponsibilities").optional().isArray().withMessage('Key responsibilities must be an array of strings.'),
+  body("requirements").optional().isArray().withMessage('Requirements must be an array of strings.'),
+  body("skills").optional().isArray().withMessage('Skills must be an array of strings.'),
+  body("country").optional().isString(),
+  body("applyLink").optional().isString(),
+  body("status").optional().isIn(["Active", "In Review", "Expired"]).withMessage('Invalid job status'),
+];
+
 const validateSubscription = [
 body('name')
     .trim()
@@ -523,6 +546,7 @@ module.exports = {
   validateOtpVerify,
   validateResetPassword,
   validateJobRequest,
+  validateJobUpdate,
   validateSubscription,
   handleValidationErrors,
   validateGoogelUser,
