@@ -365,3 +365,45 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-06 16:45:52] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 17:24:07] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-06 17:29:35] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
