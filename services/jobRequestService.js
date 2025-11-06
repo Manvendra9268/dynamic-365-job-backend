@@ -87,14 +87,21 @@ exports.getUserPostedJobs = async ({
 
   // Add date range filter if provided
   if (startDate || endDate) {
-    query.createdAt = {};
-    if (startDate) {
-      query.createdAt.$gte = new Date(startDate);
-    }
-    if (endDate) {
-      query.createdAt.$lte = new Date(endDate);
-    }
+  query.createdAt = {};
+
+  if (startDate && startDate !== "null" && !isNaN(new Date(startDate))) {
+    query.createdAt.$gte = new Date(startDate);
   }
+
+  if (endDate && endDate !== "null" && !isNaN(new Date(endDate))) {
+    query.createdAt.$lte = new Date(endDate);
+  }
+
+  if (Object.keys(query.createdAt).length === 0) {
+    delete query.createdAt;
+  }
+}
+
     // Get total count for pagination
     const totalJobs = await JobRequest.countDocuments(query);
     const totalPages = Math.ceil(totalJobs / limitNumber);
