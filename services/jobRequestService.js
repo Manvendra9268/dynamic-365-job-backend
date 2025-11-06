@@ -122,7 +122,7 @@ exports.getUserPostedJobs = async ({
 
   if (Object.keys(query.createdAt).length === 0) {
     delete query.createdAt;
-  }
+  }}
   // Get total count for pagination
   const totalJobs = await JobRequest.countDocuments(query);
   const totalPages = Math.ceil(totalJobs / limitNumber);
@@ -181,25 +181,4 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
     );
   }
 };
-}
 
-    // Get total count for pagination
-    const totalJobs = await JobRequest.countDocuments(query);
-    const totalPages = Math.ceil(totalJobs / limitNumber);
-    // Get jobs with pagination
-    const jobs = await JobRequest.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limitNumber)
-      .populate('employerId', 'fullName email organizationName');
-
-    return {
-      jobs,
-      pagination: {
-        currentPage: pageNumber,
-        totalPages,
-        totalItems: totalJobs,
-        limitNumber
-      }
-    };
-}
