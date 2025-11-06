@@ -31,7 +31,15 @@ const getAllSubscriptions = [
   }),
 ];
 
+const getSubscriptionByUser = asyncHandler(async(req,res)=>{
+  const userSubscriptions = await subscriptionService.getSubscriptionByUser(req.user.id)
+  res.status(200).json({
+    message: "User subscriptions fetched",
+    data: userSubscriptions
+  })
+})
 module.exports = {
   createSubcription,
-  getAllSubscriptions
+  getAllSubscriptions,
+  getSubscriptionByUser
 };
