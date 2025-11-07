@@ -12,20 +12,20 @@ const subscriptionRoute = require('./routes/subscriptionRoute');
 const app = express();
 const path = require("path");
 // Security Middleware
-app.use(helmet());
+// app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:8080", // your frontend URL
+    origin: ["http://localhost:8080","http://localhost:4173"], // your frontend URL
     credentials: true,               // allow credentials (cookies, auth headers)
   }),
-  express.static("uploads")
+  // express.static("uploads")
 );
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // Limit each IP to 100 requests
+//   })
+// );
 
 // Logging Middleware
 app.use(morgan('combined', { stream: { write: (message) => logger.info(message.trim()) } }));
