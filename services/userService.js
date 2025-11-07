@@ -34,7 +34,7 @@ const createUser = async ({
   });
   if (existingUser) {
     const error = new Error(
-      "User already exists with this email or Phone number."
+      "User already exists with this email or Phone number. Please Login"
     );
     error.statusCode = 400;
     throw error;
@@ -135,7 +135,7 @@ const googleAuthService = async ({
 
   if (user) {
     const error = new Error(
-      "User already exists with this email or Phone number."
+      "User already exists with this email or Phone number. Please Login"
     );
     error.statusCode = 400;
     throw error;
