@@ -5,6 +5,6 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 
 router.post('/add', authMiddleware, createSubcription);
 router.get('/plans', getAllSubscriptions);
-router.get('/:id', getSubscriptionById);
 router.get('/user-subscriptions', authMiddleware, getSubscriptionByUser)
+router.get('/:id', getSubscriptionById);
 module.exports = router;
