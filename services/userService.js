@@ -227,7 +227,7 @@ const googleAuthService = async ({
 const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email }).populate("role", "roleName");
   if (!user) {
-    throw new Error("User not exists.", 401);
+    throw new Error("User does not exist.", 401);
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
