@@ -358,14 +358,15 @@ const updateUser = async ({ fullName,
   }
   // ✅ Employer-specific validation
   if (roleName === "employer") {
-    if (organizationName?.trim()) userData.organizationName = organizationName.trim();
-    if (headquarters?.trim()) userData.headquarters = headquarters.trim();
-    if (organizationSize?.trim()) userData.organizationSize = organizationSize.trim();
-    if (founded?.trim()) userData.founded = founded.trim();
-    if (industry?.trim()) userData.industry = industry.trim();
-    if (organizationLinkedIn?.trim()) userData.organizationLinkedIn = organizationLinkedIn.trim();
-    if (organizationWebsite?.trim()) userData.organizationWebsite = organizationWebsite.trim();
+    userData.organizationName = organizationName?.trim() || "";
+    userData.headquarters = headquarters?.trim() || "";
+    userData.organizationSize = organizationSize?.trim() || "";
+    userData.founded = founded?.trim() || "";
+    userData.industry = industry?.trim() || "";
+    userData.organizationLinkedIn = organizationLinkedIn?.trim() || "";
+    userData.organizationWebsite = organizationWebsite?.trim() || "";
   }
+
   const user = await User.findByIdAndUpdate(
     userId,
     { $set: userData },

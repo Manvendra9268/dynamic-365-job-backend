@@ -129,7 +129,6 @@ const validateEditUser = [
   body("phoneNumber")
     .exists({ checkFalsy: true })
     .withMessage("Phone number is required.")
-    .isMobilePhone()
     .withMessage("Invalid phone number."),
 
   // Employer-specific validations
@@ -175,7 +174,6 @@ const validateGoogelUser = [
   body("phoneNumber")
     .exists({ checkFalsy: true })
     .withMessage("Phone number is required.")
-    .isMobilePhone()
     .withMessage("Invalid phone number."),
 
   // Employer-specific validations
@@ -217,10 +215,6 @@ const validateResetPassword = [
   body("oldPassword")
     .notEmpty()
     .withMessage("Old password is required"),
-
-  body("newPassword")
-    .isLength({ min: 8 })
-    .withMessage("New password must be at least 6 characters long"),
 ];
 
 const validatePagination = [
@@ -389,7 +383,6 @@ const validateSubscription = [
 const validateUserAndSubscribe = [
   body("fullName").notEmpty().withMessage("Full name is required"),
   body("email").isEmail().withMessage("Valid email is required"),
-  body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
   body("phoneNumber").notEmpty().withMessage("Phone number is required"),
   body("organizationName").notEmpty().withMessage("OrganizationName is required")
 ];
