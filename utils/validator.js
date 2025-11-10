@@ -14,9 +14,7 @@ const validateUser = [
   // Password
   body("password")
     .exists({ checkFalsy: true })
-    .withMessage("Password is required.")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters."),
+    .withMessage("Password is required."),
 
   // Full name — required for all roles
   body("fullName")
@@ -35,7 +33,6 @@ const validateUser = [
   body("phoneNumber")
     .exists({ checkFalsy: true })
     .withMessage("Phone number is required.")
-    .isMobilePhone()
     .withMessage("Invalid phone number."),
 
   // Employer-specific validations
@@ -45,41 +42,42 @@ const validateUser = [
     .exists({ checkFalsy: true })
     .withMessage("Organization name is required for employers."),
 
-  body("organizationSize")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isInt({ min: 1 })
-    .withMessage("Organization size must be a positive integer."),
+  // body("organizationSize")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .isInt({ min: 1 })
+  //   .withMessage("Organization size must be a positive integer."),
 
-  body("founded")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isInt({ min: 1000, max: new Date().getFullYear() })
-    .withMessage("Founded year must be a valid year."),
+  // body("founded")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .isInt({ min: 1000, max: new Date().getFullYear() })
+  //   .withMessage("Founded year must be a valid year."),
 
-  body("headquarters")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isString()
-    .trim(),
+  // body("headquarters")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .isString()
+  //   .trim(),
 
-  body("organizationLinkedIn")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization LinkedIn must be a valid URL."),
+  // body("organizationLinkedIn")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .isURL()
+  //   .withMessage("Organization LinkedIn must be a valid URL."),
 
-  body("organizationWebsite")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization Website must be a valid URL."),
+  // body("organizationWebsite")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .isURL()
+  //   .withMessage("Organization Website must be a valid URL."),
 
-  body("industry")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .exists({ checkFalsy: true })
-    .withMessage("Industry name is required for employers."),
+  // body("industry")
+  //   .if(body("role").equals("employer"))
+  //   .optional({ checkFalsy: true })
+  //   .exists({ checkFalsy: true })
+  //   .withMessage("Industry name is required for employers."),
+
   // jobseeker–specific validations
   body("areasOfInterest")
     .if(body("role").equals("jobseeker"))
@@ -217,60 +215,6 @@ const validateGoogelUser = [
     .exists({ checkFalsy: true })
     .withMessage("Organization name is required for employers."),
 
-  body("organizationSize")
-    .if(body("role").equals("employer"))
-    .isInt({ min: 1 })
-    .withMessage("Organization size must be a positive integer."),
-
-  body("founded")
-    .if(body("role").equals("employer"))
-    .isInt({ min: 1000, max: new Date().getFullYear() })
-    .withMessage("Founded year must be a valid year."),
-
-  body("headquarters")
-    .if(body("role").equals("employer"))
-    .isString()
-    .trim(),
-
-  body("organizationLinkedIn")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization LinkedIn must be a valid URL."),
-
-  body("organizationWebsite")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization Website must be a valid URL."),
-
-  body("industry")
-    .if(body("role").equals("employer"))
-    .exists({ checkFalsy: true })
-    .withMessage("Industry name is required for employers."),
-  // jobseeker–specific validations
-  body("areasOfInterest")
-    .if(body("role").equals("jobseeker"))
-    .isArray({ min: 1 })
-    .withMessage("jobseekers must select at least one area of interest."),
-
-  body("currentRole")
-    .if(body("role").equals("jobseeker"))
-    .optional()
-    .isString()
-    .trim(),
-
-  body("country")
-    .if(body("role").equals("jobseeker"))
-    .optional()
-    .isString()
-    .trim(),
-
-  body("contactSharing")
-    .if(body("role").equals("jobseeker"))
-    .optional()
-    .isBoolean()
-    .withMessage("Contact sharing must be a boolean."),
 ];
 
 const validateLogin = [
@@ -352,71 +296,74 @@ const validateJobRequest = [
     .withMessage('Job title is required.')
     .trim(),
 
-  body('workMode')
-    .optional()
-    .isIn(['Full-Time', 'Part-Time'])
-    .withMessage('Invalid workMode! Valid values: Full-Time, Part-Time.'),
-
-  body('jobType')
-    .optional()
-    .isIn(['Remote', 'Hybrid', 'Onsite'])
-    .withMessage('Invalid job type. Valid values: Remote, Hybrid, Onsite.'),
-
-  body('upperCompensation')
-    .optional()
-    .isNumeric()
-    .withMessage('Upper compensation must be a number.')
-    .custom((value, { req }) => {
-      if (req.body.lowerCompensation && value < req.body.lowerCompensation) {
-        throw new ApiError('Upper compensation must be greater than or equal to lower compensation.');
-      }
-      return true;
-    }),
-
-  body('lowerCompensation')
-    .optional()
-    .isNumeric()
-    .withMessage('Lower compensation must be a number.'),
-
-  body('roleLevel')
-    .optional()
-    .isIn(['Senior Level', 'Associate', 'Apprenticeship'])
-    .withMessage('Invalid role level.'),
-
-  body('roleDescription')
-    .optional()
-    .isString()
-    .trim(),
-
-  body('keyResponsibilities')
-    .optional()
-    .isArray()
-    .withMessage('Key responsibilities must be an array of strings.'),
-
-  body('requirements')
-    .optional()
-    .isArray()
-    .withMessage('Requirements must be an array of strings.'),
-
-  body('skills')
-    .optional()
-    .isArray()
-    .withMessage('Skills must be an array of strings.'),
-
-  body('country')
-    .optional()
-    .isString()
-    .trim(),
-
   body('applyLink')
-    .optional()
-    .isString()
+    .exists({ checkFalsy: true })
+    .withMessage('Job apply link is required.')
     .trim(),
+  body('companyHomePage')
+    .exists({ checkFalsy: true })
+    .withMessage('Company home page is required.')
+    .trim(),
+  // body('workMode')
+  //   .optional()
+  //   .isIn(['Full-Time', 'Part-Time'])
+  //   .withMessage('Invalid workMode! Valid values: Full-Time, Part-Time.'),
 
-  body('status')
-    .optional()
-    .isIn(['Active', 'In Review', 'Expired'])
-    .withMessage('Invalid job status'),
+  // body('jobType')
+  //   .optional()
+  //   .isIn(['Remote', 'Hybrid', 'Onsite'])
+  //   .withMessage('Invalid job type. Valid values: Remote, Hybrid, Onsite.'),
+
+  // body('upperCompensation')
+  //   .optional()
+  //   .isNumeric()
+  //   .withMessage('Upper compensation must be a number.')
+  //   .custom((value, { req }) => {
+  //     if (req.body.lowerCompensation && value < req.body.lowerCompensation) {
+  //       throw new ApiError('Upper compensation must be greater than or equal to lower compensation.');
+  //     }
+  //     return true;
+  //   }),
+
+  // body('lowerCompensation')
+  //   .optional()
+  //   .isNumeric()
+  //   .withMessage('Lower compensation must be a number.'),
+
+  // body('roleLevel')
+  //   .optional()
+  //   .isIn(['Senior Level', 'Associate', 'Apprenticeship'])
+  //   .withMessage('Invalid role level.'),
+
+  // body('roleDescription')
+  //   .optional()
+  //   .isString()
+  //   .trim(),
+
+  // body('keyResponsibilities')
+  //   .optional()
+  //   .isArray()
+  //   .withMessage('Key responsibilities must be an array of strings.'),
+
+  // body('requirements')
+  //   .optional()
+  //   .isArray()
+  //   .withMessage('Requirements must be an array of strings.'),
+
+  // body('skills')
+  //   .optional()
+  //   .isArray()
+  //   .withMessage('Skills must be an array of strings.'),
+
+  // body('country')
+  //   .optional()
+  //   .isString()
+  //   .trim(),
+
+  // body('status')
+  //   .optional()
+  //   .isIn(['Active', 'In Review', 'Expired'])
+  //   .withMessage('Invalid job status'),
 ];
 
 const validateJobUpdate = [
@@ -443,7 +390,7 @@ const validateJobUpdate = [
 ];
 
 const validateSubscription = [
-body('name')
+  body('name')
     .trim()
     .notEmpty().withMessage('Subscription name is required')
     .isString().withMessage('Subscription name must be a string'),

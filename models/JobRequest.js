@@ -11,6 +11,57 @@ const jobRequestSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        companyHomePage: {
+            type: String,
+            default: null,
+            required: true
+        },
+        companyLinkedInPage: {
+            type: String,
+            default: null,
+        },
+        applyLink: {
+            type: String,
+            default: null,
+            required: true
+        },
+        roleDescription: {
+            type: String,
+            default: null
+        },
+        applyClicks: {
+            type: Number,
+            default: 0
+        },
+        views: {
+            type: Number,
+            default: 0
+        },
+
+        // removed fields
+        keyResponsibilities: {
+            type: [String],
+            default: []
+        },
+        requirements: {
+            type: [String],
+            default: []
+        },
+        skills: {
+            type: [String],
+            default: []
+        },
+        country: {
+            type: String,
+            trim: true,
+            default: null
+        },
+
+        status: {
+            type: String,
+            enum: ['Active', 'In Review', 'Expired'],
+            default: 'In Review'
+        },
         workMode: {
             type: String,
             enum: ["Full-Time", "Part-Time"],
@@ -37,44 +88,6 @@ const jobRequestSchema = new mongoose.Schema(
             trim: true,
             default: 'Associate'
         },
-        roleDescription: {
-            type: String,
-            default: null
-        },
-        keyResponsibilities: {
-            type: [String],
-            default: []
-        },
-        requirements: {
-            type: [String],
-            default: []
-        },
-        skills: {
-            type: [String],
-            default: []
-        },
-        country: {
-            type: String,
-            trim: true,
-            default: null
-        },
-        applyLink: {
-            type: String,
-            default: null
-        },
-        status: {
-            type: String,
-            enum: ['Active', 'In Review', 'Expired'],
-            default: 'In Review'
-        },
-        applyClicks:{
-            type: Number,
-            default: 0
-        },
-        views:{
-            type: Number,
-            default: 0
-        }
     },
     { timestamps: true }
 );

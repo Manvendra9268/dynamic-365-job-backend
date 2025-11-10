@@ -201,7 +201,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserDetails = [
-  validateEditUser,
+  validateUser,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     let {
