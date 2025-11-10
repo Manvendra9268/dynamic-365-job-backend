@@ -138,37 +138,6 @@ const validateEditUser = [
     .exists({ checkFalsy: true })
     .withMessage("Organization name is required for employers."),
 
-  body("organizationSize")
-    .if(body("role").equals("employer"))
-    .isInt({ min: 1 })
-    .withMessage("Organization size must be a positive integer."),
-
-  body("founded")
-    .if(body("role").equals("employer"))
-    .isInt({ min: 1000, max: new Date().getFullYear() })
-    .withMessage("Founded year must be a valid year."),
-
-  body("headquarters")
-    .if(body("role").equals("employer"))
-    .isString()
-    .trim(),
-
-  body("organizationLinkedIn")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization LinkedIn must be a valid URL."),
-
-  body("organizationWebsite")
-    .if(body("role").equals("employer"))
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("Organization Website must be a valid URL."),
-
-  body("industry")
-    .if(body("role").equals("employer"))
-    .exists({ checkFalsy: true })
-    .withMessage("Industry name is required for employers."),
   // jobseeker–specific validations
   body("areasOfInterest")
     .if(body("role").equals("jobseeker"))

@@ -1,4 +1,5 @@
 const JobRequest = require("../models/JobRequest");
+const userSubscription = require("../models/userSubscription");
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
 
@@ -8,6 +9,10 @@ exports.createJobRequest = async (data) => {
     if (!data.employerId) {
       throw new ApiError("Missing employerId while creating job request", 400);
     }
+
+    const mappedSubscription = await userSubscription.findOne({userId: data.employerId})
+    mappedSubscription.usedCredits += 1
+    await mappedSubscription.save()
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
 

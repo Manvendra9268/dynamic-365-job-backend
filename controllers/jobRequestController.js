@@ -107,36 +107,28 @@ const postJobAndSubscribe = [
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const userId = req.user.id;
-    const isSubscription = await Subscription.findOne({
-      name: "Monthly Subscription",
-    });
-    if (!isSubscription) {
-      logger.error("Monthly Subscription not configured in DB.");
-      return res
-        .status(500)
-        .json({ message: "Monthly Subscription ot configured." });
-    }
+    const {planId} = req.body
     const jobData = {
       ...req.body,
       employerId: userId,
     };
-    const postJob = await jobRequestService.createJobRequest(jobData);
     //calculate date n credits
+    const subscription = await Subscription.findById(planId)
     const startDate = new Date();
-    const endDate = isSubscription.period
-      ? new Date(startDate.setDate(startDate.getDate() + isSubscription.period))
+    const endDate = subscription.period
+      ? new Date(startDate.setDate(startDate.getDate() + subscription.period))
       : null;
-    const totalCredits = isSubscription.totalCredits;
-    const usedCredits = 1;
+    const totalCredits = subscription.totalCredits;
+    const usedCredits = 0;
     const userSubscriptionRecord = await createMapping({
       userId: userId,
-      subscriptionId: isSubscription.id,
+      subscriptionId: subscription.id,
       startDate,
       endDate,
       totalCredits,
       usedCredits,
     });
-
+    const postJob = await jobRequestService.createJobRequest(jobData);
     logger.info(`Subscription activated and job posted for user ${userId}`);
     res.status(201).json({
       message: "Subscription activated and Job posted successfully.",
