@@ -82,7 +82,7 @@ const getUserJobs = asyncHandler(async (req, res) => {
 
 // update-jobs
 const updateJobDetails = [
-  validateJobUpdate,
+  validateJobRequest,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const jobId = req.params.id;
