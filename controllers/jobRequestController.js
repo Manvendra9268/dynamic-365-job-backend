@@ -33,7 +33,7 @@ const createJobRequest = [
 // Get All Job Requests
 const getAllJobRequests = asyncHandler(async (req, res) => {
   const filters = {
-    employerId: req.user?.id, //filter user posted jobs
+    status: req.query.status //filter user posted jobs
   };
   const jobRequests = await jobRequestService.getAllJobRequests(filters);
   res.status(200).json({

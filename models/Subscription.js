@@ -25,7 +25,6 @@ const subscriptionSchema = new mongoose.Schema({
     },
     period:{
         type: Number,
-        default: null
     }
 })
 

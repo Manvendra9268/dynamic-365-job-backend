@@ -34,10 +34,9 @@ exports.createJobRequest = async (data) => {
 exports.getAllJobRequests = async (filters = {}) => {
   try {
     const query = {};
-    if (filters.employerId) query.employerId = filters.employerId;
-
+    if (filters.status) query.status = filters.status
     const jobRequests = await JobRequest.find(query)
-      .populate("employerId", "name email")
+      .populate("employerId")
       .sort({ createdAt: -1 });
 
     logger.info(`Fetched ${jobRequests.length} job requests`, { filters });

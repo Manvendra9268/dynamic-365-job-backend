@@ -390,13 +390,14 @@ const softDeleteUser = async (id, deletedByUserId) => {
   return { message: "User deleted successfully", userId: id };
 };
 
-const createMapping = async ({ userId, subscriptionId, startDate, endDate, totalCredits }) => {
+const createMapping = async ({ userId, subscriptionId, startDate, endDate, totalCredits, usedCredits }) => {
   // find existing subscription for this user
   const existingRecord = await UserSubscription.findOne({ userId });
 
   if (existingRecord) {
     // just update total credits (add to existing)
     existingRecord.totalCredits = totalCredits;
+    existingRecord.usedCredits = usedCredits
     await existingRecord.save();
     return existingRecord;
   }
