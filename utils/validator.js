@@ -255,15 +255,18 @@ const validateOtpVerify = [
 
 const validateJobRequest = [
   body('jobTitle')
+    .optional()
     .exists({ checkFalsy: true })
     .withMessage('Job title is required.')
     .trim(),
 
   body('applyLink')
+    .optional()
     .exists({ checkFalsy: true })
     .withMessage('Job apply link is required.')
     .trim(),
   body('companyHomePage')
+    .optional()
     .exists({ checkFalsy: true })
     .withMessage('Company home page is required.')
     .trim(),
