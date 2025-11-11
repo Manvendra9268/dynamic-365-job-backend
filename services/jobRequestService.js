@@ -203,7 +203,7 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
       throw new ApiError(`Job not found with ID: ${jobId}`, 404);
     }
     const userRole = await User.findById(userId).populate("role");
-    console.log("roleName-----------", userRole.role.roleName);
+    //console.log("roleName-----------", userRole.role.roleName);
 
     if (userRole.role.roleName === "admin") {
       Object.assign(job, updateData);
