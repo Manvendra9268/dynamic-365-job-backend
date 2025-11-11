@@ -13,8 +13,7 @@ const jobRequestSchema = new mongoose.Schema(
         },
         companyHomePage: {
             type: String,
-            default: null,
-            required: true
+            default: null
         },
         companyLinkedInPage: {
             type: String,
@@ -23,7 +22,6 @@ const jobRequestSchema = new mongoose.Schema(
         applyLink: {
             type: String,
             default: null,
-            required: true
         },
         roleDescription: {
             type: String,
