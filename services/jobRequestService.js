@@ -34,16 +34,60 @@ exports.createJobRequest = async (data) => {
 };
 
 // Get all job requests (optionally filter by employerId)
-exports.getAllJobRequests = async (filters = {}) => {
+/*exports.getAllJobRequests = async (filters = {}) => {
   try {
     const query = {};
     if (filters.status) query.status = filters.status;
+    if (search) {
+      query.$or = [
+        { jobTitle: { $regex: search, $options: "i" } },
+        { roleDescription: { $regex: search, $options: "i" } },
+        //add for fullName
+        //add for organizationName
+      ];
+    }
     const jobRequests = await JobRequest.find(query)
-      .populate("employerId")
+      .populate("employerId", "fullName organizationName")
       .sort({ createdAt: -1 });
 
     logger.info(`Fetched ${jobRequests.length} job requests`, { filters });
     return jobRequests;
+  } catch (error) {
+    logger.error("Error fetching job requests", {
+      error: error.message,
+      stack: error.stack,
+    });
+    throw new ApiError("Failed to fetch job requests", 500);
+  }
+};*/
+
+exports.getAllJobRequests = async (filters = {}) => {
+  try {
+    const { status, search } = filters;
+    const query = {};
+
+    if (status) query.status = status;
+
+    const jobRequests = await JobRequest.find(query)
+      .populate("employerId")
+      .sort({ createdAt: -1 });
+
+    let filteredRequests = jobRequests;
+
+    if (search) {
+      const regex = new RegExp(search, "i");
+      filteredRequests = jobRequests.filter(
+        (jr) =>
+          regex.test(jr.jobTitle) ||
+          regex.test(jr.roleDescription) ||
+          (jr.employerId &&
+            (regex.test(jr.employerId.fullName) ||
+              regex.test(jr.employerId.organizationName)))
+      );
+    }
+
+    logger.info(`Fetched ${filteredRequests.length} job requests`, { filters });
+    return filteredRequests;
   } catch (error) {
     logger.error("Error fetching job requests", {
       error: error.message,
@@ -158,9 +202,9 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
     if (!job) {
       throw new ApiError(`Job not found with ID: ${jobId}`, 404);
     }
-    const userRole = await User.findById(userId).populate('role');
+    const userRole = await User.findById(userId).populate("role");
     console.log("roleName-----------", userRole.role.roleName);
-    
+
     if (userRole.role.roleName === "admin") {
       Object.assign(job, updateData);
       await job.save();
