@@ -1,4 +1,5 @@
 const JobRequest = require("../models/JobRequest");
+const User = require("../models/User");
 const userSubscription = require("../models/userSubscription");
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
@@ -10,9 +11,11 @@ exports.createJobRequest = async (data) => {
       throw new ApiError("Missing employerId while creating job request", 400);
     }
 
-    const mappedSubscription = await userSubscription.findOne({userId: data.employerId})
-    mappedSubscription.usedCredits += 1
-    await mappedSubscription.save()
+    const mappedSubscription = await userSubscription.findOne({
+      userId: data.employerId,
+    });
+    mappedSubscription.usedCredits += 1;
+    await mappedSubscription.save();
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
 
@@ -34,7 +37,7 @@ exports.createJobRequest = async (data) => {
 exports.getAllJobRequests = async (filters = {}) => {
   try {
     const query = {};
-    if (filters.status) query.status = filters.status
+    if (filters.status) query.status = filters.status;
     const jobRequests = await JobRequest.find(query)
       .populate("employerId")
       .sort({ createdAt: -1 });
@@ -114,19 +117,20 @@ exports.getUserPostedJobs = async ({
 
   // Add date range filter if provided
   if (startDate || endDate) {
-  query.createdAt = {};
+    query.createdAt = {};
 
-  if (startDate && startDate !== "null" && !isNaN(new Date(startDate))) {
-    query.createdAt.$gte = new Date(startDate);
+    if (startDate && startDate !== "null" && !isNaN(new Date(startDate))) {
+      query.createdAt.$gte = new Date(startDate);
+    }
+
+    if (endDate && endDate !== "null" && !isNaN(new Date(endDate))) {
+      query.createdAt.$lte = new Date(endDate);
+    }
+
+    if (Object.keys(query.createdAt).length === 0) {
+      delete query.createdAt;
+    }
   }
-
-  if (endDate && endDate !== "null" && !isNaN(new Date(endDate))) {
-    query.createdAt.$lte = new Date(endDate);
-  }
-
-  if (Object.keys(query.createdAt).length === 0) {
-    delete query.createdAt;
-  }}
   // Get total count for pagination
   const totalJobs = await JobRequest.countDocuments(query);
   const totalPages = Math.ceil(totalJobs / limitNumber);
@@ -154,16 +158,23 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
     if (!job) {
       throw new ApiError(`Job not found with ID: ${jobId}`, 404);
     }
-    //Check if logged-in employer owns the job
-    if (job.employerId.toString() !== userId.toString()) {
-      throw new ApiError(
-        "Unauthorized: You can only update your own job postings.",
-        403
-      );
+    const userRole = await User.findById(userId).populate('role');
+    console.log("roleName-----------", userRole.role.roleName);
+    
+    if (userRole.role.roleName === "admin") {
+      Object.assign(job, updateData);
+      await job.save();
+    } else {
+      //Check if logged-in employer owns the job
+      if (job.employerId.toString() !== userId.toString()) {
+        throw new ApiError(
+          "Unauthorized: You can only update your own job postings.",
+          403
+        );
+      }
+      Object.assign(job, updateData);
+      await job.save();
     }
-    //Apply updates
-    Object.assign(job, updateData);
-    await job.save();
 
     logger.info(`Job details updated successfully`, {
       jobId,
@@ -187,7 +198,7 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
 };
 
 exports.editJobDetailsByAdmin = async (jobData, jobId) => {
-   try {
+  try {
     const job = await JobRequest.findById(jobId);
     if (!job) {
       throw new ApiError(`Job not found with ID: ${jobId}`, 404);
@@ -212,5 +223,5 @@ exports.editJobDetailsByAdmin = async (jobData, jobId) => {
       error.status || 500,
       error.message
     );
-   }
-}
+  }
+};
