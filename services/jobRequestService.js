@@ -186,3 +186,31 @@ exports.editJobDetails = async (jobId, userId, updateData) => {
   }
 };
 
+exports.editJobDetailsByAdmin = async (jobData, jobId) => {
+   try {
+    const job = await JobRequest.findById(jobId);
+    if (!job) {
+      throw new ApiError(`Job not found with ID: ${jobId}`, 404);
+    }
+    //Apply updates
+    Object.assign(job, jobData);
+    await job.save();
+
+    logger.info(`Job details updated successfully`, {
+      jobId,
+      updatedFields: Object.keys(jobData),
+    });
+    return job;
+  } catch (error) {
+    logger.error("Error updating job details", {
+      jobId,
+      error: error.message,
+      stack: error.stack,
+    });
+    throw new ApiError(
+      "Failed to update job details",
+      error.status || 500,
+      error.message
+    );
+   }
+}

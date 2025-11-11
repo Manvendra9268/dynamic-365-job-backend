@@ -88,6 +88,9 @@ const jobRequestSchema = new mongoose.Schema(
             trim: true,
             default: 'Associate'
         },
+        salary:{
+            type: String
+        }
     },
     { timestamps: true }
 );

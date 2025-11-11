@@ -102,6 +102,22 @@ const updateJobDetails = [
   }),
 ];
 
+const updateJobDetailsByAdmin = [
+  asyncHandler(async (req, res) => {
+    const jobData = req.body
+    const jobId = req.params.id;
+    const updatedJob = await jobRequestService.editJobDetailsByAdmin(
+      jobData,
+      jobId
+    );
+
+    res.status(200).json({
+      message: "Job details updated successfully",
+      data: updatedJob,
+    });
+  }),
+];
+
 const postJobAndSubscribe = [
   validateJobRequest,
   handleValidationErrors,
@@ -145,4 +161,5 @@ module.exports = {
   getUserJobs,
   updateJobDetails,
   postJobAndSubscribe,
+  updateJobDetailsByAdmin
 };
