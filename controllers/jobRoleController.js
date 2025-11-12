@@ -18,8 +18,17 @@ const createJobRole = [
   }),
 ];
 
-
+const getAllJobRoles = [
+  asyncHandler(async (req, res) => {
+    const alljobs = await jobRoleService.getAllJobRole();
+    res.status(200).json({
+      message: "All jobRoles fetched.",
+      data: alljobs,
+    })
+  })
+];
 
 module.exports = {
   createJobRole,
+  getAllJobRoles
 };
