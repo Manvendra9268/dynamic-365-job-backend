@@ -33,35 +33,7 @@ exports.createJobRequest = async (data) => {
   }
 };
 
-// Get all job requests (optionally filter by employerId)
-/*exports.getAllJobRequests = async (filters = {}) => {
-  try {
-    const query = {};
-    if (filters.status) query.status = filters.status;
-    if (search) {
-      query.$or = [
-        { jobTitle: { $regex: search, $options: "i" } },
-        { roleDescription: { $regex: search, $options: "i" } },
-        //add for fullName
-        //add for organizationName
-      ];
-    }
-    const jobRequests = await JobRequest.find(query)
-      .populate("employerId", "fullName organizationName")
-      .sort({ createdAt: -1 });
-
-    logger.info(`Fetched ${jobRequests.length} job requests`, { filters });
-    return jobRequests;
-  } catch (error) {
-    logger.error("Error fetching job requests", {
-      error: error.message,
-      stack: error.stack,
-    });
-    throw new ApiError("Failed to fetch job requests", 500);
-  }
-};*/
-
-exports.getAllJobRequests = async (filters = {}) => {
+exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) => {
   try {
     const { status, search } = filters;
     const query = {};
@@ -86,8 +58,23 @@ exports.getAllJobRequests = async (filters = {}) => {
       );
     }
 
-    logger.info(`Fetched ${filteredRequests.length} job requests`, { filters });
-    return filteredRequests;
+    const totalJobs = filteredRequests.length;
+    const totalPages = Math.ceil(totalJobs / limitNumber);
+    const startIndex = (pageNumber - 1) * limitNumber;
+    const endIndex = startIndex + limitNumber;
+    const jobs = filteredRequests.slice(startIndex, endIndex);
+
+    logger.info(`Fetched ${jobs.length} job requests`, { filters });
+
+    return {
+      data: jobs,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages,
+        totalItems: totalJobs,
+        limitNumber,
+      },
+    };
   } catch (error) {
     logger.error("Error fetching job requests", {
       error: error.message,
