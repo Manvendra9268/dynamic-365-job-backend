@@ -25,3 +25,18 @@ exports.createJobRole = async (data) => {
     throw new ApiError("Failed to create job role", 500, error.message);
   }
 };
+
+
+exports.getAllJobRole = async () => {
+  try {
+    const roles = await JobRole.find().sort({ createdAt: -1 });
+    logger.info("Fetched all job roles.");
+    return roles;
+  } catch (error) {
+    logger.error("Error fetching job roles", {
+      error: error.message,
+      stack: error.stack,
+    });
+    throw new ApiError("Failed to fetch job roles", 500, error.message);
+  }
+}
