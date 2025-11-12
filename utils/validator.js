@@ -211,6 +211,16 @@ const validateSubscriptionId = [
     .withMessage("Invalid subscription ID."),
 ];
 
+const validateJobRole = [
+  body("name")
+    .exists({ checkFalsy: true })
+    .withMessage("Job role name is required.")
+    .isString()
+    .withMessage("Job role name must be a string.")
+    .isLength({ min: 2 })
+    .withMessage("Job role name must be at least 2 characters long."),
+];
+
 const validateResetPassword = [
   body("oldPassword")
     .notEmpty()
@@ -265,11 +275,21 @@ const validateJobRequest = [
     .exists({ checkFalsy: true })
     .withMessage('Job apply link is required.')
     .trim(),
+
   body('companyHomePage')
     .optional()
     .exists({ checkFalsy: true })
     .withMessage('Company home page is required.')
     .trim(),
+
+  body('jobRole')
+    .optional()
+    .exists({ checkFalsy: true })
+    .withMessage("JobRole ID is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid JobRole ID."),
+    
   // body('workMode')
   //   .optional()
   //   .isIn(['Full-Time', 'Part-Time'])
@@ -339,6 +359,14 @@ const validateJobUpdate = [
     .bail()
     .isMongoId()
     .withMessage("Invalid Job ID format."),
+
+  body('jobRole')
+    .optional()
+    .exists({ checkFalsy: true })
+    .withMessage("JobRole ID is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid JobRole ID."),
 
   body("jobTitle").optional().isString().trim().notEmpty().withMessage("Job title must be a non-empty string."),
   body("workMode").optional().isIn(["Full-Time", "Part-Time"]).withMessage("Invalid work mode."),
@@ -454,6 +482,7 @@ module.exports = {
   validateUserId,
   validateSubscriptionId,
   validatePagination,
+  validateJobRole,
   validateOtpGenerate,
   validateOtpVerify,
   validateResetPassword,

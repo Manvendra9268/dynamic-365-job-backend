@@ -8,6 +8,7 @@ const logger = require('./utils/logger');
 const userRoutes = require('./routes/userRoutes');
 const jobRequestRoute = require('./routes/jobRequestRoute');
 const subscriptionRoute = require('./routes/subscriptionRoute');
+const jobRoleRoute = require('./routes/jobRoleRoutes');
 
 const app = express();
 const path = require("path");
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/jobs', jobRequestRoute);
 app.use('/api/v1/subs', subscriptionRoute);
+app.use('/api/v1/jobRole', jobRoleRoute);
 
 // Health Check
 app.get('/health', (req, res) => {

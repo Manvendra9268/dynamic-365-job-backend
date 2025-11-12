@@ -1,8 +1,10 @@
 const JobRequest = require("../models/JobRequest");
 const User = require("../models/User");
 const userSubscription = require("../models/userSubscription");
+const JobRole = require('../models/jobRole');
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
+const mongoose = require('mongoose');
 
 //new job request
 exports.createJobRequest = async (data) => {
@@ -10,20 +12,27 @@ exports.createJobRequest = async (data) => {
     if (!data.employerId) {
       throw new ApiError("Missing employerId while creating job request", 400);
     }
-
+    if (!data.jobRole) throw new ApiError("Job role is required", 400);
+    const existingJobRole = await JobRole.findById(data.jobRole);
+    if (!existingJobRole) throw new ApiError("Invalid Job Role ID", 400);
     const mappedSubscription = await userSubscription.findOne({
       userId: data.employerId,
     });
+    if (!mappedSubscription) throw new ApiError("No active subscription found", 400);
+
     mappedSubscription.usedCredits += 1;
     await mappedSubscription.save();
+    logger.info(`Subscription credit updated for user ${data.employerId}: usedCredits = ${mappedSubscription.usedCredits}`);
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
+    const populatedRequest = await jobRequest.populate("jobRole");
 
     logger.info(`New job request created`, {
       employerId: data.employerId,
       jobTitle: data.jobTitle,
+      jobRole: data.jobRole,
     });
-    return jobRequest;
+    return populatedRequest;
   } catch (error) {
     logger.error("Error creating job request", {
       error: error.message,
@@ -35,13 +44,22 @@ exports.createJobRequest = async (data) => {
 
 exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) => {
   try {
-    const { status, search } = filters;
+    const { status, search, jobRole, workMode, country } = filters;
     const query = {};
 
     if (status) query.status = status;
+    if (workMode) query.workMode = workMode;
+    if (country) query.country = country;
+    if (jobRole) {
+      if (!mongoose.Types.ObjectId.isValid(jobRole)) {
+        throw new ApiError("Invalid Job Role ID in filter", 400);
+      }
+      query.jobRole = jobRole;
+    }
 
     const jobRequests = await JobRequest.find(query)
       .populate("employerId")
+      .populate("jobRole", "name")
       .sort({ createdAt: -1 });
 
     let filteredRequests = jobRequests;
@@ -87,10 +105,9 @@ exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) =
 // Get job request by ID
 exports.getJobRequestById = async (id) => {
   try {
-    const jobRequest = await JobRequest.findById(id).populate(
-      "employerId",
-      "name email"
-    );
+    const jobRequest = await JobRequest.findById(id)
+    .populate("employerId")
+    .populate("jobRole", "name");
 
     if (!jobRequest) {
       logger.warn(`Job request not found for ID: ${id}`);
@@ -170,7 +187,8 @@ exports.getUserPostedJobs = async ({
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limitNumber)
-    .populate("employerId", "fullName email organizationName");
+    .populate("employerId", "fullName email organizationName")
+    .populate("jobRole", "name");
 
   return {
     jobs,
