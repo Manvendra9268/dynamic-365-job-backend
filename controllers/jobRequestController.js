@@ -36,10 +36,12 @@ const getAllJobRequests = asyncHandler(async (req, res) => {
     status: req.query.status, //filter user posted jobs
     search: req.query.search
   };
-  const jobRequests = await jobRequestService.getAllJobRequests(filters);
+  const pageNumber = parseInt(req.query.page, 10) || 1;
+  const limitNumber = parseInt(req.query.limit, 10) || 10;
+  const jobRequests = await jobRequestService.getAllJobRequests(filters, pageNumber, limitNumber);
   res.status(200).json({
     message: "Job requests fetched successfully",
-    data: jobRequests,
+    ...jobRequests,
   });
 });
 
