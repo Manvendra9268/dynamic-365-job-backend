@@ -33,8 +33,11 @@ const createJobRequest = [
 // Get All Job Requests
 const getAllJobRequests = asyncHandler(async (req, res) => {
   const filters = {
-    status: req.query.status, //filter user posted jobs
-    search: req.query.search
+    status: req.query.status,
+    search: req.query.search,
+    jobRole: req.query.jobRole,
+    workMode: req.query.workMode,
+    country: req.query.country
   };
   const pageNumber = parseInt(req.query.page, 10) || 1;
   const limitNumber = parseInt(req.query.limit, 10) || 10;
