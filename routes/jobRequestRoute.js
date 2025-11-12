@@ -5,9 +5,9 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 
 router.post('/new', authMiddleware, createJobRequest);
 router.post('/sub-post', authMiddleware, postJobAndSubscribe);
-router.get('/jobs', authMiddleware, getAllJobRequests);
+router.get('/jobs', getAllJobRequests);
 router.get('/my-jobs', authMiddleware, getUserJobs);
-router.get('/:id', authMiddleware, getJobRequestById);
+router.get('/:id', getJobRequestById);
 router.put('/:id', authMiddleware, updateJobDetails);
 router.put('/admin-update-job/:id',authMiddleware,updateJobDetailsByAdmin)
 
