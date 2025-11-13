@@ -1,10 +1,8 @@
 const JobRequest = require("../models/JobRequest");
 const User = require("../models/User");
 const userSubscription = require("../models/userSubscription");
-const JobRole = require('../models/jobRole');
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
-const mongoose = require('mongoose');
 
 //new job request
 exports.createJobRequest = async (data) => {
@@ -12,9 +10,6 @@ exports.createJobRequest = async (data) => {
     if (!data.employerId) {
       throw new ApiError("Missing employerId while creating job request", 400);
     }
-    if (!data.jobRole) throw new ApiError("Job role is required", 400);
-    const existingJobRole = await JobRole.findById(data.jobRole);
-    if (!existingJobRole) throw new ApiError("Invalid Job Role ID", 400);
     const mappedSubscription = await userSubscription.findOne({
       userId: data.employerId,
     });
@@ -25,14 +20,12 @@ exports.createJobRequest = async (data) => {
     logger.info(`Subscription credit updated for user ${data.employerId}: usedCredits = ${mappedSubscription.usedCredits}`);
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
-    const populatedRequest = await jobRequest.populate("jobRole");
 
     logger.info(`New job request created`, {
       employerId: data.employerId,
-      jobTitle: data.jobTitle,
-      jobRole: data.jobRole,
+      jobTitle: data.jobTitle
     });
-    return populatedRequest;
+    return jobRequest;
   } catch (error) {
     logger.error("Error creating job request", {
       error: error.message,
@@ -50,16 +43,10 @@ exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) =
     if (status) query.status = status;
     if (workMode) query.workMode = workMode;
     if (country) query.country = country;
-    if (jobRole) {
-      if (!mongoose.Types.ObjectId.isValid(jobRole)) {
-        throw new ApiError("Invalid Job Role ID in filter", 400);
-      }
-      query.jobRole = jobRole;
-    }
+    if (jobRole) query.jobRole = jobRole;
 
     const jobRequests = await JobRequest.find(query)
       .populate("employerId")
-      .populate("jobRole", "name")
       .sort({ createdAt: -1 });
 
     let filteredRequests = jobRequests;
@@ -70,6 +57,8 @@ exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) =
         (jr) =>
           regex.test(jr.jobTitle) ||
           regex.test(jr.roleDescription) ||
+          regex.test(jr.jobRole) ||
+          regex.test(jr.otherRole) ||
           (jr.employerId &&
             (regex.test(jr.employerId.fullName) ||
               regex.test(jr.employerId.organizationName)))
@@ -107,7 +96,6 @@ exports.getJobRequestById = async (id) => {
   try {
     const jobRequest = await JobRequest.findById(id)
     .populate("employerId")
-    .populate("jobRole", "name");
 
     if (!jobRequest) {
       logger.warn(`Job request not found for ID: ${id}`);
@@ -179,6 +167,7 @@ exports.getUserPostedJobs = async ({
       delete query.createdAt;
     }
   }
+  
   // Get total count for pagination
   const totalJobs = await JobRequest.countDocuments(query);
   const totalPages = Math.ceil(totalJobs / limitNumber);
