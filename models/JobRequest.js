@@ -12,9 +12,12 @@ const jobRequestSchema = new mongoose.Schema(
             required: true
         },
         jobRole: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobRole',
+            type: String,
             required: true
+        },
+        otherRole: {
+            type: String,
+            default: null
         },
         companyHomePage: {
             type: String,

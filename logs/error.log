@@ -407,3 +407,110 @@ Stack Trace:
       at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-13 11:03:06] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 13:23:54] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 13:23:57] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 13:24:02] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 13:24:04] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 13:24:06] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
+      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-13 16:29:15] error: Error 400: Validation failed
+Method: PUT
+Path: /api/v1/jobs/6915b36cf1c19233342cd9bf
+Meta:
+{
+  "status": 400,
+  "details": [
+    {
+      "field": "jobRole",
+      "message": "Invalid JobRole ID."
+    }
+  ]
+}
+Stack Trace:
+  Error: Validation failed
+      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:469:17)
+      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
+      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
+      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+

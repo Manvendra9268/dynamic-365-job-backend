@@ -18,7 +18,7 @@ const createJobRequest = [
   asyncHandler(async (req, res) => {
     const jobData = {
       ...req.body,
-      employerId: req.user.id, // ✅ derived from token
+      employerId: req.user.id,
     };
 
     const jobRequest = await jobRequestService.createJobRequest(jobData);

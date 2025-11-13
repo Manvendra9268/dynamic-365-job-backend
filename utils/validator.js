@@ -283,12 +283,8 @@ const validateJobRequest = [
     .trim(),
 
   body('jobRole')
-    .optional()
     .exists({ checkFalsy: true })
-    .withMessage("JobRole ID is required.")
-    .bail()
-    .isMongoId()
-    .withMessage("Invalid JobRole ID."),
+    .withMessage("JobRole is required."),
     
   // body('workMode')
   //   .optional()
@@ -363,10 +359,8 @@ const validateJobUpdate = [
   body('jobRole')
     .optional()
     .exists({ checkFalsy: true })
-    .withMessage("JobRole ID is required.")
-    .bail()
-    .isMongoId()
-    .withMessage("Invalid JobRole ID."),
+    .isString()
+    .withMessage("JobRole is required."),
 
   body("jobTitle").optional().isString().trim().notEmpty().withMessage("Job title must be a non-empty string."),
   body("workMode").optional().isIn(["Full-Time", "Part-Time"]).withMessage("Invalid work mode."),
