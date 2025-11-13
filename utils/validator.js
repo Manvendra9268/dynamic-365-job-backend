@@ -181,6 +181,30 @@ const validateGoogelUser = [
     .if(body("role").equals("employer"))
     .exists({ checkFalsy: true })
     .withMessage("Organization name is required for employers."),
+  
+    // jobseeker–specific validations
+  body("areasOfInterest")
+    .if(body("role").equals("jobseeker"))
+    .isArray({ min: 1 })
+    .withMessage("jobseekers must select at least one area of interest."),
+
+  body("currentRole")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
+  body("country")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
+  body("contactSharing")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isBoolean()
+    .withMessage("Contact sharing must be a boolean."),
 
 ];
 
