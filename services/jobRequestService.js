@@ -1,5 +1,6 @@
 const JobRequest = require("../models/JobRequest");
 const User = require("../models/User");
+const Role = require("../models/Role");
 const userSubscription = require("../models/userSubscription");
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
@@ -13,17 +14,20 @@ exports.createJobRequest = async (data) => {
     const mappedSubscription = await userSubscription.findOne({
       userId: data.employerId,
     });
-    if (!mappedSubscription) throw new ApiError("No active subscription found", 400);
+    if (!mappedSubscription)
+      throw new ApiError("No active subscription found", 400);
 
     mappedSubscription.usedCredits += 1;
     await mappedSubscription.save();
-    logger.info(`Subscription credit updated for user ${data.employerId}: usedCredits = ${mappedSubscription.usedCredits}`);
+    logger.info(
+      `Subscription credit updated for user ${data.employerId}: usedCredits = ${mappedSubscription.usedCredits}`
+    );
     const jobRequest = new JobRequest(data);
     await jobRequest.save();
 
     logger.info(`New job request created`, {
       employerId: data.employerId,
-      jobTitle: data.jobTitle
+      jobTitle: data.jobTitle,
     });
     return jobRequest;
   } catch (error) {
@@ -35,12 +39,20 @@ exports.createJobRequest = async (data) => {
   }
 };
 
-exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) => {
+exports.getAllJobRequests = async (
+  filters = {},
+  pageNumber = 1,
+  limitNumber = 10
+) => {
   try {
     const { status, search, jobRole, workMode, country } = filters;
     const query = {};
 
-    if (status) query.status = status;
+    if (
+      status &&
+      ["Active", "In Review", "Expired", "Rejected"].includes(status)
+    )
+      query.status = status;
     if (workMode) query.workMode = workMode;
     if (country) query.country = country;
     if (jobRole) query.jobRole = jobRole;
@@ -94,8 +106,7 @@ exports.getAllJobRequests = async (filters = {}, pageNumber=1, limitNumber=10) =
 // Get job request by ID
 exports.getJobRequestById = async (id) => {
   try {
-    const jobRequest = await JobRequest.findById(id)
-    .populate("employerId")
+    const jobRequest = await JobRequest.findById(id).populate("employerId");
 
     if (!jobRequest) {
       logger.warn(`Job request not found for ID: ${id}`);
@@ -147,7 +158,10 @@ exports.getUserPostedJobs = async ({
   }
 
   // Add status filter if provided
-  if (status && ["Active", "In Review", "Expired"].includes(status)) {
+  if (
+    status &&
+    ["Active", "In Review", "Expired", "Rejected"].includes(status)
+  ) {
     query.status = status;
   }
 
@@ -167,7 +181,7 @@ exports.getUserPostedJobs = async ({
       delete query.createdAt;
     }
   }
-  
+
   // Get total count for pagination
   const totalJobs = await JobRequest.countDocuments(query);
   const totalPages = Math.ceil(totalJobs / limitNumber);
@@ -262,4 +276,40 @@ exports.editJobDetailsByAdmin = async (jobData, jobId) => {
       error.message
     );
   }
+};
+
+exports.getAdminDashboardStats = async () => {
+  // Get start of current month
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  // ----- JOB COUNTS -----
+  const totalJobs = await JobRequest.countDocuments();
+  const activeJobs = await JobRequest.countDocuments({ status: "Active" });
+  const inactiveJobs = await JobRequest.countDocuments({ status: "Expired" });
+
+  // ----- USER COUNTS -----
+  const employerRole = await Role.findOne({ roleName: "employer" });
+  const jobSeekerRole = await Role.findOne({ roleName: "jobseeker" });
+
+  const newEmployers = await User.countDocuments({
+    role: employerRole.id,
+    deleted: false,
+    createdAt: { $gte: startOfMonth },
+  });
+
+  const newJobSeekers = await User.countDocuments({
+    role: jobSeekerRole.id,
+    deleted: false,
+    createdAt: { $gte: startOfMonth },
+  });
+
+  return {
+    totalJobs,
+    activeJobs,
+    inactiveJobs,
+    newEmployers,
+    newJobSeekers,
+  };
 };

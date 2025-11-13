@@ -60,8 +60,12 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    currentRole: {   //otherRoleName
+    currentRole: {
       type: String,
+    },
+    otherRole: {
+      type: String,
+      default: null
     },
     country: {
       type: String,

@@ -160,6 +160,16 @@ const postJobAndSubscribe = [
   }),
 ];
 
+const getAdminDashboardStats = [
+  asyncHandler(async (req, res) => {
+    const stats = await jobRequestService.getAdminDashboardStats();
+    res.status(200).json({
+      message: "Admin dashboard stats fetched successfully",
+      data: stats,
+    });
+  })
+]
+
 module.exports = {
   createJobRequest,
   getAllJobRequests,
@@ -167,5 +177,6 @@ module.exports = {
   getUserJobs,
   updateJobDetails,
   postJobAndSubscribe,
-  updateJobDetailsByAdmin
+  updateJobDetailsByAdmin,
+  getAdminDashboardStats
 };
