@@ -90,6 +90,12 @@ const validateUser = [
     .isString()
     .trim(),
 
+  body("otherRole")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
   body("country")
     .if(body("role").equals("jobseeker"))
     .optional()
@@ -144,6 +150,12 @@ const validateEditUser = [
     .withMessage("jobseekers must select at least one area of interest."),
 
   body("currentRole")
+    .if(body("role").equals("jobseeker"))
+    .optional()
+    .isString()
+    .trim(),
+
+  body("otherRole")
     .if(body("role").equals("jobseeker"))
     .optional()
     .isString()
@@ -398,7 +410,7 @@ const validateJobUpdate = [
   body("skills").optional().isArray().withMessage('Skills must be an array of strings.'),
   body("country").optional().isString(),
   body("applyLink").optional().isString(),
-  body("status").optional().isIn(["Active", "In Review", "Expired"]).withMessage('Invalid job status'),
+  body("status").optional().isIn(["Active", "In Review", "Expired", "Rejected"]).withMessage('Invalid job status'),
 ];
 
 const validateSubscription = [

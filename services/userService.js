@@ -23,6 +23,7 @@ const createUser = async ({
   phoneNumber,
   areasOfInterest,
   currentRole,
+  otherRole,
   country,
   contactSharing,
   industry,
@@ -82,6 +83,7 @@ const createUser = async ({
 
     userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
     if (currentRole) userData.currentRole = currentRole.trim();
+    if (otherRole) userData.otherRole = otherRole.trim();
     if (country) userData.country = country.trim();
   }
 
@@ -110,6 +112,7 @@ const googleAuthService = async ({
   phoneNumber,
   areasOfInterest,
   currentRole,
+  otherRole,
   country,
   contactSharing,
   access_token,
@@ -181,6 +184,7 @@ const googleAuthService = async ({
 
       userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
       if (currentRole) userData.currentRole = currentRole.trim();
+      if (otherRole) userData.otherRole = otherRole.trim();
       if (country) userData.country = country.trim();
     }
 
@@ -267,18 +271,12 @@ const resetPasswordService = async (userId, oldPassword, newPassword) => {
     logger.error(`User not found for ID: ${userId}`);
     throw new Error("User not found", 404);
   }
-
   // Verify old password
   const isMatch = await bcrypt.compare(oldPassword, user.password);
   if (!isMatch) {
     logger.warn(`Invalid old password for user ID: ${userId}`);
     throw new Error("Old password is incorrect", 400);
   }
-
-  // Hash new password
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-
   user.password = newPassword;
   await user.save();
 
@@ -315,6 +313,7 @@ const updateUser = async ({ fullName,
   phoneNumber,
   areasOfInterest,
   currentRole,
+  otherRole,
   country,
   contactSharing,
   industry,
@@ -365,6 +364,19 @@ const updateUser = async ({ fullName,
     userData.industry = industry?.trim() || "";
     userData.organizationLinkedIn = organizationLinkedIn?.trim() || "";
     userData.organizationWebsite = organizationWebsite?.trim() || "";
+  }
+  // ✅ Jobseeker-specific validation
+  if (roleName === "jobseeker") {
+    if (!Array.isArray(areasOfInterest) || areasOfInterest.length === 0) {
+      const error = new Error("Please select at least one area of interest.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
+    if (currentRole) userData.currentRole = currentRole.trim();
+    if (otherRole) userData.otherRole = otherRole.trim();
+    if (country) userData.country = country.trim();
   }
 
   const user = await User.findByIdAndUpdate(
