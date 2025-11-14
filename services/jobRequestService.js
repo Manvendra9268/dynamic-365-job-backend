@@ -288,6 +288,9 @@ exports.getAdminDashboardStats = async () => {
   const totalJobs = await JobRequest.countDocuments();
   const activeJobs = await JobRequest.countDocuments({ status: "Active" });
   const inactiveJobs = await JobRequest.countDocuments({ status: "Expired" });
+  const jobsAddedThisMonth = await JobRequest.countDocuments({
+    createdAt: { $gte: startOfMonth },
+  });
 
   // ----- USER COUNTS -----
   const employerRole = await Role.findOne({ roleName: "employer" });
@@ -307,6 +310,7 @@ exports.getAdminDashboardStats = async () => {
 
   return {
     totalJobs,
+    jobsAddedThisMonth,
     activeJobs,
     inactiveJobs,
     newEmployers,
