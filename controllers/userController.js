@@ -20,6 +20,7 @@ const {
   googleLoginService,
   resetPasswordService,
   createMapping,
+  getAllUsersService
 } = require("../services/userService");
 
 const Role = require("../models/Role");
@@ -196,6 +197,20 @@ const userLogin = [
   }),
 ];
 
+const getAllUsers = [
+  asyncHandler(async (req, res) => {
+    const userType = req.user.role.roleName;
+    const { roleName, page = 1, limit = 10 } = req.query;
+    pageNumber = parseInt(page);
+    limitNumber = parseInt(limit);
+    const result = await getAllUsersService(userType, roleName, pageNumber, limitNumber);
+    res.status(200).json({
+    message: "Users fetched successfully",
+    data: result,
+    });
+  }),
+];
+
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await getUserById(req.user.id, req.user);
   res.status(200).json({
@@ -347,6 +362,7 @@ module.exports = {
   registerUser,
   userLogin,
   getUserProfile,
+  getAllUsers,
   updateUserDetails,
   deleteUserAccount,
   googleAuth,
