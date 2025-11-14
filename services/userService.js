@@ -284,6 +284,49 @@ const resetPasswordService = async (userId, oldPassword, newPassword) => {
   return { message: "Password updated successfully." };
 };
 
+const getAllUsersService = async (userType, roleName, pageNumber, limitNumber) => {
+  try {
+    // ADMIN CHECK
+    if (userType !== "admin") {
+      logger.warn(`${userType} attempted to access all-users without admin rights`);
+      throw new Error("Access denied: Admin only", 403);
+    }
+
+    const query = { deleted: false };
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Role filter
+    if (roleName) {
+      const role = await Role.findOne({ roleName: roleName.toLowerCase() });
+      if (!role) throw new Error(`Role not found`, 404);
+      query.role = role._id;
+    }
+
+    const users = await User.find(query)
+      .populate("role", "roleName")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNumber);
+
+    const total = await User.countDocuments(query);
+    const totalPages = Math.ceil(total / limitNumber)
+    logger.info("Admin fetched users list");
+
+    return {
+      users,
+      pagination: {
+      currentPage: pageNumber,
+      totalPages,
+      totalItems: total,
+      limitNumber,
+      },
+    };
+  } catch (error) {
+    logger.error("Error fetching users:", error);
+    throw new Error(error.message || "Failed to fetch users", 500);
+  }
+};
+
 const getUserById = async (userId, requestingUser) => {
   const user = await User.findOne({ _id: userId }).populate("role", "roleName");
   if (!user) {
@@ -454,7 +497,8 @@ module.exports = {
   resetPasswordService,
   softDeleteUser,
   updateUser,
-  createMapping
+  createMapping,
+  getAllUsersService
   // updateUser,
 };
 
