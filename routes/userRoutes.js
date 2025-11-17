@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, userLogin, getUserProfile, googleAuth, googleLogin, deleteUserAccount, resetUserPassword, updateUserDetails, userSubscribeAndRegister, getAllUsers} = require('../controllers/userController');
+const { registerUser, userLogin, getUserProfile, googleAuth, googleLogin, deleteUserAccount, resetUserPassword, updateUserDetails, userSubscribeAndRegister, getAllUsers, updateUserByAdmin} = require('../controllers/userController');
 
 const { authMiddleware } = require('../middleware/authMiddleware');
 const multer = require('multer');
@@ -22,6 +22,7 @@ router.post('/sub-reg', userSubscribeAndRegister);
 router.get('/all-users', authMiddleware, getAllUsers);
 router.get('/my-profile', authMiddleware, getUserProfile);
 router.put('/update-profile', authMiddleware, upload.single("profileImage"), updateUserDetails);
+router.put('/update-user/:id', authMiddleware, upload.single("profileImage"), updateUserByAdmin);
 router.delete('/:id', authMiddleware, deleteUserAccount);
 
 module.exports = router;

@@ -1,11 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const LoginHistory = require("../models/LoginHistory");
 const JobRequest = require("../models/JobRequest");
 const logger = require("../utils/logger");
 const Error = require("../utils/error");
 const Role = require("../models/Role");
-const UserSubscription = require('../models/userSubscription');
+const UserSubscription = require("../models/userSubscription");
 const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
 
@@ -64,7 +65,8 @@ const createUser = async ({
     if (organizationName?.trim())
       userData.organizationName = organizationName.trim();
     if (headquarters?.trim()) userData.headquarters = headquarters.trim();
-    if (organizationSize?.trim()) userData.organizationSize = organizationSize.trim();
+    if (organizationSize?.trim())
+      userData.organizationSize = organizationSize.trim();
     if (founded?.trim()) userData.founded = founded.trim();
     if (industry?.trim()) userData.industry = industry.trim();
     if (organizationLinkedIn?.trim())
@@ -166,7 +168,8 @@ const googleAuthService = async ({
       if (organizationName?.trim())
         userData.organizationName = organizationName.trim();
       if (headquarters?.trim()) userData.headquarters = headquarters.trim();
-      if (organizationSize?.trim()) userData.organizationSize = organizationSize.trim();
+      if (organizationSize?.trim())
+        userData.organizationSize = organizationSize.trim();
       if (founded?.trim()) userData.founded = founded.trim();
       if (industry?.trim()) userData.industry = industry.trim();
       if (organizationLinkedIn?.trim())
@@ -224,6 +227,9 @@ const loginUser = async ({ email, password }) => {
   if (!user) {
     throw new Error("User does not exist.", 401);
   }
+  if (user.status !== "1") {
+    throw new Error("User account is not active. Please contact support.", 403);
+  }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error("Invalid credentials", 401);
@@ -235,7 +241,16 @@ const loginUser = async ({ email, password }) => {
       expiresIn: "7d",
     }
   );
-
+  //await LoginHistory.create({ userId: user._id, phone: user.phoneNumber});
+  await LoginHistory.findOneAndUpdate(
+    { userId: user._id },
+    { $set: { loginAt: new Date(), phone: user.phoneNumber } },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
+  logger.info(`User logged in with email: ${email}`);
   return { id: user._id, email: user.email, role: user.role, token: token };
 };
 
@@ -252,6 +267,9 @@ const googleLoginService = async ({ access_token }) => {
   if (!user) {
     throw new Error("User not found, please register first", 404);
   }
+  if (user.status !== "1") {
+    throw new Error("User account is not active. Please contact support.", 403);
+  }
   const token = jwt.sign(
     { id: user._id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
@@ -259,6 +277,16 @@ const googleLoginService = async ({ access_token }) => {
       expiresIn: "7d",
     }
   );
+  //await LoginHistory.create({ userId: user._id, phone: user.phoneNumber });
+  await LoginHistory.findOneAndUpdate(
+    { userId: user._id },
+    { $set: { loginAt: new Date(), phone: user.phoneNumber } },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
+  logger.info(`User logged in via Google: ${email}`);
   return {
     user: { id: user._id, email: user.email, role: user.role.roleName },
     token: token,
@@ -284,15 +312,22 @@ const resetPasswordService = async (userId, oldPassword, newPassword) => {
   return { message: "Password updated successfully." };
 };
 
-const getAllUsersService = async (userType, roleName, pageNumber, limitNumber) => {
+const getAllUsersService = async (
+  userType,
+  roleName,
+  pageNumber,
+  limitNumber
+) => {
   try {
     // ADMIN CHECK
     if (userType !== "admin") {
-      logger.warn(`${userType} attempted to access all-users without admin rights`);
+      logger.warn(
+        `${userType} attempted to access all-users without admin rights`
+      );
       throw new Error("Access denied: Admin only", 403);
     }
 
-    const query = { deleted: false };
+    const query = {};
     const skip = (pageNumber - 1) * limitNumber;
 
     // Role filter
@@ -302,23 +337,23 @@ const getAllUsersService = async (userType, roleName, pageNumber, limitNumber) =
       query.role = role._id;
     }
 
-    const users = await User.find(query)
+    const users = await User.findWithDeleted(query)
       .populate("role", "roleName")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNumber);
 
-    const total = await User.countDocuments(query);
-    const totalPages = Math.ceil(total / limitNumber)
+    const total = await User.countDocumentsWithDeleted(query);
+    const totalPages = Math.ceil(total / limitNumber);
     logger.info("Admin fetched users list");
 
     return {
-      users,
+      data: users,
       pagination: {
-      currentPage: pageNumber,
-      totalPages,
-      totalItems: total,
-      limitNumber,
+        currentPage: pageNumber,
+        totalPages,
+        totalItems: total,
+        limitNumber,
       },
     };
   } catch (error) {
@@ -343,7 +378,8 @@ const getUserById = async (userId, requestingUser) => {
   };
 };
 
-const updateUser = async ({ fullName,
+const updateUser = async ({
+  fullName,
   email,
   password,
   role,
@@ -361,13 +397,16 @@ const updateUser = async ({ fullName,
   contactSharing,
   industry,
   profileImage,
-  userId }) => {
+  userId,
+}) => {
   const existingUser = await User.findOne({
     $or: [{ email }, { phoneNumber }],
-    _id: { $ne: userId }
+    _id: { $ne: userId },
   });
   if (existingUser) {
-    const error = new Error("User already exists with this email or Phone number.");
+    const error = new Error(
+      "User already exists with this email or Phone number."
+    );
     error.statusCode = 400;
     throw error;
   }
@@ -398,6 +437,7 @@ const updateUser = async ({ fullName,
       userData.profileImage = profileImage.trim();
     }
   }
+
   // ✅ Employer-specific validation
   if (roleName === "employer") {
     userData.organizationName = organizationName?.trim() || "";
@@ -428,10 +468,86 @@ const updateUser = async ({ fullName,
     { new: true }
   );
   if (!user) {
-    throw new Error('User not found', 404);
+    throw new Error("User not found", 404);
   }
   logger.info(`User updated: ${email}`);
   return user;
+};
+
+const updateUserByAdminService = async ({
+  userIdToUpdate,
+  fullName,
+  email,
+  password,
+  status,
+  organizationName,
+  profileImage,
+  phoneNumber,
+  areasOfInterest,
+  currentRole,
+  otherRole,
+  country,
+  contactSharing,
+  adminId,
+}) => {
+  // Check duplicate email or phoneNumber
+  const conditions = [];
+  if (email) conditions.push({ email });
+  if (phoneNumber) conditions.push({ phoneNumber });
+
+  if (conditions.length) {
+    const existingUser = await User.findOne({
+      _id: { $ne: userIdToUpdate },
+      $or: conditions,
+    });
+
+    if (existingUser) {
+      throw new Error(
+        "User already exists with this email or Phone number."
+      , 400);
+    }
+  }
+
+  const allowedStatuses = [0, 1, 2];
+  if (status !== undefined && !allowedStatuses.includes(Number(status))) {
+    throw new Error("Invalid status value. Allowed values: 0, 1, 2", 400);
+  }
+
+  const userData = {};
+
+  if (fullName !== undefined) userData.fullName = fullName;
+  if (email !== undefined) userData.email = email;
+  if (password !== undefined) userData.password = password;
+  if (status !== undefined) userData.status = Number(status);
+  if (organizationName !== undefined) userData.organizationName = organizationName;
+  if (phoneNumber !== undefined) userData.phoneNumber = phoneNumber;
+  if (profileImage !== undefined) {
+    userData.profileImage = profileImage.trim();
+  }
+  if (areasOfInterest !== undefined) {
+    if (!Array.isArray(areasOfInterest)) {
+      throw new Error("areasOfInterest must be an array.", 400);
+    }
+    userData.areasOfInterest = areasOfInterest.map(a => a.trim());
+  }
+  if (currentRole !== undefined) userData.currentRole = currentRole;
+  if (otherRole !== undefined) userData.otherRole = otherRole;
+  if (country !== undefined) userData.country = country;
+  if (contactSharing !== undefined) userData.contactSharing = contactSharing;
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userIdToUpdate,
+    { $set: userData },
+    { new: true }
+  ).populate("role", "roleName");
+
+  if (!updatedUser) {
+    throw new Error("User not found", 404);
+  }
+
+  logger.info(`Admin ${adminId} updated user ${updatedUser.email}`);
+
+  return updatedUser;
 };
 
 const softDeleteUser = async (id, deletedByUserId) => {
@@ -440,19 +556,27 @@ const softDeleteUser = async (id, deletedByUserId) => {
     logger.error(`User not found for ID: ${id}`);
     throw new Error("User not found", 404);
   }
+  await User.findByIdAndUpdate(id, { status: "2" }); // Set status to 'Suspended'
   await User.deleteById(id, deletedByUserId);
   logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
   return { message: "User deleted successfully", userId: id };
 };
 
-const createMapping = async ({ userId, subscriptionId, startDate, endDate, totalCredits, usedCredits }) => {
+const createMapping = async ({
+  userId,
+  subscriptionId,
+  startDate,
+  endDate,
+  totalCredits,
+  usedCredits,
+}) => {
   // find existing subscription for this user
   const existingRecord = await UserSubscription.findOne({ userId });
 
   if (existingRecord) {
     // just update total credits (add to existing)
     existingRecord.totalCredits = totalCredits;
-    existingRecord.usedCredits = usedCredits
+    existingRecord.usedCredits = usedCredits;
     await existingRecord.save();
     return existingRecord;
   }
@@ -469,7 +593,6 @@ const createMapping = async ({ userId, subscriptionId, startDate, endDate, total
 
   return newRecord;
 };
-
 
 // const deleteUser = async (userId, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
@@ -498,8 +621,8 @@ module.exports = {
   softDeleteUser,
   updateUser,
   createMapping,
-  getAllUsersService
-  // updateUser,
+  getAllUsersService,
+  updateUserByAdminService,
 };
 
 // const generateOtp = async (phone) => {
