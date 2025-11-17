@@ -341,14 +341,41 @@ const getAllUsersService = async (
       .populate("role", "roleName")
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limitNumber);
+      .limit(limitNumber)
+      .lean();
 
     const total = await User.countDocumentsWithDeleted(query);
     const totalPages = Math.ceil(total / limitNumber);
+    // Get all userIds from fetched users
+    const userIds = users.map((u) => u._id);
+
+    // Fetch last login history for all users in ONE query
+    const loginHistory = await LoginHistory.aggregate([
+      { $match: { userId: { $in: userIds } } },
+      { $sort: { loginAt: -1 } },
+      {
+        $group: {
+          _id: "$userId",
+          lastActive: { $first: "$loginAt" }
+        }
+      }
+    ]);
+
+    // Convert to map for fast lookup
+    const loginMap = {};
+    loginHistory.forEach((lh) => {
+      loginMap[lh._id.toString()] = lh.lastActive;
+    });
+
+    // Attach lastActive field to users
+    const usersWithLastActive = users.map((user) => ({
+      ...user,
+      lastActive: loginMap[user._id.toString()] || null,
+    }));
     logger.info("Admin fetched users list");
 
     return {
-      data: users,
+      data: usersWithLastActive,
       pagination: {
         currentPage: pageNumber,
         totalPages,
@@ -363,7 +390,7 @@ const getAllUsersService = async (
 };
 
 const getUserById = async (userId, requestingUser) => {
-  const user = await User.findOne({ _id: userId }).populate("role", "roleName");
+  const user = await User.findOne({ _id: userId }).populate("role", "roleName").lean();
   if (!user) {
     throw new Error("User not found", 404);
   }
@@ -372,9 +399,17 @@ const getUserById = async (userId, requestingUser) => {
     throw new Error("Unauthorized to access this user", 403);
   }
 
+  const loginHistory = await LoginHistory.findOne({ userId })
+    .sort({ loginAt: -1 })
+    .lean();
+  const lastActive = loginHistory?.loginAt || null;
+
   return {
     message: "User fetched successfully",
-    data: user,
+    data: {
+      ...user,
+      lastActive,
+    },
   };
 };
 
