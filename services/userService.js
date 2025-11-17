@@ -629,6 +629,64 @@ const createMapping = async ({
   return newRecord;
 };
 
+const getAllTransactions = async (userType, pageNumber, limitNumber) => {
+  try {
+    // ADMIN CHECK
+    if (userType !== "admin") {
+      logger.warn(`${userType} tried to fetch transactions without admin rights`);
+      throw new Error("Access denied: Admin only", 403);
+    }
+
+    const skip = (pageNumber - 1) * limitNumber;
+    // Fetch raw subscriptions with pagination
+    const subscriptions = await UserSubscription.find()
+      .populate("userId", "fullName organizationName")
+      .populate("subscriptionId", "price name")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNumber)
+      .lean();
+
+    const total = await UserSubscription.countDocuments();
+    const totalPages = Math.ceil(total / limitNumber);
+    const currentDate = new Date();
+
+    // Format response items
+    const formattedData = subscriptions.map((item) => {
+      const { userId, subscriptionId, startDate, endDate } = item;
+
+      let status = "Completed";
+      if (endDate && endDate >= currentDate) {
+        status = "Active";
+      }
+
+      return {
+        employerName: userId?.fullName || null,
+        organizationName: userId?.organizationName || null,
+        amount: subscriptionId?.price || null,
+        subscriptionType: subscriptionId?.name || null,
+        purchaseDate: startDate || null,
+        renewalDate: endDate || null,
+        status,
+        paymentMethod: "Stripe",
+      };
+    });
+    logger.info("Admin fetched user transactions list");
+    return {
+      data: formattedData,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages,
+        totalItems: total,
+        limitNumber,
+      },
+    };
+  } catch (error) {
+    logger.error("Error fetching user transactions:", error);
+    throw new Error("Failed to fetch user transactions", 500);
+  }
+};
+
 // const deleteUser = async (userId, requestingUser) => {
 //   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
 //     throw new Error('Unauthorized to delete this user', 403);
@@ -658,6 +716,7 @@ module.exports = {
   createMapping,
   getAllUsersService,
   updateUserByAdminService,
+  getAllTransactions
 };
 
 // const generateOtp = async (phone) => {
