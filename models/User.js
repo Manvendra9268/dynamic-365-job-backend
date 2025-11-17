@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    status: {
+      type: String,
+      enum: [0, 1, 2], // 0: Inactive, 1: Active, 2: Suspended
+      default: 1
+    },
     // Employer-specific
 
     organizationName: {

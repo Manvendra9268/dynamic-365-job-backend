@@ -137,6 +137,12 @@ const validateEditUser = [
     .withMessage("Phone number is required.")
     .withMessage("Invalid phone number."),
 
+  // Status
+  body("status")
+  .optional()
+  .isIn(["0", "1", "2"])
+  .withMessage("Invalid status"),
+
   // Employer-specific validations
   body("organizationName")
     .if(body("role").equals("employer"))

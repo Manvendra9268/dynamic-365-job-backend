@@ -8,7 +8,7 @@ const {
   validateResetPassword,
   validateEditUser,
   validateSubscriptionId,
-  validateUserAndSubscribe
+  validateUserAndSubscribe,
 } = require("../utils/validator");
 const {
   createUser,
@@ -20,7 +20,8 @@ const {
   googleLoginService,
   resetPasswordService,
   createMapping,
-  getAllUsersService
+  getAllUsersService,
+  updateUserByAdminService,
 } = require("../services/userService");
 
 const Role = require("../models/Role");
@@ -203,10 +204,15 @@ const getAllUsers = [
     const { roleName, page = 1, limit = 10 } = req.query;
     pageNumber = parseInt(page);
     limitNumber = parseInt(limit);
-    const result = await getAllUsersService(userType, roleName, pageNumber, limitNumber);
+    const result = await getAllUsersService(
+      userType,
+      roleName,
+      pageNumber,
+      limitNumber
+    );
     res.status(200).json({
-    message: "Users fetched successfully",
-    data: result,
+      message: "Users fetched successfully",
+      ...result,
     });
   }),
 ];
@@ -228,6 +234,7 @@ const updateUserDetails = [
       email,
       password,
       role,
+      status,
       organizationName,
       organizationSize,
       founded,
@@ -264,6 +271,7 @@ const updateUserDetails = [
       email,
       password,
       role: roleDoc._id,
+      status,
       organizationName,
       organizationSize,
       founded,
@@ -316,7 +324,7 @@ const userSubscribeAndRegister = [
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const subscriptionId = req.query.id;
-    
+
     const employerRole = await Role.findOne({ roleName: "employer" });
     if (!employerRole) {
       logger.error("Employer role not found in DB");
@@ -358,6 +366,63 @@ const userSubscribeAndRegister = [
   }),
 ];
 
+const updateUserByAdmin = [
+  asyncHandler(async (req, res) => {
+    if (req.user.role.roleName !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admin only" });
+    }
+    const userIdToUpdate = req.params.id;
+    let {
+      fullName,
+      email,
+      password,
+      status,
+      organizationName,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      otherRole,
+      country,
+      contactSharing,
+    } = req.body;
+
+    // Uploaded profile image path (if any)
+    const profileImage = req.file ? req.file.path : undefined;
+
+    // Clean string fields
+    if (email) email = email.trim().toLowerCase();
+    if (fullName) fullName = fullName.trim();
+    if (organizationName) organizationName = organizationName.trim();
+    if (phoneNumber) phoneNumber = phoneNumber.trim();
+    if (currentRole) currentRole = currentRole.trim();
+    if (otherRole) otherRole = otherRole.trim();
+    if (country) country = country.trim();
+    if (contactSharing) contactSharing = contactSharing.trim();
+    // Send to service
+    const updatedUser = await updateUserByAdminService({
+      userIdToUpdate,
+      fullName,
+      email,
+      password,
+      status,
+      organizationName,
+      profileImage,
+      phoneNumber,
+      areasOfInterest,
+      currentRole,
+      otherRole,
+      country,
+      contactSharing,
+      adminId: req.user.id,
+    });
+
+    res.status(200).json({
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  }),
+];
+
 module.exports = {
   registerUser,
   userLogin,
@@ -369,6 +434,7 @@ module.exports = {
   googleLogin,
   resetUserPassword,
   userSubscribeAndRegister,
+  updateUserByAdmin,
 };
 
 // const generateOtpHandler = [
