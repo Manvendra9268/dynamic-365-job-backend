@@ -137,9 +137,11 @@ const postJobAndSubscribe = [
     //calculate date n credits
     const subscription = await Subscription.findById(planId)
     const startDate = new Date();
-    const endDate = subscription.period
-      ? new Date(startDate.setDate(startDate.getDate() + subscription.period))
-      : null;
+    let endDate = null;
+    if (subscription.period) {
+      endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + subscription.period);
+    }
     const totalCredits = subscription.totalCredits;
     const usedCredits = 0;
     const userSubscriptionRecord = await createMapping({

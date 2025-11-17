@@ -22,6 +22,7 @@ const {
   createMapping,
   getAllUsersService,
   updateUserByAdminService,
+  getAllTransactions,
 } = require("../services/userService");
 
 const Role = require("../models/Role");
@@ -343,9 +344,11 @@ const userSubscribeAndRegister = [
     }
     //calculate dates and credits
     const startDate = new Date();
-    const endDate = subscription.period
-      ? new Date(startDate.setDate(startDate.getDate() + subscription.period))
-      : null;
+    let endDate = null;
+    if (subscription.period) {
+      endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + subscription.period);
+    }
     const totalCredits = subscription.totalCredits;
     const usedCredits = 0;
     //create-record
@@ -423,6 +426,25 @@ const updateUserByAdmin = [
   }),
 ];
 
+const userTransactions = [
+  asyncHandler(async (req, res) => {
+    const userType = req.user.role.roleName;
+    const { page = 1, limit = 10 } = req.query;
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+
+    const result = await getAllTransactions(
+      userType,
+      pageNumber,
+      limitNumber
+    );
+    res.status(200).json({
+      message: "User transactions fetched successfully",
+      ...result,
+    });
+  }),
+];
+
 module.exports = {
   registerUser,
   userLogin,
@@ -435,6 +457,7 @@ module.exports = {
   resetUserPassword,
   userSubscribeAndRegister,
   updateUserByAdmin,
+  userTransactions
 };
 
 // const generateOtpHandler = [
