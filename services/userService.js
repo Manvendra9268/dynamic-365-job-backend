@@ -356,9 +356,9 @@ const getAllUsersService = async (
       {
         $group: {
           _id: "$userId",
-          lastActive: { $first: "$loginAt" }
-        }
-      }
+          lastActive: { $first: "$loginAt" },
+        },
+      },
     ]);
 
     // Convert to map for fast lookup
@@ -390,7 +390,9 @@ const getAllUsersService = async (
 };
 
 const getUserById = async (userId, requestingUser) => {
-  const user = await User.findOne({ _id: userId }).populate("role", "roleName").lean();
+  const user = await User.findOne({ _id: userId })
+    .populate("role", "roleName")
+    .lean();
   if (!user) {
     throw new Error("User not found", 404);
   }
@@ -538,8 +540,9 @@ const updateUserByAdminService = async ({
 
     if (existingUser) {
       throw new Error(
-        "User already exists with this email or Phone number."
-      , 400);
+        "User already exists with this email or Phone number.",
+        400
+      );
     }
   }
 
@@ -554,7 +557,8 @@ const updateUserByAdminService = async ({
   if (email !== undefined) userData.email = email;
   if (password !== undefined) userData.password = password;
   if (status !== undefined) userData.status = Number(status);
-  if (organizationName !== undefined) userData.organizationName = organizationName;
+  if (organizationName !== undefined)
+    userData.organizationName = organizationName;
   if (phoneNumber !== undefined) userData.phoneNumber = phoneNumber;
   if (profileImage !== undefined) {
     userData.profileImage = profileImage.trim();
@@ -563,7 +567,7 @@ const updateUserByAdminService = async ({
     if (!Array.isArray(areasOfInterest)) {
       throw new Error("areasOfInterest must be an array.", 400);
     }
-    userData.areasOfInterest = areasOfInterest.map(a => a.trim());
+    userData.areasOfInterest = areasOfInterest.map((a) => a.trim());
   }
   if (currentRole !== undefined) userData.currentRole = currentRole;
   if (otherRole !== undefined) userData.otherRole = otherRole;
@@ -629,7 +633,31 @@ const createMapping = async ({
   return newRecord;
 };
 
-const getAllTransactions = async (userType, pageNumber, limitNumber) => {
+//monthly-mapping
+const monthMap = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5,
+  July: 6,
+  August: 7,
+  September: 8,
+  October: 9,
+  November: 10,
+  December: 11,
+};
+
+const getAllTransactions = async (
+  userType,
+  pageNumber,
+  limitNumber,
+  search,
+  month,
+  fromDate,
+  toDate
+) => {
   try {
     // ADMIN CHECK
     if (userType !== "admin") {
@@ -638,52 +666,117 @@ const getAllTransactions = async (userType, pageNumber, limitNumber) => {
     }
 
     const skip = (pageNumber - 1) * limitNumber;
-    // Fetch raw subscriptions with pagination
-    const subscriptions = await UserSubscription.find()
-      .populate("userId", "fullName organizationName")
-      .populate("subscriptionId", "price name")
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limitNumber)
-      .lean();
-
-    const total = await UserSubscription.countDocuments();
-    const totalPages = Math.ceil(total / limitNumber);
     const currentDate = new Date();
 
-    // Format response items
-    const formattedData = subscriptions.map((item) => {
-      const { userId, subscriptionId, startDate, endDate } = item;
+    const pipeline = [];
 
-      let status = "Completed";
-      if (endDate && endDate >= currentDate) {
-        status = "Active";
+    // Lookup User
+    pipeline.push(
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      { $unwind: "$user" }
+    );
+
+    // Lookup Subscription
+    pipeline.push(
+      {
+        $lookup: {
+          from: "subscriptions",
+          localField: "subscriptionId",
+          foreignField: "_id",
+          as: "subscription"
+        }
+      },
+      { $unwind: "$subscription" }
+    );
+
+    // SEARCH FILTER
+    if (search?.trim()) {
+      const keyword = new RegExp(search, "i");
+      pipeline.push({
+        $match: {
+          $or: [
+            { "user.fullName": keyword },
+            { "user.organizationName": keyword }
+          ]
+        }
+      });
+    }
+
+    // MONTH FILTER (startDate)
+    if (month && month.toLowerCase() !== "All") {
+      const m = monthMap[month.trim()];
+      if (m !== undefined) {
+        const year = new Date().getFullYear();
+        pipeline.push({
+          $match: {
+            startDate: {
+              $gte: new Date(year, m, 1),
+              $lte: new Date(year, m + 1, 0, 23, 59, 59)
+            }
+          }
+        });
       }
+    }
 
-      return {
-        employerName: userId?.fullName || null,
-        organizationName: userId?.organizationName || null,
-        amount: subscriptionId?.price || null,
-        subscriptionType: subscriptionId?.name || null,
-        purchaseDate: startDate || null,
-        renewalDate: endDate || null,
-        status,
-        paymentMethod: "Stripe",
-      };
-    });
-    logger.info("Admin fetched user transactions list");
+    // DATE RANGE FILTER (endDate)
+    if (fromDate || toDate) {
+      const range = {};
+      if (fromDate) range.$gte = new Date(fromDate);
+      if (toDate) range.$lte = new Date(toDate);
+
+      pipeline.push({ $match: { endDate: range } });
+    }
+
+    // SORT
+    pipeline.push({ $sort: { createdAt: -1 } });
+
+    // PAGINATION
+    pipeline.push({ $skip: skip }, { $limit: limitNumber });
+
+    // Fetch paginated data
+    const subscriptions = await UserSubscription.aggregate(pipeline);
+
+    // Count without pagination
+    const countPipeline = pipeline.filter(
+      (stage) => !stage.$skip && !stage.$limit
+    );
+    countPipeline.push({ $count: "total" });
+
+    const countResult = await UserSubscription.aggregate(countPipeline);
+    const total = countResult[0]?.total || 0;
+    const totalPages = Math.ceil(total / limitNumber);
+
+    // Format Response
+    const formattedData = subscriptions.map((item) => ({
+      employerName: item.user.fullName,
+      organizationName: item.user.organizationName,
+      amount: item.subscription.price,
+      subscriptionType: item.subscription.name,
+      purchaseDate: item.startDate,
+      renewalDate: item.endDate,
+      status: item.endDate && item.endDate >= currentDate ? "Active" : "Completed",
+      paymentMethod: "Stripe"
+    }));
+
     return {
       data: formattedData,
       pagination: {
         currentPage: pageNumber,
         totalPages,
         totalItems: total,
-        limitNumber,
-      },
+        limit: limitNumber
+      }
     };
   } catch (error) {
     logger.error("Error fetching user transactions:", error);
-    throw new Error("Failed to fetch user transactions", 500);
+    throw new Error("Failed to fetch transactions", 500);
   }
 };
 
@@ -716,7 +809,7 @@ module.exports = {
   createMapping,
   getAllUsersService,
   updateUserByAdminService,
-  getAllTransactions
+  getAllTransactions,
 };
 
 // const generateOtp = async (phone) => {

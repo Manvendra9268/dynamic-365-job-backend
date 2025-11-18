@@ -429,14 +429,17 @@ const updateUserByAdmin = [
 const userTransactions = [
   asyncHandler(async (req, res) => {
     const userType = req.user.role.roleName;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, search = "", month = "All", fromDate, toDate } = req.query;
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
-
     const result = await getAllTransactions(
       userType,
       pageNumber,
-      limitNumber
+      limitNumber,
+      search,
+      month,
+      fromDate,
+      toDate
     );
     res.status(200).json({
       message: "User transactions fetched successfully",
