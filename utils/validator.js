@@ -430,6 +430,21 @@ const validateUserAndSubscribe = [
   body("organizationName").notEmpty().withMessage("OrganizationName is required")
 ];
 
+const validatePromoCode = [
+  body("code").notEmpty().withMessage("Promo code is required"),
+  body("appliesTo")
+    .notEmpty().withMessage('appliesTo is required')
+    .bail()
+    .isIn(["employer", "jobseeker", "both"])
+    .withMessage("Invalid appliesTo value"),
+  body("discountType")
+    .isIn(['Percent', 'Fixed Amount'])
+    .withMessage("Invalid discountType"),
+  body("promoStartDate").notEmpty().withMessage("Start date is required"),
+  body("promoEndDate").notEmpty().withMessage("End date is required"),
+];
+
+
 //check employer
 const checkEmployerRole = async (req, res, next) => {
   try {
@@ -506,5 +521,6 @@ module.exports = {
   checkEmployerRole,
   checkAdminRole,
   validateEditUser,
-  validateUserAndSubscribe
+  validateUserAndSubscribe,
+  validatePromoCode,
 };
