@@ -27,8 +27,20 @@ const allPromoCodes = [
     }),
 ];
 
+const updatePromoCode = [
+    asyncHandler(async(req, res) => {
+        const { id } = req.params;
+        const updateData = req.body;
+        const updatedPromo = await promoCodeService.updatePromoCode(id, updateData);
+        res.status(200).json({
+            message: "Promo code updated successfully",
+            data: updatedPromo,
+        });
+    }),
+];
 
 module.exports = {
     createPromoCode,
     allPromoCodes,
+    updatePromoCode
 };
