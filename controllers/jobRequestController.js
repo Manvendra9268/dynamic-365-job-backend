@@ -10,6 +10,7 @@ const {
 } = require("../utils/validator");
 
 const Subscription = require("../models/Subscription");
+const PromoCode = require("../models/promoCode");
 
 const createJobRequest = [
   validateJobRequest,
@@ -130,7 +131,7 @@ const postJobAndSubscribe = [
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const userId = req.user.id;
-    const {planId} = req.body
+    const {planId, promoCode, finalPrice, discountApplied } = req.body
     const jobData = {
       ...req.body,
       employerId: userId,
@@ -145,14 +146,23 @@ const postJobAndSubscribe = [
     }
     const totalCredits = subscription.totalCredits;
     const usedCredits = 0;
+    const promoId = promoCode ? (await PromoCode.findOne({ code: promoCode }))?._id : null;
     const userSubscriptionRecord = await createMapping({
       userId: userId,
       subscriptionId: subscription.id,
+      promoId,
       startDate,
       endDate,
       totalCredits,
       usedCredits,
+      finalPrice,
+      discountApplied,
     });
+
+    if(promoId){
+      await PromoCode.findByIdAndUpdate(promoId, { $inc: { totalUsed: 1 } }, { new: true });
+      logger.info(`PromoCode ${promoCode} usage incremented.`);
+    }
     const postJob = await jobRequestService.createJobRequest(jobData);
     logger.info(`Subscription activated and job posted for user ${userId}`);
     res.status(201).json({

@@ -29,6 +29,7 @@ const Role = require("../models/Role");
 const Subscription = require("../models/Subscription");
 const PromoCode = require('../models/promoCode');
 const mongoose = require("mongoose");
+const logger = require("../utils/logger");
 
 const registerUser = [
   validateUser,
@@ -365,6 +366,11 @@ const userSubscribeAndRegister = [
       finalPrice,
       discountApplied
     });
+
+    if(promoId){
+      await PromoCode.findByIdAndUpdate(promoId, { $inc: { totalUsed: 1 } }, { new: true });
+      logger.info(`PromoCode ${promoCode} usage incremented.`);
+    }
 
     res.status(201).json({
       message: "User registered and subscription activated.",

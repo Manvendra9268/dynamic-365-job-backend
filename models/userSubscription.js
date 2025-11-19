@@ -1,42 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const userSubscriptionSchema = new mongoose.Schema({
+const userSubscriptionSchema = new mongoose.Schema(
+  {
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     subscriptionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Subscription',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subscription",
+      required: true,
     },
     promoId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PromoCode',
-        default: null
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PromoCode",
+      default: null,
     },
     startDate: {
-        type: Date,
-        default: null
+      type: Date,
+      default: null,
     },
     endDate: {
-        type: Date,
-        default: null
+      type: Date,
+      default: null,
     },
     totalCredits: {
-        type: Number
+      type: Number,
     },
     usedCredits: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     finalPrice: {
-        type: Number,
+      type: Number,
     },
     discountApplied: {
-        type: Number
-    }
-})
+      type: Number,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('UserSubscription', userSubscriptionSchema);
+module.exports = mongoose.model("UserSubscription", userSubscriptionSchema);
