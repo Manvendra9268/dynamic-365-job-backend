@@ -73,3 +73,50 @@ exports.updatePromoCode = async (id, updateData) => {
     throw new ApiError("Failed to update PromoCode", 500, error.message);
   }
 };
+
+exports.applyPromoCode = async (promoCode, price) => {
+  try {
+    const promo = await PromoCode.findOne({ code: promoCode });
+    if (!promo || !promo.isActive) {
+      throw new ApiError("Invalid promo code.", 400);
+    }
+    // Date check
+    const now = new Date();
+    if (now < promo.promoStartDate || now > promo.promoEndDate) {
+      throw new ApiError("Promo code is expired.", 400);
+    }
+    // Usage limit check
+    if (promo.usageLimit && promo.totalUsed >= promo.usageLimit) {
+      throw new ApiError("Promo code usage limit reached.", 400);
+    }
+    // Discount calculation
+    let finalPrice = price;
+    if (promo.discountType === "Fixed Amount") {
+      finalPrice = price - promo.amount;
+    } else if (promo.discountType === "Percent") {
+      finalPrice = price - (price * promo.amount) / 100;
+    }
+
+    if (finalPrice < 0) finalPrice = 0;
+
+    logger.info("Promo code applied", {
+      code: promoCode,
+      discountType: promo.discountType,
+      finalPrice,
+    });
+
+    return {
+      finalPrice,
+      discountApplied: price - finalPrice,
+    };
+  } catch (error) {
+    logger.error("Error applying PromoCode", {
+      error: error.message,
+      stack: error.stack,
+    });
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    throw new ApiError("Failed to apply PromoCode", 500, error.message);
+  }
+};
