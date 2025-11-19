@@ -608,6 +608,9 @@ const updateUserByAdminService = async ({
 const createMapping = async ({
   userId,
   subscriptionId,
+  promoId,
+  finalPrice,
+  discountApplied,
   startDate,
   endDate,
   totalCredits,
@@ -620,6 +623,9 @@ const createMapping = async ({
     // just update total credits (add to existing)
     existingRecord.totalCredits = totalCredits;
     existingRecord.usedCredits = usedCredits;
+    if (promoId) existingRecord.promoId = promoId;
+    if (finalPrice !== undefined) existingRecord.finalPrice = finalPrice;
+    if (discountApplied !== undefined) existingRecord.discountApplied = discountApplied;
     await existingRecord.save();
     return existingRecord;
   }
@@ -632,6 +638,9 @@ const createMapping = async ({
     endDate,
     totalCredits,
     usedCredits: 0,
+    promoId: promoId || null,
+    finalPrice: finalPrice || null,
+    discountApplied: discountApplied || 0
   });
 
   return newRecord;

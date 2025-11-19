@@ -11,6 +11,11 @@ const userSubscriptionSchema = new mongoose.Schema({
         ref: 'Subscription',
         required: true
     },
+    promoId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PromoCode',
+        default: null
+    },
     startDate: {
         type: Date,
         default: null
@@ -25,6 +30,12 @@ const userSubscriptionSchema = new mongoose.Schema({
     usedCredits: {
         type: Number,
         default: 0
+    },
+    finalPrice: {
+        type: Number,
+    },
+    discountApplied: {
+        type: Number
     }
 })
 

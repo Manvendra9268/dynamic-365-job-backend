@@ -27,6 +27,7 @@ const {
 
 const Role = require("../models/Role");
 const Subscription = require("../models/Subscription");
+const PromoCode = require('../models/promoCode');
 const mongoose = require("mongoose");
 
 const registerUser = [
@@ -325,7 +326,7 @@ const userSubscribeAndRegister = [
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const subscriptionId = req.query.id;
-
+    const { promoCode, finalPrice, discountApplied } = req.body;
     const employerRole = await Role.findOne({ roleName: "employer" });
     if (!employerRole) {
       logger.error("Employer role not found in DB");
@@ -351,14 +352,18 @@ const userSubscribeAndRegister = [
     }
     const totalCredits = subscription.totalCredits;
     const usedCredits = 0;
+    const promoId = promoCode ? (await PromoCode.findOne({ code: promoCode }))?._id : null;
     //create-record
     const mapping = await createMapping({
       userId: createdUser.id,
       subscriptionId,
+      promoId,
       startDate,
       endDate,
       totalCredits,
       usedCredits,
+      finalPrice,
+      discountApplied
     });
 
     res.status(201).json({
