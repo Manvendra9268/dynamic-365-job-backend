@@ -228,7 +228,7 @@ const loginUser = async ({ email, password }) => {
     throw new Error("User does not exist.", 401);
   }
   if (user.status !== "1") {
-    throw new Error("User account is not active. Please contact support.", 403);
+    throw new Error("Account is not active/disabled. Please contact admin.", 403);
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
@@ -241,7 +241,6 @@ const loginUser = async ({ email, password }) => {
       expiresIn: "7d",
     }
   );
-  //await LoginHistory.create({ userId: user._id, phone: user.phoneNumber});
   await LoginHistory.findOneAndUpdate(
     { userId: user._id },
     { $set: { loginAt: new Date(), phone: user.phoneNumber } },
@@ -268,7 +267,7 @@ const googleLoginService = async ({ access_token }) => {
     throw new Error("User not found, please register first", 404);
   }
   if (user.status !== "1") {
-    throw new Error("User account is not active. Please contact support.", 403);
+    throw new Error("Account is not active/disabled. Please contact admin.", 403);
   }
   const token = jwt.sign(
     { id: user._id, email: user.email, role: user.role },
@@ -277,7 +276,6 @@ const googleLoginService = async ({ access_token }) => {
       expiresIn: "7d",
     }
   );
-  //await LoginHistory.create({ userId: user._id, phone: user.phoneNumber });
   await LoginHistory.findOneAndUpdate(
     { userId: user._id },
     { $set: { loginAt: new Date(), phone: user.phoneNumber } },
@@ -337,14 +335,14 @@ const getAllUsersService = async (
       query.role = role._id;
     }
 
-    const users = await User.findWithDeleted(query)
+    const users = await User.find(query)
       .populate("role", "roleName")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNumber)
       .lean();
 
-    const total = await User.countDocumentsWithDeleted(query);
+    const total = await User.countDocuments(query);
     const totalPages = Math.ceil(total / limitNumber);
     // Get all userIds from fetched users
     const userIds = users.map((u) => u._id);
@@ -420,6 +418,7 @@ const updateUser = async ({
   email,
   password,
   role,
+  status,
   organizationName,
   organizationSize,
   founded,
@@ -474,6 +473,11 @@ const updateUser = async ({
       userData.profileImage = profileImage.trim();
     }
   }
+  const allowedStatuses = [0, 1, 2];
+  if (status !== undefined && !allowedStatuses.includes(Number(status))) {
+    throw new Error("Invalid status value. Allowed values: 0, 1, 2", 400);
+  }
+  if (status !== undefined) userData.status = Number(status);
 
   // ✅ Employer-specific validation
   if (roleName === "employer") {
@@ -589,17 +593,17 @@ const updateUserByAdminService = async ({
   return updatedUser;
 };
 
-const softDeleteUser = async (id, deletedByUserId) => {
-  const user = await User.findById(id);
-  if (!user) {
-    logger.error(`User not found for ID: ${id}`);
-    throw new Error("User not found", 404);
-  }
-  await User.findByIdAndUpdate(id, { status: "2" }); // Set status to 'Suspended'
-  await User.deleteById(id, deletedByUserId);
-  logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
-  return { message: "User deleted successfully", userId: id };
-};
+// const softDeleteUser = async (id, deletedByUserId) => {
+//   const user = await User.findById(id);
+//   if (!user) {
+//     logger.error(`User not found for ID: ${id}`);
+//     throw new Error("User not found", 404);
+//   }
+//   await User.findByIdAndUpdate(id, { status: "2" }); // Set status to 'Suspended'
+//   await User.deleteById(id, deletedByUserId);
+//   logger.info(`User ${id} soft deleted by ${deletedByUserId}`);
+//   return { message: "User deleted successfully", userId: id };
+// };
 
 const createMapping = async ({
   userId,
@@ -804,7 +808,7 @@ module.exports = {
   googleLoginService,
   getUserById,
   resetPasswordService,
-  softDeleteUser,
+  //softDeleteUser,
   updateUser,
   createMapping,
   getAllUsersService,

@@ -15,7 +15,7 @@ const {
   loginUser,
   getUserById,
   updateUser,
-  softDeleteUser,
+  //softDeleteUser,
   googleAuthService,
   googleLoginService,
   resetPasswordService,
@@ -297,16 +297,16 @@ const updateUserDetails = [
   }),
 ];
 
-const deleteUserAccount = [
-  validateUserId,
-  handleValidationErrors,
-  asyncHandler(async (req, res) => {
-    const deletedBy = req.user?.id;
-    // console.log("req.user----", req.user);
-    const result = await softDeleteUser(req.params.id, deletedBy);
-    res.status(200).json({ message: "User account deleted.", ...result });
-  }),
-];
+// const deleteUserAccount = [
+//   validateUserId,
+//   handleValidationErrors,
+//   asyncHandler(async (req, res) => {
+//     const deletedBy = req.user?.id;
+//     // console.log("req.user----", req.user);
+//     const result = await softDeleteUser(req.params.id, deletedBy);
+//     res.status(200).json({ message: "User account deleted.", ...result });
+//   }),
+// ];
 
 const resetUserPassword = [
   validateResetPassword,
@@ -454,7 +454,7 @@ module.exports = {
   getUserProfile,
   getAllUsers,
   updateUserDetails,
-  deleteUserAccount,
+  //deleteUserAccount,
   googleAuth,
   googleLogin,
   resetUserPassword,

@@ -51,7 +51,8 @@ const getAllJobRequests = asyncHandler(async (req, res) => {
 // view-jobs-by-Id
 const getJobRequestById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const jobRequest = await jobRequestService.getJobRequestById(id);
+  const roleName = req.user.role.roleName;
+  const jobRequest = await jobRequestService.getJobRequestById(id, roleName);
   res.status(200).json({
     message: "Job request fetched successfully",
     data: jobRequest,
@@ -172,6 +173,18 @@ const getAdminDashboardStats = [
   })
 ]
 
+const updateApplyClicks = [
+  asyncHandler(async (req, res) => {
+    const jobId = req.params.id;
+    const roleName = req.user.role.roleName;
+    const result = await jobRequestService.applyClickCounter(jobId, roleName);
+    res.status(200).json({
+      message: "Job visited successfully",
+      data: result,
+    });
+  }),
+];
+
 module.exports = {
   createJobRequest,
   getAllJobRequests,
@@ -180,5 +193,6 @@ module.exports = {
   updateJobDetails,
   postJobAndSubscribe,
   updateJobDetailsByAdmin,
-  getAdminDashboardStats
+  getAdminDashboardStats,
+  updateApplyClicks,
 };

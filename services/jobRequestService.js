@@ -104,16 +104,27 @@ exports.getAllJobRequests = async (
 };
 
 // Get job request by ID
-exports.getJobRequestById = async (id) => {
+exports.getJobRequestById = async (id, roleName) => {
   try {
-    const jobRequest = await JobRequest.findById(id).populate("employerId");
-
+    let jobRequest;
+    if (roleName === "jobseeker") {
+      jobRequest = await JobRequest.findByIdAndUpdate(
+        id,
+        { $inc: { views: 1 } },
+        { new: true }
+      ).populate("employerId");
+    } else {
+      jobRequest = await JobRequest.findById(id).populate("employerId");
+    }
     if (!jobRequest) {
       logger.warn(`Job request not found for ID: ${id}`);
       throw new ApiError("Job request not found", 404);
     }
 
-    logger.info(`Fetched job request by ID`, { id });
+    logger.info(`Fetched job request by ID`, {
+      id,
+      viewsUpdated: roleName === "jobseeker" ? "YES" : "NO",
+    });
     return jobRequest;
   } catch (error) {
     logger.error("Error fetching job request by ID", {
@@ -298,13 +309,11 @@ exports.getAdminDashboardStats = async () => {
 
   const newEmployers = await User.countDocuments({
     role: employerRole.id,
-    deleted: false,
     createdAt: { $gte: startOfMonth },
   });
 
   const newJobSeekers = await User.countDocuments({
     role: jobSeekerRole.id,
-    deleted: false,
     createdAt: { $gte: startOfMonth },
   });
 
@@ -316,4 +325,31 @@ exports.getAdminDashboardStats = async () => {
     newEmployers,
     newJobSeekers,
   };
+};
+
+// Increment apply clicks for a job
+exports.applyClickCounter = async (jobId, roleName) => {
+    try {
+      if (roleName?.toLowerCase() !== "jobseeker") {
+        throw new ApiError("Only jobseekers can perform apply click", 403);
+      }
+      const updatedJob = await JobRequest.findByIdAndUpdate(
+        jobId,
+        { $inc: { applyClicks: 1 } },
+        { new: true }
+      );
+      if (!updatedJob) {
+        throw new ApiError("Job request not found", 404);
+      }
+
+      logger.info(`Apply Click incremented for jobId: ${jobId}`);
+      return updatedJob;
+    } catch (error) {
+      logger.error("Error updating applyClicks", {
+        jobId,
+        error: error.message,
+        stack: error.stack,
+      });
+      throw new ApiError(error.message || "Failed to update apply click",500);
+  }
 };
