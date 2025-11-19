@@ -24,6 +24,6 @@ router.get('/my-profile', authMiddleware, getUserProfile);
 router.get('/transactions', authMiddleware, userTransactions);
 router.put('/update-profile', authMiddleware, upload.single("profileImage"), updateUserDetails);
 router.put('/update-user/:id', authMiddleware, upload.single("profileImage"), updateUserByAdmin);
-router.delete('/:id', authMiddleware, deleteUserAccount);
+// router.delete('/:id', authMiddleware, deleteUserAccount);
 
 module.exports = router;
