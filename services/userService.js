@@ -771,7 +771,7 @@ const getAllTransactions = async (
     }
 
     // SORT
-    pipeline.push({ $sort: { createdAt: 1 } });
+    pipeline.push({ $sort: { startDate: -1 } });
 
     // PAGINATION
     pipeline.push({ $skip: skip }, { $limit: limitNumber });
