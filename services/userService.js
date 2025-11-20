@@ -9,6 +9,7 @@ const Role = require("../models/Role");
 const UserSubscription = require("../models/userSubscription");
 const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
+const promoCode = require("../models/promoCode");
 
 const createUser = async ({
   fullName,
@@ -228,7 +229,10 @@ const loginUser = async ({ email, password }) => {
     throw new Error("User does not exist.", 401);
   }
   if (user.status !== "1") {
-    throw new Error("Account is not active/disabled. Please contact admin.", 403);
+    throw new Error(
+      "Account is not active/disabled. Please contact admin.",
+      403
+    );
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
@@ -267,7 +271,10 @@ const googleLoginService = async ({ access_token }) => {
     throw new Error("User not found, please register first", 404);
   }
   if (user.status !== "1") {
-    throw new Error("Account is not active/disabled. Please contact admin.", 403);
+    throw new Error(
+      "Account is not active/disabled. Please contact admin.",
+      403
+    );
   }
   const token = jwt.sign(
     { id: user._id, email: user.email, role: user.role },
@@ -625,7 +632,8 @@ const createMapping = async ({
     existingRecord.usedCredits = usedCredits;
     if (promoId) existingRecord.promoId = promoId;
     if (finalPrice !== undefined) existingRecord.finalPrice = finalPrice;
-    if (discountApplied !== undefined) existingRecord.discountApplied = discountApplied;
+    if (discountApplied !== undefined)
+      existingRecord.discountApplied = discountApplied;
     await existingRecord.save();
     return existingRecord;
   }
@@ -640,7 +648,7 @@ const createMapping = async ({
     usedCredits: 0,
     promoId: promoId || null,
     finalPrice: finalPrice || null,
-    discountApplied: discountApplied || 0
+    discountApplied: discountApplied || 0,
   });
 
   return newRecord;
@@ -674,7 +682,9 @@ const getAllTransactions = async (
   try {
     // ADMIN CHECK
     if (userType !== "admin") {
-      logger.warn(`${userType} tried to fetch transactions without admin rights`);
+      logger.warn(
+        `${userType} tried to fetch transactions without admin rights`
+      );
       throw new Error("Access denied: Admin only", 403);
     }
 
@@ -690,8 +700,8 @@ const getAllTransactions = async (
           from: "users",
           localField: "userId",
           foreignField: "_id",
-          as: "user"
-        }
+          as: "user",
+        },
       },
       { $unwind: "$user" }
     );
@@ -703,10 +713,23 @@ const getAllTransactions = async (
           from: "subscriptions",
           localField: "subscriptionId",
           foreignField: "_id",
-          as: "subscription"
-        }
+          as: "subscription",
+        },
       },
       { $unwind: "$subscription" }
+    );
+
+    // Lookup PromoCode
+    pipeline.push(
+      {
+        $lookup: {
+          from: "promocodes",
+          localField: "promoId",
+          foreignField: "_id",
+          as: "promo",
+        },
+      },
+      { $unwind: { path: "$promo", preserveNullAndEmptyArrays: true } }
     );
 
     // SEARCH FILTER
@@ -716,9 +739,9 @@ const getAllTransactions = async (
         $match: {
           $or: [
             { "user.fullName": keyword },
-            { "user.organizationName": keyword }
-          ]
-        }
+            { "user.organizationName": keyword },
+          ],
+        },
       });
     }
 
@@ -731,9 +754,9 @@ const getAllTransactions = async (
           $match: {
             startDate: {
               $gte: new Date(year, m, 1),
-              $lte: new Date(year, m + 1, 0, 23, 59, 59)
-            }
-          }
+              $lte: new Date(year, m + 1, 0, 23, 59, 59),
+            },
+          },
         });
       }
     }
@@ -748,7 +771,7 @@ const getAllTransactions = async (
     }
 
     // SORT
-    pipeline.push({ $sort: { createdAt: -1 } });
+    pipeline.push({ $sort: { createdAt: 1 } });
 
     // PAGINATION
     pipeline.push({ $skip: skip }, { $limit: limitNumber });
@@ -774,8 +797,12 @@ const getAllTransactions = async (
       subscriptionType: item.subscription.name,
       purchaseDate: item.startDate,
       renewalDate: item.endDate,
-      status: item.endDate && item.endDate >= currentDate ? "Active" : "Completed",
-      paymentMethod: "Stripe"
+      status:
+        item.endDate && item.endDate >= currentDate ? "Active" : "Completed",
+      paymentMethod: "Stripe",
+      promoCode: item.promo ? item.promo.code : null,
+      finalPrice: item.finalPrice,
+      discountApplied: item.discountApplied,
     }));
 
     return {
@@ -784,8 +811,8 @@ const getAllTransactions = async (
         currentPage: pageNumber,
         totalPages,
         totalItems: total,
-        limit: limitNumber
-      }
+        limit: limitNumber,
+      },
     };
   } catch (error) {
     logger.error("Error fetching user transactions:", error);
