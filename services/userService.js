@@ -622,6 +622,8 @@ const createMapping = async ({
   endDate,
   totalCredits,
   usedCredits,
+  stripeCustomerId,
+  stripeSubscriptionId,
 }) => {
   // find existing subscription for this user
   const existingRecord = await UserSubscription.findOne({ userId });
@@ -634,6 +636,13 @@ const createMapping = async ({
     if (finalPrice !== undefined) existingRecord.finalPrice = finalPrice;
     if (discountApplied !== undefined)
       existingRecord.discountApplied = discountApplied;
+    if (startDate) existingRecord.startDate = startDate;
+    if (endDate !== undefined) existingRecord.endDate = endDate;
+    if (stripeCustomerId) existingRecord.stripeCustomerId = stripeCustomerId;
+    if (stripeSubscriptionId)
+      existingRecord.stripeSubscriptionId = stripeSubscriptionId;
+    existingRecord.status = "active";
+    existingRecord.paymentStatus = finalPrice === 0 ? "paid" : "pending";
     await existingRecord.save();
     return existingRecord;
   }
@@ -649,6 +658,10 @@ const createMapping = async ({
     promoId: promoId || null,
     finalPrice: finalPrice || null,
     discountApplied: discountApplied || 0,
+    stripeCustomerId: stripeCustomerId || null,
+    stripeSubscriptionId: stripeSubscriptionId || null,
+    status: "active",
+    paymentStatus: finalPrice === 0 ? "paid" : "pending",
   });
 
   return newRecord;

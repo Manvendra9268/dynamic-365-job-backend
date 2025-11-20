@@ -8,6 +8,10 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
   CORS_ORIGIN: z.string().optional(),
   LOG_LEVEL: z.string().default('debug'),
+  STRIPE_SECRET_KEY: z.string().min(1, 'STRIPE_SECRET_KEY is required'),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1, 'STRIPE_WEBHOOK_SECRET is required'),
+  FRONTEND_BASE_URL: z.string().url().min(1, 'FRONTEND_BASE_URL is required'),
+  STRIPE_CURRENCY: z.string().default('usd'),
 });
 
 const validateEnv = () => {

@@ -38,6 +38,28 @@ const userSubscriptionSchema = new mongoose.Schema(
     discountApplied: {
       type: Number,
     },
+    stripeCustomerId: {
+      type: String,
+      default: null,
+    },
+    stripeSubscriptionId: {
+      type: String,
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: ["active", "cancelled", "expired"],
+      default: "active",
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed", "refunded", "cancelled"],
+      default: "pending",
+    },
+    lastInvoiceId: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
