@@ -45,7 +45,7 @@ exports.getAllJobRequests = async (
   limitNumber = 10
 ) => {
   try {
-    const { status, search, jobRole, workMode, country } = filters;
+    const { status, search, jobRole, jobType, country } = filters;
     const query = {};
 
     if (
@@ -53,7 +53,7 @@ exports.getAllJobRequests = async (
       ["Active", "In Review", "Expired", "Rejected"].includes(status)
     )
       query.status = status;
-    if (workMode) query.workMode = workMode;
+    if (jobType) query.jobType = jobType;
     if (country) query.country = country;
     if (jobRole) query.jobRole = jobRole;
 
