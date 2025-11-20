@@ -30,6 +30,7 @@ const Subscription = require("../models/Subscription");
 const PromoCode = require('../models/promoCode');
 const mongoose = require("mongoose");
 const logger = require("../utils/logger");
+const { createPaymentIntent: createStripePaymentIntent } = require("../services/stripeService");
 
 const registerUser = [
   validateUser,
@@ -459,6 +460,73 @@ const userTransactions = [
   }),
 ];
 
+const createPaymentIntent = [
+  asyncHandler(async (req, res) => {
+    const {
+      amount,
+      planId,
+      email,
+      fullName,
+      phoneNumber,
+      organizationName,
+      promoCode,
+      discountApplied,
+    } = req.body;
+
+    if (!amount || !planId || !email || !fullName) {
+      return res.status(400).json({
+        message: "Missing required fields: amount, planId, email, fullName",
+      });
+    }
+
+    // Verify plan exists
+    const subscription = await Subscription.findById(planId);
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription plan not found" });
+    }
+
+    // Validate promo code if provided
+    let promoId = null;
+    if (promoCode) {
+      const promo = await PromoCode.findOne({ code: promoCode });
+      if (!promo) {
+        return res
+          .status(400)
+          .json({ message: "Invalid promo code provided" });
+      }
+      promoId = promo._id;
+    }
+
+    try {
+      const result = await createStripePaymentIntent({
+        amount,
+        email,
+        fullName,
+        planId,
+        metadata: {
+          phoneNumber,
+          organizationName,
+          promoCode: promoCode || null,
+          discountApplied,
+        },
+      });
+
+      res.status(200).json({
+        message: "Payment intent created successfully",
+        clientSecret: result.clientSecret,
+        paymentIntentId: result.paymentIntentId,
+        amount,
+      });
+    } catch (error) {
+      logger.error("Error creating payment intent:", error);
+      res.status(500).json({
+        message: "Failed to create payment intent",
+        error: error.message,
+      });
+    }
+  }),
+];
+
 module.exports = {
   registerUser,
   userLogin,
@@ -471,7 +539,8 @@ module.exports = {
   resetUserPassword,
   userSubscribeAndRegister,
   updateUserByAdmin,
-  userTransactions
+  userTransactions,
+  createPaymentIntent,
 };
 
 // const generateOtpHandler = [

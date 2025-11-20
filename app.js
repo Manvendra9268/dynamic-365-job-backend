@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes');
 const jobRequestRoute = require('./routes/jobRequestRoute');
 const subscriptionRoute = require('./routes/subscriptionRoute');
 const promoRoute = require('./routes/promoCodeRoute');
+const webhookRoutes = require('./routes/webhookRoutes');
 
 const app = express();
 const path = require("path");
@@ -24,12 +25,15 @@ app.use(
 // app.use(
 //   rateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes
-//     max: 100, // Limit each IP to 100 requests
+//     max: 100, // Limit each IP to 100 requests,
 //   })
 // );
 
 // Logging Middleware
 app.use(morgan('combined', { stream: { write: (message) => logger.info(message.trim()) } }));
+
+// Webhook routes MUST come before express.json() for signature verification
+app.use('/api/v1/webhooks', webhookRoutes);
 
 // Body Parsing Middleware
 app.use(express.json());

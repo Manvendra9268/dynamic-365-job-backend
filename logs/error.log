@@ -514,3 +514,57 @@ Stack Trace:
       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
+═══════════════════════════════════════════════════════════════
+[2025-11-20 17:41:19] error: Error creating payment intent: PaymentTransaction validation failed: userId: Path `userId` is required.
+Meta:
+{
+  "errors": {
+    "userId": {
+      "name": "ValidatorError",
+      "message": "Path `userId` is required.",
+      "properties": {
+        "message": "Path `userId` is required.",
+        "type": "required",
+        "path": "userId"
+      },
+      "kind": "required",
+      "path": "userId"
+    }
+  },
+  "_message": "PaymentTransaction validation failed"
+}
+Stack Trace:
+  ValidationError: PaymentTransaction validation failed: userId: Path `userId` is required.
+      at Document.invalidate (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\document.js:3362:32)
+      at C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\document.js:3123:17
+      at C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1420:9
+      at process.processTicksAndRejections (node:internal/process/task_queues:85:11)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-20 17:41:19] error: Error creating payment intent: PaymentTransaction validation failed: userId: Path `userId` is required.
+Meta:
+{
+  "errors": {
+    "userId": {
+      "name": "ValidatorError",
+      "message": "Path `userId` is required.",
+      "properties": {
+        "message": "Path `userId` is required.",
+        "type": "required",
+        "path": "userId"
+      },
+      "kind": "required",
+      "path": "userId"
+    }
+  },
+  "_message": "PaymentTransaction validation failed"
+}
+Stack Trace:
+  ValidationError: PaymentTransaction validation failed: userId: Path `userId` is required.
+      at Document.invalidate (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\document.js:3362:32)
+      at C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\document.js:3123:17
+      at C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1420:9
+      at process.processTicksAndRejections (node:internal/process/task_queues:85:11)
+═══════════════════════════════════════════════════════════════
+
