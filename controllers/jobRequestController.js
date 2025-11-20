@@ -37,7 +37,7 @@ const getAllJobRequests = asyncHandler(async (req, res) => {
     status: req.query.status,
     search: req.query.search,
     jobRole: req.query.jobRole,
-    workMode: req.query.workMode,
+    jobType: req.query.jobType,
     country: req.query.country
   };
   const pageNumber = parseInt(req.query.page, 10) || 1;
