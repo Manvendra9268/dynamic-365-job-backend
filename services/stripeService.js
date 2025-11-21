@@ -10,34 +10,29 @@ const createCheckoutSession = async ({
   metadata = {},
   subscriptionData = {},
 }) => {
+
   const payload = {
-    mode,
-    payment_method_types: ["card"],
+    mode, 
     line_items: lineItems,
     success_url: successUrl,
     cancel_url: cancelUrl,
     metadata,
-    allow_promotion_codes: false,
+    payment_method_types: ["card"],
     billing_address_collection: "auto",
+    allow_promotion_codes: false,
   };
 
-  if (customerEmail) {
-    payload.customer_email = customerEmail;
-  }
-
-  if (customerId) {
-    payload.customer = customerId;
-  }
+  if (customerEmail) payload.customer_email = customerEmail;
+  if (customerId) payload.customer = customerId;
 
   if (mode === "subscription") {
     payload.subscription_data = {
       ...subscriptionData,
-      metadata: {
-        ...(subscriptionData.metadata || {}),
-        ...metadata,
-      },
+      metadata: { ...metadata },
     };
-  } else {
+  }
+
+  if (mode === "payment") {
     payload.payment_intent_data = {
       metadata,
       ...(subscriptionData.payment_intent_data || {}),
@@ -79,4 +74,3 @@ module.exports = {
   constructWebhookEvent,
   retrieveSubscription,
 };
-

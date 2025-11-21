@@ -25,7 +25,17 @@ const subscriptionSchema = new mongoose.Schema({
     },
     period:{
         type: Number,
-    }
-})
+    },
+
+    // ⭐ NEW FIELDS FOR STRIPE PRICE ID INTEGRATION
+    stripeProductId: {
+        type: String,
+        required: true,
+    },
+    stripePriceId: {
+        type: String,
+        required: true,
+    },
+});
 
 module.exports = mongoose.model('Subscription', subscriptionSchema);
