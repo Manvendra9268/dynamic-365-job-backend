@@ -33,20 +33,27 @@ const createJobRequest = [
 
 // Get All Job Requests
 const getAllJobRequests = asyncHandler(async (req, res) => {
+  const jobRoleRaw = req.query.jobRole || req.query["jobRole[]"];
+  const jobRole = Array.isArray(jobRoleRaw)
+    ? jobRoleRaw
+    : jobRoleRaw
+    ? [jobRoleRaw]
+    : [];
+
   const filters = {
     status: req.query.status,
     search: req.query.search,
-    jobRole: Array.isArray(req.query.jobRole)
-      ? req.query.jobRole
-      : req.query.jobRole
-      ? [req.query.jobRole]
-      : [],
+    jobRole,
     jobType: req.query.jobType,
-    country: req.query.country
+    country: req.query.country,
   };
   const pageNumber = parseInt(req.query.page, 10) || 1;
   const limitNumber = parseInt(req.query.limit, 10) || 10;
-  const jobRequests = await jobRequestService.getAllJobRequests(filters, pageNumber, limitNumber);
+  const jobRequests = await jobRequestService.getAllJobRequests(
+    filters,
+    pageNumber,
+    limitNumber
+  );
   res.status(200).json({
     message: "Job requests fetched successfully",
     ...jobRequests,
@@ -116,7 +123,7 @@ const updateJobDetails = [
 
 const updateJobDetailsByAdmin = [
   asyncHandler(async (req, res) => {
-    const jobData = req.body
+    const jobData = req.body;
     const jobId = req.params.id;
     const updatedJob = await jobRequestService.editJobDetailsByAdmin(
       jobData,
@@ -135,13 +142,13 @@ const postJobAndSubscribe = [
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const userId = req.user.id;
-    const {planId, promoCode, finalPrice, discountApplied } = req.body
+    const { planId, promoCode, finalPrice, discountApplied } = req.body;
     const jobData = {
       ...req.body,
       employerId: userId,
     };
     //calculate date n credits
-    const subscription = await Subscription.findById(planId)
+    const subscription = await Subscription.findById(planId);
     const startDate = new Date();
     let endDate = null;
     if (subscription.period) {
@@ -150,7 +157,9 @@ const postJobAndSubscribe = [
     }
     const totalCredits = subscription.totalCredits;
     const usedCredits = 0;
-    const promoId = promoCode ? (await PromoCode.findOne({ code: promoCode }))?._id : null;
+    const promoId = promoCode
+      ? (await PromoCode.findOne({ code: promoCode }))?._id
+      : null;
     const userSubscriptionRecord = await createMapping({
       userId: userId,
       subscriptionId: subscription.id,
@@ -163,8 +172,12 @@ const postJobAndSubscribe = [
       discountApplied,
     });
 
-    if(promoId){
-      await PromoCode.findByIdAndUpdate(promoId, { $inc: { totalUsed: 1 } }, { new: true });
+    if (promoId) {
+      await PromoCode.findByIdAndUpdate(
+        promoId,
+        { $inc: { totalUsed: 1 } },
+        { new: true }
+      );
       logger.info(`PromoCode ${promoCode} usage incremented.`);
     }
     const postJob = await jobRequestService.createJobRequest(jobData);
@@ -184,8 +197,8 @@ const getAdminDashboardStats = [
       message: "Admin dashboard stats fetched successfully",
       data: stats,
     });
-  })
-]
+  }),
+];
 
 const updateApplyClicks = [
   asyncHandler(async (req, res) => {
