@@ -4,6 +4,77 @@ const Role = require("../models/Role");
 const userSubscription = require("../models/userSubscription");
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
+const { jobs } = require("./data");
+const { extractResponsibilities, buildRequirements, buildSkillChips, determineExperienceLevel, determineJobLocationType, masterCountries, formatSalary, deriveIndustry, deriveHeadquarters } = require("../utils/apifyUtils");
+
+
+exports.createJobsFromApify = async (req) => {
+  try {
+    jobs.forEach(async (job) => {
+      let myJobType = "Onsite";
+      let myWorkMode = "Full-Time";
+      let product_tags = job?.ai_key_skills || job?.ai_keywords;
+      let employerId = req?._id;
+      let jobTitle = job?.title;
+      let jobRole = job?.ai_keywords || [];
+      let date_posted = job?.date_posted || job?.date_created;
+      let applyLink = job?.url;
+      let roleDescription = job?.description_text || `${job?.ai_core_responsibilities}+${job?.ai_requirements_summary}`;
+      let keyResponsibilities = extractResponsibilities(job?.ai_core_responsibilities, job?.description_text);
+      let requirements = buildRequirements(job?.ai_requirements_summary, job?.ai_education_requirements, job?.ai_experience_level, job?.description_text);  
+      let skills = buildSkillChips(job?.ai_key_skills, job?.ai_keywords);
+      let roleLevel = determineExperienceLevel(job?.ai_experience_level, job?.ai_requirements_summary, job?.description_text);
+      let {jobLocationType,jobCountries} = determineJobLocationType(job,masterCountries);
+      let salary = formatSalary(job?.ai_salary_currency, job?.ai_salary_value, job?.ai_salary_minvalue, job?.ai_salary_maxvalue, job?.ai_salary_unittext, job?.salary_raw);
+      let industry = deriveIndustry(job?.linkedin_org_industry, job?.ai_taxonomies_a);
+      let headquarters = deriveHeadquarters(job?.linkedin_org_headquarters, job?.linkedin_org_locations, job?.countries_derived);
+      let companyLinkedInPage = job?.linkedin_org_url || null;
+
+      if (
+        job?.ai_work_arrangement === "Remote OK" ||
+        job?.ai_work_arrangement === "Remote Solely" ||
+        job?.remote_derived === true || job?.location_type === "TELECOMMUTE"
+      ) {
+        myJobType = "Remote";
+      } else if (job?.ai_work_arrangement === "Hybrid") {
+        myJobType = "Hybrid";
+      }
+
+      if(job?.employment_type[0].toLowerCase()==="part-time" || job?.ai_employment_type[0].toLowerCase() === "part-time"){
+        myWorkMode = "Part-Time"
+      }else if (job?.employment_type[0].toLowerCase() === "contract" || job?.ai_employment_type[0].toLowerCase() === "contract"){
+        myWorkMode = "Contract"
+      }
+      const data = {
+        employerId,
+        jobTitle,
+        jobRole,
+        date_posted,
+        jobType: myJobType,
+        workMode: myWorkMode,
+        product_tags,
+        applyLink,
+        roleDescription,
+        keyResponsibilities,
+        requirements,
+        skills,
+        roleLevel,
+        country: jobLocationType,
+        salary,
+        organization_logo,
+        linkedin_org_industry: industry,
+        linkedin_org_headquarters: headquarters,
+        companyHomePage: deriveOrganizationUrl(job?.organization_url, job?.domain_derived),
+        companyLinkedInPage,
+        domain_derived: job?.domain_derived,
+      };
+      const jobRequest = new JobRequest(data);
+      await jobRequest.save();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //new job request
 exports.createJobRequest = async (data) => {
@@ -56,7 +127,7 @@ exports.getAllJobRequests = async (
     if (jobType) query.jobType = jobType.trim();
     if (country) query.country = country;
     if (jobRole && jobRole.length > 0) {
-      query.jobRole = { $in: jobRole.map(role => role.trim()) };
+      query.jobRole = { $in: jobRole.map((role) => role.trim()) };
     }
 
     const jobRequests = await JobRequest.find(query)
@@ -331,27 +402,27 @@ exports.getAdminDashboardStats = async () => {
 
 // Increment apply clicks for a job
 exports.applyClickCounter = async (jobId, roleName) => {
-    try {
-      if (roleName?.toLowerCase() !== "jobseeker") {
-        throw new ApiError("Only jobseekers can perform apply click", 403);
-      }
-      const updatedJob = await JobRequest.findByIdAndUpdate(
-        jobId,
-        { $inc: { applyClicks: 1 } },
-        { new: true }
-      );
-      if (!updatedJob) {
-        throw new ApiError("Job request not found", 404);
-      }
+  try {
+    if (roleName?.toLowerCase() !== "jobseeker") {
+      throw new ApiError("Only jobseekers can perform apply click", 403);
+    }
+    const updatedJob = await JobRequest.findByIdAndUpdate(
+      jobId,
+      { $inc: { applyClicks: 1 } },
+      { new: true }
+    );
+    if (!updatedJob) {
+      throw new ApiError("Job request not found", 404);
+    }
 
-      logger.info(`Apply Click incremented for jobId: ${jobId}`);
-      return updatedJob;
-    } catch (error) {
-      logger.error("Error updating applyClicks", {
-        jobId,
-        error: error.message,
-        stack: error.stack,
-      });
-      throw new ApiError(error.message || "Failed to update apply click",500);
+    logger.info(`Apply Click incremented for jobId: ${jobId}`);
+    return updatedJob;
+  } catch (error) {
+    logger.error("Error updating applyClicks", {
+      jobId,
+      error: error.message,
+      stack: error.stack,
+    });
+    throw new ApiError(error.message || "Failed to update apply click", 500);
   }
 };

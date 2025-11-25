@@ -12,6 +12,13 @@ const {
 const Subscription = require("../models/Subscription");
 const PromoCode = require("../models/promoCode");
 
+const createJobsFromApify = asyncHandler(async(req, res)=>{
+  res.status(200).json({
+    message: "Job created from apify successfully",
+    data: await jobRequestService.createJobsFromApify(req),
+  })
+})
+
 const createJobRequest = [
   validateJobRequest,
   handleValidationErrors,
@@ -222,4 +229,5 @@ module.exports = {
   updateJobDetailsByAdmin,
   getAdminDashboardStats,
   updateApplyClicks,
+  createJobsFromApify
 };
