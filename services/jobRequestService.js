@@ -53,9 +53,11 @@ exports.getAllJobRequests = async (
       ["Active", "In Review", "Expired", "Rejected"].includes(status)
     )
       query.status = status;
-    if (jobType) query.jobType = jobType;
+    if (jobType) query.jobType = jobType.trim();
     if (country) query.country = country;
-    if (jobRole) query.jobRole = jobRole;
+    if (jobRole && jobRole.length > 0) {
+      query.jobRole = { $in: jobRole.map(role => role.trim()) };
+    }
 
     const jobRequests = await JobRequest.find(query)
       .populate("employerId")

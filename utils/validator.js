@@ -475,7 +475,6 @@ const checkEmployerRole = async (req, res, next) => {
     if (!req.user) {
       return next(new ApiError('Unauthorized: Token not found or invalid', 401));
     }
-
     const roleDoc = await Role.findById(req.user.role);
     if (!roleDoc) {
       return next(new ApiError('Role not found for user', 403));

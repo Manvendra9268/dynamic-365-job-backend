@@ -9,6 +9,8 @@ const userRoutes = require('./routes/userRoutes');
 const jobRequestRoute = require('./routes/jobRequestRoute');
 const subscriptionRoute = require('./routes/subscriptionRoute');
 const promoRoute = require('./routes/promoCodeRoute');
+const paymentRoutes = require('./routes/paymentRoutes');
+const webhookRoutes = require('./routes/webhookRoutes');
 
 const app = express();
 const path = require("path");
@@ -31,6 +33,13 @@ app.use(
 // Logging Middleware
 app.use(morgan('combined', { stream: { write: (message) => logger.info(message.trim()) } }));
 
+// Stripe webhook needs the raw body before JSON middleware
+app.use(
+  '/api/v1/payments/webhook',
+  express.raw({ type: 'application/json' }),
+  webhookRoutes
+);
+
 // Body Parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +58,7 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/jobs', jobRequestRoute);
 app.use('/api/v1/subs', subscriptionRoute);
 app.use('/api/v1/promo', promoRoute);
+app.use('/api/v1/payments', paymentRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

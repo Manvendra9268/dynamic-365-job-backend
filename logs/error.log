@@ -1,372 +1,32 @@
 ═══════════════════════════════════════════════════════════════
-[2025-11-05 17:17:43] error: Error 401: No token provided
-Method: GET
-Path: /api/v1/subs/plans
+[2025-11-21 16:46:08] error: Status poll finalization failed
 Meta:
 {
-  "status": 401
+  "sessionId": "cs_test_a1VNKZpW89yPLNHcWBtxalmkCmO0LhlSScnrucet1BZRICFC7DziaNWFdU",
+  "error": "CheckoutSession validation failed: stripePaymentIntentId: Cast to string failed for value \"{\n  id: 'pi_3SVsJsHaXLTsOihy1YYNsyqZ',\n  object: 'payment_intent',\n  amount: 6800,\n  amount_capturable: 0,\n  amount_details: {\n    shipping: { amount: 0, from_postal_code: null, to_postal_code: null },\n    tax: { total_tax_amount: 0 },\n    tip: {}\n  },\n  amount_received: 6800,\n  application: null,\n  application_fee_amount: null,\n  automatic_payment_methods: null,\n  canceled_at: null,\n  cancellation_reason: null,\n  capture_method: 'automatic_async',\n  client_secret: 'pi_3SVsJsHaXLTsOihy1YYNsyqZ_secret_YvNH5hZ7MoBdq0IsZHdV5hhr0',\n  confirmation_method: 'automatic',\n  created: 1763723764,\n  currency: 'usd',\n  customer: null,\n  description: null,\n  excluded_payment_method_types: null,\n  invoice: null,\n  last_payment_error: null,\n  latest_charge: 'ch_3SVsJsHaXLTsOihy1Z9cg518',\n  livemode: false,\n  metadata: {\n    flowType: 'job_subscription',\n    planId: '6909ef2e02f6a6e25f12e033',\n    userId: '692038b11a0962a0afa27f94'\n  },\n  next_action: null,\n  on_behalf_of: null,\n  payment_details: { customer_reference: null, order_reference: 'prod_TSmTm7e2T1855D' },\n  payment_method: 'pm_1SVsJsHaXLTsOihyQQQQT7V6',\n  payment_method_configuration_details: null,\n  payment_method_options: {\n    card: {\n      installments: null,\n      mandate_options: null,\n      network: null,\n      request_three_d_secure: 'automatic'\n    }\n  },\n  payment_method_types: [ 'card' ],\n  processing: null,\n  receipt_email: null,\n  review: null,\n  setup_future_usage: null,\n  shipping: null,\n  source: null,\n  statement_descriptor: null,\n  statement_descriptor_suffix: null,\n  status: 'succeeded',\n  transfer_data: null,\n  transfer_group: null\n}\" (type Object) at path \"stripePaymentIntentId\""
 }
-Stack Trace:
-  Error: No token provided
-      at authMiddleware (C:\Users\Admin\Documents\dynamic-365-job-backend\middleware\authMiddleware.js:10:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at Route.dispatch (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:117:3)
-      at handle (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\index.js:435:11)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\index.js:295:15
-      at processParams (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\index.js:582:12)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\index.js:291:5)
-      at Function.handle (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\index.js:186:3)
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-05 17:46:22] error: Error 400: Validation failed
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
+[2025-11-21 17:06:10] error: Status poll finalization failed
 Meta:
 {
-  "status": 400,
-  "details": [
-    {
-      "field": "id",
-      "message": "Subscription ID is required."
-    },
-    {
-      "field": "id",
-      "message": "Invalid subscription ID."
-    },
-    {
-      "field": "password",
-      "message": "Password must be at least 8 characters."
-    },
-    {
-      "field": "role",
-      "message": "Role is required."
-    },
-    {
-      "field": "role",
-      "message": "Role must be either employer, jobseeker, or admin"
-    }
-  ]
+  "sessionId": "cs_test_a1Ezh6acjY9ppO5mK0jUN45cIXgYP2PUhfU2HM8Ia6Yrqr7acuJpuKwA8n",
+  "error": "UserSubscription validation failed: stripeSubscriptionId: Cast to string failed for value \"{\n  id: 'sub_1SVsdDHaXLTsOihy7xg9Vevk',\n  object: 'subscription',\n  application: null,\n  application_fee_percent: null,\n  automatic_tax: { disabled_reason: null, enabled: false, liability: null },\n  billing_cycle_anchor: 1763724963,\n  billing_cycle_anchor_config: null,\n  billing_mode: { flexible: null, type: 'classic' },\n  billing_thresholds: null,\n  cancel_at: null,\n  cancel_at_period_end: false,\n  canceled_at: null,\n  cancellation_details: { comment: null, feedback: null, reason: null },\n  collection_method: 'charge_automatically',\n  created: 1763724963,\n  currency: 'usd',\n  current_period_end: 1766316963,\n  current_period_start: 1763724963,\n  customer: 'cus_TSoFeafYBRuc6Y',\n  days_until_due: null,\n  default_payment_method: 'pm_1SVsdCHaXLTsOihyEdlA0Euq',\n  default_source: null,\n  default_tax_rates: [],\n  description: null,\n  discount: null,\n  discounts: [],\n  ended_at: null,\n  invoice_settings: { account_tax_ids: null, issuer: { type: 'self' } },\n  items: {\n    object: 'list',\n    data: [ [Object] ],\n    has_more: false,\n    total_count: 1,\n    url: '/v1/subscription_items?subscription=sub_1SVsdDHaXLTsOihy7xg9Vevk'\n  },\n  latest_invoice: 'in_1SVsdEHaXLTsOihy7HxkImug',\n  livemode: false,\n  metadata: {\n    flowType: 'job_subscription',\n    planId: '6909efa502f6a6e25f12e045',\n    userId: '692038b11a0962a0afa27f94'\n  },\n  next_pending_invoice_item_invoice: null,\n  on_behalf_of: null,\n  pause_collection: null,\n  payment_settings: {\n    payment_method_options: {\n      acss_debit: null,\n      bancontact: null,\n      card: [Object],\n      customer_balance: null,\n      konbini: null,\n      sepa_debit: null,\n      us_bank_account: null\n    },\n    payment_method_types: [ 'card' ],\n    save_default_payment_method: 'off'\n  },\n  pending_invoice_item_interval: null,\n  pending_setup_intent: null,\n  pending_update: null,\n  plan: {\n    id: 'price_1SVquoHaXLTsOihyvngMxUm0',\n    object: 'plan',\n    active: true,\n    aggregate_usage: null,\n    amount: 14800,\n    amount_decimal: '14800',\n    billing_scheme: 'per_unit',\n    created: 1763718366,\n    currency: 'usd',\n    interval: 'month',\n    interval_count: 1,\n    livemode: false,\n    metadata: {},\n    meter: null,\n    nickname: null,\n    product: 'prod_TSmTqM1kXCA2RR',\n    tiers_mode: null,\n    transform_usage: null,\n    trial_period_days: null,\n    usage_type: 'licensed'\n  },\n  quantity: 1,\n  schedule: null,\n  start_date: 1763724963,\n  status: 'active',\n  test_clock: null,\n  transfer_data: null,\n  trial_end: null,\n  trial_settings: { end_behavior: { missing_payment_method: 'create_invoice' } },\n  trial_start: null\n}\" (type Object) at path \"stripeSubscriptionId\""
 }
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:501:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-05 17:51:05] error: Error 400: Validation failed
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
+[2025-11-21 17:11:48] error: Status poll finalization failed
 Meta:
 {
-  "status": 400,
-  "details": [
-    {
-      "field": "password",
-      "message": "Password must be at least 8 characters."
-    },
-    {
-      "field": "role",
-      "message": "Role is required."
-    },
-    {
-      "field": "role",
-      "message": "Role must be either employer, jobseeker, or admin"
-    }
-  ]
+  "sessionId": "cs_test_a1LxMO6uI9NmVm8KNLCF5rdoylNUwjUUHZTp8n09lZNYzHqy9lzLWZe2Sb",
+  "error": "UserSubscription validation failed: stripeSubscriptionId: Cast to string failed for value \"{\n  id: 'sub_1SVsifHaXLTsOihyQBWNux4q',\n  object: 'subscription',\n  application: null,\n  application_fee_percent: null,\n  automatic_tax: { disabled_reason: null, enabled: false, liability: null },\n  billing_cycle_anchor: 1763725301,\n  billing_cycle_anchor_config: null,\n  billing_mode: { flexible: null, type: 'classic' },\n  billing_thresholds: null,\n  cancel_at: null,\n  cancel_at_period_end: false,\n  canceled_at: null,\n  cancellation_details: { comment: null, feedback: null, reason: null },\n  collection_method: 'charge_automatically',\n  created: 1763725301,\n  currency: 'usd',\n  current_period_end: 1766317301,\n  current_period_start: 1763725301,\n  customer: 'cus_TSoLbv5fubQSrM',\n  days_until_due: null,\n  default_payment_method: 'pm_1SVsieHaXLTsOihyCsltDwJL',\n  default_source: null,\n  default_tax_rates: [],\n  description: null,\n  discount: null,\n  discounts: [],\n  ended_at: null,\n  invoice_settings: { account_tax_ids: null, issuer: { type: 'self' } },\n  items: {\n    object: 'list',\n    data: [ [Object] ],\n    has_more: false,\n    total_count: 1,\n    url: '/v1/subscription_items?subscription=sub_1SVsifHaXLTsOihyQBWNux4q'\n  },\n  latest_invoice: 'in_1SVsigHaXLTsOihyWYpOGTN7',\n  livemode: false,\n  metadata: {\n    flowType: 'public_registration',\n    planId: '6909efa502f6a6e25f12e045'\n  },\n  next_pending_invoice_item_invoice: null,\n  on_behalf_of: null,\n  pause_collection: null,\n  payment_settings: {\n    payment_method_options: {\n      acss_debit: null,\n      bancontact: null,\n      card: [Object],\n      customer_balance: null,\n      konbini: null,\n      sepa_debit: null,\n      us_bank_account: null\n    },\n    payment_method_types: [ 'card' ],\n    save_default_payment_method: 'off'\n  },\n  pending_invoice_item_interval: null,\n  pending_setup_intent: null,\n  pending_update: null,\n  plan: {\n    id: 'price_1SVquoHaXLTsOihyvngMxUm0',\n    object: 'plan',\n    active: true,\n    aggregate_usage: null,\n    amount: 14800,\n    amount_decimal: '14800',\n    billing_scheme: 'per_unit',\n    created: 1763718366,\n    currency: 'usd',\n    interval: 'month',\n    interval_count: 1,\n    livemode: false,\n    metadata: {},\n    meter: null,\n    nickname: null,\n    product: 'prod_TSmTqM1kXCA2RR',\n    tiers_mode: null,\n    transform_usage: null,\n    trial_period_days: null,\n    usage_type: 'licensed'\n  },\n  quantity: 1,\n  schedule: null,\n  start_date: 1763725301,\n  status: 'active',\n  test_clock: null,\n  transfer_data: null,\n  trial_end: null,\n  trial_settings: { end_behavior: { missing_payment_method: 'create_invoice' } },\n  trial_start: null\n}\" (type Object) at path \"stripeSubscriptionId\""
 }
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:502:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-05 17:51:15] error: Error 400: Validation failed
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "role",
-      "message": "Role is required."
-    },
-    {
-      "field": "role",
-      "message": "Role must be either employer, jobseeker, or admin"
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:502:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-05 17:52:40] error: Error 400: Validation failed
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "role",
-      "message": "Role is required."
-    },
-    {
-      "field": "role",
-      "message": "Role must be either employer, jobseeker, or admin"
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:502:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-05 18:04:40] error: Error 500: Cast to ObjectId failed for value "employer" (type string) at path "_id" for model "Role"
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
-Meta:
-{
-  "status": 500
-}
-Stack Trace:
-  CastError: Cast to ObjectId failed for value "employer" (type string) at path "_id" for model "Role"
-      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
-      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
-      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
-      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
-      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
-      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
-      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
-      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async createUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:43:19)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-05 18:15:49] error: Error 400: User already exists with this email or Phone number.
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
-Meta:
-{
-  "status": 400
-}
-Stack Trace:
-  Error: User already exists with this email or Phone number.
-      at createUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:35:19)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:310:25
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-05 18:17:31] error: Error 500: userSubscriptionService is not defined
-Method: POST
-Path: /api/v1/users/sub-reg?id=6909efa502f6a6e25f12e045
-Meta:
-{
-  "status": 500
-}
-Stack Trace:
-  ReferenceError: userSubscriptionService is not defined
-      at C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:324:21
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 13:17:30] error: Error fetching job request by ID
-Meta:
-{
-  "id": "my-jobs",
-  "error": "Cast to ObjectId failed for value \"my-jobs\" (type string) at path \"_id\" for model \"JobRequest\""
-}
-Stack Trace:
-  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
-      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
-      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
-      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
-      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
-      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
-      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
-      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:43:24)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 13:17:30] error: Error 500: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-Method: GET
-Path: /api/v1/jobs/my-jobs?search=&status=All
-Meta:
-{
-  "status": 500
-}
-Stack Trace:
-  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
-      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
-      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
-      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
-      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
-      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
-      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
-      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:43:24)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 14:08:47] error: Error 500: employerId is not defined
-Method: PUT
-Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
-Meta:
-{
-  "status": 500
-}
-Stack Trace:
-  ReferenceError: employerId is not defined
-      at exports.editJobDetails (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:168:7)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\jobRequestController.js:88:24
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 14:10:07] error: Error 400: Validation failed
-Method: PUT
-Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "workMode",
-      "message": "Invalid work mode."
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 14:12:57] error: Error 400: Validation failed
-Method: PUT
-Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "skills",
-      "message": "Skills must be an array of strings."
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 14:13:43] error: Error fetching job request by ID
-Meta:
-{
-  "id": "my-jobs",
-  "error": "Cast to ObjectId failed for value \"my-jobs\" (type string) at path \"_id\" for model \"JobRequest\""
-}
-Stack Trace:
-  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
-      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
-      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
-      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
-      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
-      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
-      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
-      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:52:24)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 14:13:43] error: Error 500: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-Method: GET
-Path: /api/v1/jobs/my-jobs
-Meta:
-{
-  "status": 500
-}
-Stack Trace:
-  CastError: Cast to ObjectId failed for value "my-jobs" (type string) at path "_id" for model "JobRequest"
-      at SchemaObjectId.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schema\objectId.js:251:11)
-      at SchemaType.applySetters (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1262:12)
-      at SchemaType.castForQuery (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\schemaType.js:1698:17)
-      at cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\cast.js:390:32)
-      at Query.cast (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:5060:12)
-      at Query._castConditions (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2374:10)
-      at model.Query._findOne (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:2697:8)
-      at model.Query.exec (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\mongoose\lib\query.js:4627:80)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-      at async exports.getJobRequestById (C:\Users\Admin\Documents\dynamic-365-job-backend\services\jobRequestService.js:52:24)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 15:40:54] error: Error 400: Validation failed
-Method: PUT
-Path: /api/v1/jobs/6909d0b4e3aeb02d553cc354
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "status",
-      "message": "Invalid job status"
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:533:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
-      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-06 16:45:52] error: Error 401: Invalid credentials
+[2025-11-21 17:12:13] error: Error 401: Invalid credentials
 Method: POST
 Path: /api/v1/users/login
 Meta:
@@ -375,12 +35,12 @@ Meta:
 }
 Stack Trace:
   Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+      at loginUser (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\services\userService.js:239:11)
+      at async C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\controllers\userController.js:196:20
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-06 17:24:07] error: Error 401: Invalid credentials
+[2025-11-21 17:12:19] error: Error 401: Invalid credentials
 Method: POST
 Path: /api/v1/users/login
 Meta:
@@ -389,12 +49,12 @@ Meta:
 }
 Stack Trace:
   Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+      at loginUser (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\services\userService.js:239:11)
+      at async C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\controllers\userController.js:196:20
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-06 17:29:35] error: Error 401: Invalid credentials
+[2025-11-21 17:12:22] error: Error 401: Invalid credentials
 Method: POST
 Path: /api/v1/users/login
 Meta:
@@ -403,12 +63,12 @@ Meta:
 }
 Stack Trace:
   Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:234:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+      at loginUser (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\services\userService.js:239:11)
+      at async C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\controllers\userController.js:196:20
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-13 11:03:06] error: Error 401: Invalid credentials
+[2025-11-21 17:12:26] error: Error 401: Invalid credentials
 Method: POST
 Path: /api/v1/users/login
 Meta:
@@ -417,100 +77,96 @@ Meta:
 }
 Stack Trace:
   Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
+      at loginUser (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\services\userService.js:239:11)
+      at async C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\controllers\userController.js:196:20
 ═══════════════════════════════════════════════════════════════
 
 ═══════════════════════════════════════════════════════════════
-[2025-11-13 13:23:54] error: Error 401: Invalid credentials
+[2025-11-21 17:36:16] error: Error 500: Role validation failed
 Method: POST
-Path: /api/v1/users/login
+Path: /api/v1/jobs/new
 Meta:
 {
-  "status": 401
+  "status": 500,
+  "details": "Cast to ObjectId failed for value \"{ roleName: 'employer' }\" (type Object) at path \"_id\" for model \"Role\""
 }
 Stack Trace:
-  Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-13 13:23:57] error: Error 401: Invalid credentials
-Method: POST
-Path: /api/v1/users/login
-Meta:
-{
-  "status": 401
-}
-Stack Trace:
-  Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-13 13:24:02] error: Error 401: Invalid credentials
-Method: POST
-Path: /api/v1/users/login
-Meta:
-{
-  "status": 401
-}
-Stack Trace:
-  Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-13 13:24:04] error: Error 401: Invalid credentials
-Method: POST
-Path: /api/v1/users/login
-Meta:
-{
-  "status": 401
-}
-Stack Trace:
-  Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-13 13:24:06] error: Error 401: Invalid credentials
-Method: POST
-Path: /api/v1/users/login
-Meta:
-{
-  "status": 401
-}
-Stack Trace:
-  Error: Invalid credentials
-      at loginUser (C:\Users\Admin\Documents\dynamic-365-job-backend\services\userService.js:225:11)
-      at async C:\Users\Admin\Documents\dynamic-365-job-backend\controllers\userController.js:187:20
-═══════════════════════════════════════════════════════════════
-
-═══════════════════════════════════════════════════════════════
-[2025-11-13 16:29:15] error: Error 400: Validation failed
-Method: PUT
-Path: /api/v1/jobs/6915b36cf1c19233342cd9bf
-Meta:
-{
-  "status": 400,
-  "details": [
-    {
-      "field": "jobRole",
-      "message": "Invalid JobRole ID."
-    }
-  ]
-}
-Stack Trace:
-  Error: Validation failed
-      at handleValidationErrors (C:\Users\Admin\Documents\dynamic-365-job-backend\utils\validator.js:469:17)
-      at Layer.handleRequest (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\layer.js:152:17)
-      at next (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\router\lib\route.js:157:13)
-      at middleware (C:\Users\Admin\Documents\dynamic-365-job-backend\node_modules\express-validator\lib\middlewares\check.js:16:13)
+  Error: Role validation failed
+      at checkEmployerRole (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\utils\validator.js:490:10)
       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-21 17:36:32] error: Error 500: Role validation failed
+Method: POST
+Path: /api/v1/jobs/new
+Meta:
+{
+  "status": 500,
+  "details": "Cast to ObjectId failed for value \"{ roleName: 'employer' }\" (type Object) at path \"_id\" for model \"Role\""
+}
+Stack Trace:
+  Error: Role validation failed
+      at checkEmployerRole (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\utils\validator.js:490:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-21 17:36:42] error: Error 500: Role validation failed
+Method: POST
+Path: /api/v1/jobs/new
+Meta:
+{
+  "status": 500,
+  "details": "Cast to ObjectId failed for value \"{ roleName: 'employer' }\" (type Object) at path \"_id\" for model \"Role\""
+}
+Stack Trace:
+  Error: Role validation failed
+      at checkEmployerRole (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\utils\validator.js:490:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-21 17:37:15] error: Error 500: Role validation failed
+Method: POST
+Path: /api/v1/jobs/new
+Meta:
+{
+  "status": 500,
+  "details": "Cast to ObjectId failed for value \"{ roleName: 'employer' }\" (type Object) at path \"_id\" for model \"Role\""
+}
+Stack Trace:
+  Error: Role validation failed
+      at checkEmployerRole (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\utils\validator.js:490:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-21 17:39:42] error: Error 500: Role validation failed
+Method: POST
+Path: /api/v1/jobs/new
+Meta:
+{
+  "status": 500,
+  "details": "Cast to ObjectId failed for value \"{ roleName: 'employer' }\" (type Object) at path \"_id\" for model \"Role\""
+}
+Stack Trace:
+  Error: Role validation failed
+      at checkEmployerRole (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\utils\validator.js:490:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+═══════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════
+[2025-11-21 17:41:52] error: Error 401: Invalid credentials
+Method: POST
+Path: /api/v1/users/login
+Meta:
+{
+  "status": 401
+}
+Stack Trace:
+  Error: Invalid credentials
+      at loginUser (C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\services\userService.js:239:11)
+      at async C:\OFFICE_WORK\MY_PROJECTS\dynamic-365-job\dynamic-365-job-backend\controllers\userController.js:196:20
 ═══════════════════════════════════════════════════════════════
 
