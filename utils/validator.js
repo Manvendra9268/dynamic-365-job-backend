@@ -466,6 +466,12 @@ const validatePromoCode = [
     .withMessage("Invalid discountType"),
   body("promoStartDate").notEmpty().withMessage("Start date is required"),
   body("promoEndDate").notEmpty().withMessage("End date is required"),
+  // Optional amount (for discount), usage limit and Stripe-specific options
+  body("amount").optional().isFloat({ gt: 0 }).withMessage("amount must be a positive number"),
+  body("usageLimit").optional().isInt({ gt: 0 }).withMessage("usageLimit must be a positive integer"),
+  body("createOnStripe").optional().isBoolean().withMessage("createOnStripe must be a boolean"),
+  body("currency").optional().isString().withMessage("currency must be a string"),
+  body("duration").optional().isIn(["once", "repeating", "forever"]).withMessage("Invalid duration for Stripe coupon"),
 ];
 
 

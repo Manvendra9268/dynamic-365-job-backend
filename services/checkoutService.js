@@ -8,6 +8,7 @@ const CheckoutSession = require("../models/CheckoutSession");
 const UserSubscription = require("../models/userSubscription");
 const jobRequestService = require("./jobRequestService");
 const stripeService = require("./stripeService");
+const promoCodeService = require("./promoCodeService");
 const logger = require("../utils/logger");
 
 /* -------------------------------------------------------
@@ -108,17 +109,14 @@ const finalizeCheckoutSession = async ({ checkoutRecord, stripeSession }) => {
   }
 
   /* ---------------------------------------------------
-      PROMO CODE HANDLING
+      PROMO CODE HANDLING - Use webhook-based tracking
   ---------------------------------------------------- */
   const promo =
     checkoutRecord.promoCode &&
     (await PromoCode.findOne({ code: checkoutRecord.promoCode }));
 
-  if (promo) {
-    await PromoCode.findByIdAndUpdate(promo._id, {
-      $inc: { totalUsed: 1 },
-    });
-  }
+  // Note: We'll increment usage via webhook (incrementPromoUsage)
+  // to handle payment completion properly (not abandoned sessions)
 
   /* ---------------------------------------------------
       FIND USER SUBSCRIPTION MAPPING
@@ -179,8 +177,7 @@ const finalizeCheckoutSession = async ({ checkoutRecord, stripeSession }) => {
     mapping.paymentStatus = "paid";
     mapping.status = "active";
 
-    if (normalizedCustomerId)
-      mapping.stripeCustomerId = normalizedCustomerId;
+    if (normalizedCustomerId) mapping.stripeCustomerId = normalizedCustomerId;
 
     if (normalizedSubscriptionId)
       mapping.stripeSubscriptionId = normalizedSubscriptionId;
@@ -207,8 +204,14 @@ const finalizeCheckoutSession = async ({ checkoutRecord, stripeSession }) => {
   }
 
   /* ---------------------------------------------------
-      CREATE PAYMENT RECORD
+      CREATE PAYMENT RECORD (with promo code tracking)
   ---------------------------------------------------- */
+  const originalAmount =
+    promo && checkoutRecord.discountApplied
+      ? (checkoutRecord.finalPrice || plan.price) +
+        checkoutRecord.discountApplied
+      : null;
+
   await Payment.create({
     userId,
     planId: plan._id,
@@ -221,7 +224,30 @@ const finalizeCheckoutSession = async ({ checkoutRecord, stripeSession }) => {
     status: "paid",
     paymentType: checkoutRecord.isSubscription ? "subscription" : "one_time",
     metadata: checkoutRecord.metadata,
+    // Promo code tracking
+    promoCode: checkoutRecord.promoCode || null,
+    promoCodeId: promo?._id || null,
+    stripePromotionCodeId: checkoutRecord.stripePromotionCodeId || null,
+    discountApplied: checkoutRecord.discountApplied || 0,
+    originalAmount,
   });
+
+  // Increment promo code usage after payment is confirmed
+  if (promo) {
+    try {
+      await promoCodeService.incrementPromoUsage(promo._id.toString());
+      logger.info("Promo code usage incremented", {
+        promoCode: promo.code,
+        totalUsed: promo.totalUsed + 1,
+      });
+    } catch (err) {
+      logger.error("Failed to increment promo code usage", {
+        error: err.message,
+        promoCode: promo.code,
+      });
+      // Don't fail the checkout if usage increment fails
+    }
+  }
 
   /* ---------------------------------------------------
       MARK CHECKOUT COMPLETED

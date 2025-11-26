@@ -43,9 +43,30 @@ const paymentSchema = new mongoose.Schema(
       type: Object,
       default: {},
     },
+    // Promo code tracking
+    promoCode: {
+      type: String,
+      default: null,
+    },
+    promoCodeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PromoCode",
+      default: null,
+    },
+    stripePromotionCodeId: {
+      type: String,
+      default: null,
+    },
+    discountApplied: {
+      type: Number,
+      default: 0,
+    },
+    originalAmount: {
+      type: Number,
+      default: null,
+    },
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model("Payment", paymentSchema);
-

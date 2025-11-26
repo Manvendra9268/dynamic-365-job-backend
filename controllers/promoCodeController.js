@@ -9,10 +9,11 @@ const createPromoCode = [
   validatePromoCode,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    const promoCode = await promoCodeService.createPromoCode(req.body);
+    const result = await promoCodeService.createPromoCode(req.body);
+    // result contains { promo, stripeCoupon, stripePromotion } when created
     res.status(200).json({
       message: "Promo code created successfully",
-      data: promoCode,
+      data: result,
     });
   }),
 ];
@@ -61,9 +62,21 @@ const applyPromoCode = [
   }),
 ];
 
+const deletePromoCode = [
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const deletedPromo = await promoCodeService.deletePromoCode(id);
+    res.status(200).json({
+      message: "Promo code deactivated successfully",
+      data: deletedPromo,
+    });
+  }),
+];
+
 module.exports = {
   createPromoCode,
   allPromoCodes,
   updatePromoCode,
   applyPromoCode,
+  deletePromoCode,
 };
