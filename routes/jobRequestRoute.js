@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { createJobRequest, getAllJobRequests, getJobRequestById, getUserJobs, updateJobDetails, postJobAndSubscribe, updateJobDetailsByAdmin, getAdminDashboardStats, updateApplyClicks, createJobsFromApify} = require('../controllers/jobRequestController');
 const { authMiddleware } = require('../middleware/authMiddleware');
+const { importFromApify } = require('../controllers/importApifyJobsController');
+
+
 
 router.get('/admin-stats', authMiddleware, getAdminDashboardStats);
-router.post('/createJobs',authMiddleware ,createJobsFromApify);
+router.post('/apifyImport' ,authMiddleware, importFromApify);
 router.post('/new', authMiddleware, createJobRequest);
 router.post('/sub-post', authMiddleware, postJobAndSubscribe);
 router.get('/jobs', getAllJobRequests);

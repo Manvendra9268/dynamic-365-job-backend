@@ -7,6 +7,12 @@ const jobRequestSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    apifyJobId: {
+      type: String,
+      index: true,
+      unique: true,
+      sparse: true,
+    },
     jobTitle: {
       type: String,
       required: true,
