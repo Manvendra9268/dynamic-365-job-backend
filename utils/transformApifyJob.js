@@ -1,18 +1,24 @@
 /**
- * APIFY → JobRequest Transformation Engine
- * -----------------------------------------
- * - Fully aligned with FieldMapping.pdf (pages 28–34)
- * - Uses: roleKeywords.js + productKeywords.js
- * - Medium-level comments: clean + production-grade
- * - Optimized for large datasets (200+ jobs)
- * - Implements W2 location logic (dedupe → detect worldwide only if >1 unique country)
+ * APIFY → JobRequest Transformation Engine (FINAL VERSION)
+ * ---------------------------------------------------------
+ * - Fully aligned with FieldMapping.pdf (pp. 28–34)
+ * - NEW PDF priority role & product detection
+ * - Uses balanced roleKeywords.js + productKeywords.js
+ * - Human-readable product tags (Option B)
+ * - Clean, accurate, production-grade
  */
 
 const ROLE_KEYWORDS = require("./roleKeywords");
 const PRODUCT_KEYWORDS = require("./productKeywords");
 
 /* ============================================================
-   1. COUNTRY SET (flattened + embedded)
+   0. UTILITIES
+   ============================================================ */
+
+const normalize = (v) => (v ? v.toString().trim().toLowerCase() : "");
+
+/* ============================================================
+   1. COUNTRY SET (Your frontend country groups)
    ============================================================ */
 
 const countryOptionsGrouped = {
@@ -22,7 +28,7 @@ const countryOptionsGrouped = {
   northAmerica: ["United States", "Canada", "Mexico"],
   europe: [
     "United Kingdom", "Germany", "France", "Netherlands", "Ireland", "Switzerland", "Italy", "Spain",
-    "Sweden", "Norway", "Denmark", "Finland", "Belgium", "Austria", "Poland", "Czech Republic", "Romania"
+    "Sweden", "Norway", "Denmark", "Finland", "Belgium", "Austria", "Poland", "Czech Republic", "Romania",
   ],
   latam: ["Brazil", "Argentina", "Chile", "Colombia", "Peru"],
   africa: ["Egypt", "Morocco", "South Africa", "Kenya", "Nigeria"],
@@ -31,36 +37,58 @@ const countryOptionsGrouped = {
 
 const masterCountries = new Set(Object.values(countryOptionsGrouped).flat());
 
-const normalize = (v) => (v ? v.toString().trim().toLowerCase() : "");
-
 /* ============================================================
-   2. ROLE DETECTION
+   2. ROLE DETECTION (PDF PRIORITY)
    ============================================================ */
 
+// PRIORITY: title → ai_keywords → core_responsibilities → requirements → description_text
 function detectRoles(job) {
-  const text = [
-    job.title,
-    job.description_text,
-    job.ai_core_responsibilities,
-    job.ai_requirements_summary,
-    ...(job.ai_keywords || []),
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+  const priorityChunks = {
+    strong: [
+      job.title || "",
+      ...(job.ai_keywords || []),
+    ],
+    medium: [
+      job.ai_core_responsibilities || "",
+      job.ai_requirements_summary || "",
+    ],
+    weak: [
+      job.description_text || "",
+    ],
+  };
 
-  const matched = [];
+  const detected = new Set();
 
+  // STRONG PHASE
   for (const [roleKey, keywords] of Object.entries(ROLE_KEYWORDS)) {
     for (const kw of keywords) {
-      if (text.includes(kw.toLowerCase())) {
-        matched.push(formatRoleName(roleKey));
-        break;
+      if (priorityChunks.strong.some((txt) => txt?.toLowerCase().includes(kw))) {
+        detected.add(formatRoleName(roleKey));
+      }
+    }
+  }
+  if (detected.size > 0) return [...detected];
+
+  // MEDIUM PHASE
+  for (const [roleKey, keywords] of Object.entries(ROLE_KEYWORDS)) {
+    for (const kw of keywords) {
+      if (priorityChunks.medium.some((txt) => txt?.toLowerCase().includes(kw))) {
+        detected.add(formatRoleName(roleKey));
+      }
+    }
+  }
+  if (detected.size > 0) return [...detected];
+
+  // WEAK (FALLBACK)
+  for (const [roleKey, keywords] of Object.entries(ROLE_KEYWORDS)) {
+    for (const kw of keywords) {
+      if (priorityChunks.weak.some((txt) => txt?.toLowerCase().includes(kw))) {
+        detected.add(formatRoleName(roleKey));
       }
     }
   }
 
-  return [...new Set(matched)];
+  return [...detected];
 }
 
 function formatRoleName(key) {
@@ -71,41 +99,67 @@ function formatRoleName(key) {
 }
 
 /* ============================================================
-   3. PRODUCT TAG DETECTION
+   3. PRODUCT TAG DETECTION (PDF PRIORITY + Human-Readable)
    ============================================================ */
 
+// HUMAN-READABLE PRODUCT NAMES (Option B)
+const PRODUCT_NAME_MAP = {
+  d365FO: "D365 F&O",
+  d365CE: "D365 CE",
+  businessCentral: "Business Central",
+  powerPlatform: "Power Platform",
+  powerApps: "Power Apps",
+  powerAutomate: "Power Automate",
+  powerBI: "Power BI",
+  copilotAI: "Copilot / AI",
+  azure: "Azure",
+  commerce: "Commerce",
+  projectOperations: "Project Operations",
+  humanResources: "HR",
+  financeSCMModules: "Finance & SCM Modules",
+  miscMicrosoft: "Microsoft Cloud Tools",
+};
+
+// PRIORITY: ai_key_skills → ai_keywords → title → description
 function detectProductTags(job) {
-  const text = [
-    job.title,
-    job.description_text,
-    job.ai_core_responsibilities,
-    job.ai_requirements_summary,
-    ...(job.ai_keywords || []),
-    ...(job.ai_key_skills || []),
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+  const priorityChunks = {
+    strong: [
+      ...(job.ai_key_skills || []),
+    ],
+    medium: [
+      ...(job.ai_keywords || []),
+    ],
+    weak: [
+      job.title || "",
+      job.description_text || "",
+    ],
+  };
 
-  const matched = [];
+  const detected = new Set();
 
-  for (const [productKey, keywords] of Object.entries(PRODUCT_KEYWORDS)) {
-    for (const kw of keywords) {
-      if (text.includes(kw.toLowerCase())) {
-        matched.push(formatProductName(productKey));
-        break;
+  const detectFromChunk = (chunk, addModules = true) => {
+    for (const [productKey, keywords] of Object.entries(PRODUCT_KEYWORDS)) {
+      for (const kw of keywords) {
+        if (chunk.some((txt) => txt?.toLowerCase().includes(kw))) {
+          detected.add(PRODUCT_NAME_MAP[productKey]);
+          break;
+        }
       }
     }
-  }
+  };
 
-  return [...new Set(matched)];
-}
+  // STRONG
+  detectFromChunk(priorityChunks.strong);
+  if (detected.size > 0) return [...detected];
 
-function formatProductName(key) {
-  return key
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (c) => c.toUpperCase())
-    .trim();
+  // MEDIUM
+  detectFromChunk(priorityChunks.medium);
+  if (detected.size > 0) return [...detected];
+
+  // WEAK
+  detectFromChunk(priorityChunks.weak);
+
+  return [...detected];
 }
 
 /* ============================================================
@@ -113,11 +167,8 @@ function formatProductName(key) {
    ============================================================ */
 
 function buildSkillChips(job) {
-  const raw = [
-    ...(job.ai_key_skills || []),
-    ...(job.ai_keywords || []),
-  ];
-  return [...new Set(raw.map((x) => x.trim()))];
+  const raw = [...(job.ai_key_skills || []), ...(job.ai_keywords || [])];
+  return [...new Set(raw.map((s) => s.trim()))];
 }
 
 /* ============================================================
@@ -125,26 +176,11 @@ function buildSkillChips(job) {
    ============================================================ */
 
 function extractResponsibilities(job) {
-  if (job.ai_core_responsibilities) {
-    return job.ai_core_responsibilities
-      .split(/\n|•|- /g)
-      .map((s) => s.trim())
-      .filter(Boolean);
-  }
-
-  if (job.description_text) {
-    return job.description_text
-      .split("\n")
-      .filter(
-        (l) =>
-          l.includes("respons") ||
-          l.trim().startsWith("•") ||
-          l.trim().startsWith("-")
-      )
-      .map((line) => line.replace(/^[•-]/, "").trim());
-  }
-
-  return [];
+  const txt = job.ai_core_responsibilities || job.description_text || "";
+  return txt
+    .split(/\n|•|- /g)
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 /* ============================================================
@@ -152,26 +188,26 @@ function extractResponsibilities(job) {
    ============================================================ */
 
 function buildRequirements(job) {
-  const reqs = [];
+  const out = [];
 
   if (job.ai_requirements_summary) {
-    reqs.push(
+    out.push(
       ...job.ai_requirements_summary
         .split(/\n|•|- /g)
         .map((s) => s.trim())
-        .filter(Boolean)
+        .filter(Boolean),
     );
   }
 
   if (Array.isArray(job.ai_education_requirements)) {
-    reqs.push(...job.ai_education_requirements.map((e) => e.trim()));
+    out.push(...job.ai_education_requirements.map((e) => e.trim()));
   }
 
   if (job.ai_experience_level) {
-    reqs.push(`Experience required: ${job.ai_experience_level} years`);
+    out.push(`Experience required: ${job.ai_experience_level} years`);
   }
 
-  return [...new Set(reqs)];
+  return [...new Set(out)];
 }
 
 /* ============================================================
@@ -182,11 +218,11 @@ function mapExperienceLevel(job) {
   const lvl = job.ai_experience_level;
   if (!lvl) return null;
 
-  const match = lvl.match(/(\d+)-?(\d+)?/);
-  if (!match) return null;
+  const m = lvl.match(/(\d+)-?(\d+)?/);
+  if (!m) return null;
 
-  const min = parseInt(match[1], 10);
-  const max = match[2] ? parseInt(match[2], 10) : null;
+  const min = +m[1];
+  const max = m[2] ? +m[2] : null;
 
   if (max !== null) {
     if (max <= 2) return "Junior Level";
@@ -233,34 +269,18 @@ function mapJobType(job) {
 
 function determineJobLocationType(job) {
   const countries = (job.countries_derived || []).map((c) => c.trim());
-  const unique = [...new Set(countries)];
+  const uniq = [...new Set(countries)];
 
-  // Rule W2: duplicates still = single country
-  if (unique.length === 1) {
-    const c = unique[0];
-    return masterCountries.has(c) ? c : "Worldwide";
-  }
+  if (uniq.length === 1) return masterCountries.has(uniq[0]) ? uniq[0] : "Worldwide";
+  if (uniq.length > 1) return "Worldwide";
 
-  if (unique.length > 1) return "Worldwide";
+  const text = (job.title || "") + " " + (job.description_text || "");
+  const lowered = text.toLowerCase();
 
-  // No country; use keyword-based Worldwide
-  const text = [
-    job.title,
-    job.description_text,
-    ...(job.locations_raw || []),
-    ...(job.locations_derived || []),
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+  const worldTerms = ["worldwide", "global", "anywhere", "emea", "apac", "europe"];
+  if (worldTerms.some((kw) => lowered.includes(kw))) return "Worldwide";
 
-  const worldKeywords = ["worldwide", "global", "anywhere", "emea", "apac", "europe"];
-
-  if (worldKeywords.some((kw) => text.includes(kw))) {
-    return "Worldwide";
-  }
-
-  if (job.remote_derived === true) return "Worldwide";
+  if (job.remote_derived) return "Worldwide";
 
   return "Worldwide";
 }
@@ -280,12 +300,12 @@ function getUpperCompensation(job) {
 function formatSalary(job) {
   const min = job.ai_salary_minvalue;
   const max = job.ai_salary_maxvalue;
-  const currency = job.ai_salary_currency || "";
+  const cur = job.ai_salary_currency || "";
   const unit = job.ai_salary_unittext || "";
 
-  if (min && max) return `${currency}${min} - ${currency}${max} ${unit}`;
-  if (min) return `${currency}${min} ${unit}`;
-  if (max) return `${currency}${max} ${unit}`;
+  if (min && max) return `${cur}${min} - ${cur}${max} ${unit}`;
+  if (min) return `${cur}${min} ${unit}`;
+  if (max) return `${cur}${max} ${unit}`;
   return null;
 }
 

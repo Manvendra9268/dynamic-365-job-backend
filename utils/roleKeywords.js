@@ -1,16 +1,11 @@
 /**
- * ROLE KEYWORD DICTIONARIES
+ * ROLE KEYWORD DICTIONARIES (Balanced Strictness)
  * ------------------------------------------------------------
- * This dictionary is used by detectRoles() inside the transform engine.
- * It contains ALL major Dynamics 365 / Power Platform role categories
- * from the PDF + additional real-world synonyms commonly found in job posts.
- *
- * Matching is ALWAYS case-insensitive.
- *
- * IMPORTANT:
- * - Keep keywords lowercased.
- * - Avoid duplicates (performance).
- * - Add only STRONG indicators (not weak or vague words).
+ * - Clean, non-overlapping keyword sets
+ * - Strong → Medium signals only (no weak/noisy matches)
+ * - Fully aligned with FieldMapping.pdf priority rules
+ * - Optimized for detectRoles() using title → ai_keywords → secondary → fallback
+ * - Case-insensitive matching
  */
 
 module.exports = {
@@ -19,48 +14,29 @@ module.exports = {
   // ------------------------------------------------------------
   developer: [
     "developer",
+    "software developer",
     "software engineer",
-    "development engineer",
-    "programmer",
-    "backend developer",
-    "backend engineer",
-    "frontend developer",
-    "full stack developer",
-    "full-stack developer",
-    "application developer",
-    "technical developer",
-    "integration developer",
     "d365 developer",
     "dynamics developer",
+    "ce developer",
+    "crm developer",
+    "fo developer",
+    "f&o developer",
     "ax developer",
-    "ax 2012 developer",
-    "ax2012",
     "x++ developer",
     "xpp developer",
-    "plugin developer",
-    "power apps developer",
-    "power automate developer",
-    "customization engineer",
-    "customization developer",
-    "customizations",
-    "extensions developer",
-    "javascript developer",
-    "react developer",
-    "typescript developer",
-    "logic apps developer",
-    "azure functions developer",
-    "web developer",
-    "api developer",
-    "crm developer",
-    "ce developer",
-    "f&o developer",
-    "finance & operations developer",
-    "business central developer",
     "bc developer",
+    "business central developer",
     "al developer",
-    "extensions developer",
-    "solution developer",
-    "technical engineer",
+    "power apps developer",
+    "powerapps developer",
+    "power automate developer",
+    "frontend developer",
+    "backend developer",
+    "full stack developer",
+    "integration developer",
+    "azure developer",
+    "logic apps developer",
   ],
 
   // ------------------------------------------------------------
@@ -68,21 +44,15 @@ module.exports = {
   // ------------------------------------------------------------
   technicalConsultant: [
     "technical consultant",
-    "tech consultant",
-    "technical specialist",
-    "d365 technical",
-    "dynamics technical",
+    "d365 technical consultant",
     "crm technical consultant",
     "ce technical consultant",
-    "f&o technical consultant",
     "fo technical consultant",
-    "finance & operations technical consultant",
+    "f&o technical consultant",
     "ax technical consultant",
     "integration consultant",
-    "solution technical consultant",
-    "implementation technical consultant",
-    "technical lead consultant",
-    "technical implementation engineer",
+    "technical implementation consultant",
+    "technical solution consultant",
   ],
 
   // ------------------------------------------------------------
@@ -90,26 +60,16 @@ module.exports = {
   // ------------------------------------------------------------
   functionalConsultant: [
     "functional consultant",
-    "functional specialist",
-    "d365 functional",
-    "dynamics functional",
-    "crm functional consultant",
-    "ce functional consultant",
     "fo functional consultant",
     "f&o functional consultant",
-    "finance & operations functional consultant",
-    "business central functional consultant",
+    "d365 functional consultant",
+    "crm functional consultant",
+    "ce functional consultant",
     "bc functional consultant",
+    "business central functional consultant",
     "ax functional consultant",
     "erp functional consultant",
     "business process consultant",
-    "business systems consultant",
-    "functional analyst",
-    "functional lead",
-    "solution functional consultant",
-    "implementation consultant",
-    "requirements gathering",
-    "gap-fit consultant",
   ],
 
   // ------------------------------------------------------------
@@ -119,17 +79,14 @@ module.exports = {
     "solution architect",
     "solutions architect",
     "d365 architect",
-    "dynamics architect",
     "crm architect",
-    "f&o architect",
-    "fo architect",
     "ce architect",
+    "fo architect",
+    "f&o architect",
+    "bc architect",
+    "business central architect",
     "enterprise architect",
-    "technical architect",
     "lead architect",
-    "azure architect",
-    "cloud architect",
-    "integration architect",
   ],
 
   // ------------------------------------------------------------
@@ -137,15 +94,12 @@ module.exports = {
   // ------------------------------------------------------------
   technicalArchitect: [
     "technical architect",
-    "lead technical architect",
     "d365 technical architect",
     "crm technical architect",
-    "ce technical architect",
-    "ax technical architect",
+    "fo technical architect",
     "f&o technical architect",
     "integration architect",
-    "azure solutions architect",
-    "azure integration architect",
+    "azure architect",
   ],
 
   // ------------------------------------------------------------
@@ -154,15 +108,12 @@ module.exports = {
   projectManager: [
     "project manager",
     "it project manager",
-    "program manager",
-    "scrum master",
+    "d365 project manager",
     "delivery manager",
     "implementation manager",
     "project lead",
+    "scrum master",
     "agile project manager",
-    "technical project manager",
-    "project coordinator",
-    "engagement manager",
   ],
 
   // ------------------------------------------------------------
@@ -171,7 +122,6 @@ module.exports = {
   programManager: [
     "program manager",
     "senior program manager",
-    "delivery manager",
     "portfolio manager",
     "engagement manager",
   ],
@@ -181,14 +131,13 @@ module.exports = {
   // ------------------------------------------------------------
   businessAnalyst: [
     "business analyst",
-    "ba",
-    "crm business analyst",
     "d365 business analyst",
-    "functional analyst",
-    "requirements analyst",
+    "crm business analyst",
+    "ce business analyst",
     "systems analyst",
+    "requirements analyst",
+    "functional analyst",      // Balanced → safe
     "product analyst",
-    "process analyst",
   ],
 
   // ------------------------------------------------------------
@@ -198,11 +147,10 @@ module.exports = {
     "qa tester",
     "quality analyst",
     "test engineer",
-    "automation tester",
-    "manual tester",
     "qa engineer",
+    "manual tester",
+    "automation tester",
     "test analyst",
-    "test automation engineer",
   ],
 
   // ------------------------------------------------------------
@@ -212,11 +160,9 @@ module.exports = {
     "support engineer",
     "technical support engineer",
     "application support",
-    "l1 support",
-    "l2 support",
-    "l3 support",
     "crm support engineer",
     "d365 support engineer",
+    "it support engineer",
     "helpdesk engineer",
   ],
 
@@ -235,27 +181,27 @@ module.exports = {
   ],
 
   // ------------------------------------------------------------
-  // 12. DATA / INTEGRATION ENGINEER
+  // 12. DATA ENGINEER
   // ------------------------------------------------------------
   dataEngineer: [
     "data engineer",
-    "data specialist",
     "data consultant",
-    "etl developer",
-    "pipeline engineer",
+    "etl engineer",
+    "data migration engineer",
     "azure data engineer",
-    "data warehousing",
-    "data migration",
+    "data pipelines",
   ],
 
+  // ------------------------------------------------------------
+  // 13. INTEGRATION ENGINEER
+  // ------------------------------------------------------------
   integrationEngineer: [
     "integration engineer",
     "integration specialist",
-    "integration developer",
-    "azure integration",
-    "logic apps",
-    "service bus",
-    "dataflows",
     "api integration",
+    "integration lead",
+    "logic apps engineer",
+    "service bus engineer",
+    "integration developer",
   ],
 };

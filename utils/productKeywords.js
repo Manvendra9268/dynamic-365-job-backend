@@ -1,23 +1,11 @@
 /**
- * PRODUCT KEYWORD DICTIONARIES
+ * PRODUCT KEYWORD DICTIONARIES (Balanced Strictness)
  * ------------------------------------------------------------
- * These dictionaries map job text (title, description, ai fields)
- * to product families:
- *
- * - D365 F&O (Finance & Operations / AX)
- * - D365 CE (Customer Engagement / CRM)
- * - Business Central (BC / NAV)
- * - Power Platform
- * - Power Apps
- * - Power Automate
- * - Power BI
- * - Copilot / AI
- * - Azure / Integrations
- * - Commerce / Retail
- * - Other MS Cloud Words
- *
- * Matching is always CASE-INSENSITIVE.
- * Keep all keywords LOWERCASE.
+ * - Product families (F&O, CE, BC, Power Platform, Azure, etc.)
+ * - Module families (Finance, SCM, HR, Commerce, Project Ops)
+ * - Only strong product identifiers (NO generic functional terms)
+ * - No overlapping / no noisy terms
+ * - Fully aligned with PDF product-tag logic
  */
 
 module.exports = {
@@ -25,42 +13,23 @@ module.exports = {
   // 1. D365 FINANCE & OPERATIONS (F&O / AX / FinOps)
   // ------------------------------------------------------------
   d365FO: [
-    "d365 finance",
     "d365 f&o",
     "d365 fo",
+    "d365 finance",
+    "d365 operations",
     "d365 finance and operations",
     "finance & operations",
-    "finance and operations",
     "finops",
-    "f&o",
-    "fo",
-    "dynamics 365 finance",
-    "dynamics 365 operations",
-    "dynamics 365 f&o",
-    "d365 erp",
-    "erp finance",
     "ax",
-    "ax 2009",
-    "ax2009",
+    "axapta",
     "ax 2012",
     "ax2012",
-    "axapta",
+    "ax 2009",
+    "ax2009",
+    "dynamics 365 finance",
+    "dynamics 365 operations",
     "x++",
     "xpp",
-    "fo developer",
-    "fo consultant",
-    "f&o developer",
-    "f&o functional",
-    "trade & logistics",
-    "supply chain management",
-    "scm",
-    "project operations",
-    "finance module",
-    "general ledger",
-    "accounts payable",
-    "accounts receivable",
-    "fixed assets",
-    "procurement & sourcing",
   ],
 
   // ------------------------------------------------------------
@@ -68,27 +37,12 @@ module.exports = {
   // ------------------------------------------------------------
   d365CE: [
     "d365 ce",
-    "d365crm",
     "d365 crm",
     "dynamics 365 ce",
     "dynamics 365 customer engagement",
-    "crm",
     "microsoft crm",
     "dynamics crm",
     "customer engagement",
-    "ce developer",
-    "ce consultant",
-    "sales module",
-    "marketing module",
-    "customer service module",
-    "field service",
-    "project service automation",
-    "psa",
-    "plugins",
-    "workflows",
-    "power automate flows",
-    "model-driven app",
-    "canvas app + crm",
   ],
 
   // ------------------------------------------------------------
@@ -96,7 +50,6 @@ module.exports = {
   // ------------------------------------------------------------
   businessCentral: [
     "business central",
-    "bc",
     "d365 bc",
     "dynamics 365 bc",
     "dynamics bc",
@@ -104,10 +57,8 @@ module.exports = {
     "navision",
     "dynamics nav",
     "al language",
+    "al programmer",
     "al developer",
-    "extensions",
-    "bc consultant",
-    "bc developer",
   ],
 
   // ------------------------------------------------------------
@@ -116,51 +67,38 @@ module.exports = {
   powerPlatform: [
     "power platform",
     "microsoft power platform",
-    "pp",
     "dataverse",
-    "power apps",
-    "power automate",
-    "power bi",
-    "power virtual agents",
-    "pva",
-    "rpa",
     "low code",
     "low-code",
     "no code",
     "no-code",
-    "canvas app",
-    "model-driven app",
-    "solution layering",
     "powerfx",
   ],
 
   // ------------------------------------------------------------
-  // 5. POWER APPS
+  // 5. POWER APPS (Sub-family)
   // ------------------------------------------------------------
   powerApps: [
     "power apps",
     "powerapps",
     "canvas apps",
-    "model-driven apps",
-    "model driven apps",
-    "model driven",
+    "model-driven app",
+    "model driven app",
     "canvas app development",
-    "model-driven app development",
+    "model-driven development",
   ],
 
   // ------------------------------------------------------------
-  // 6. POWER AUTOMATE
+  // 6. POWER AUTOMATE (Sub-family)
   // ------------------------------------------------------------
   powerAutomate: [
     "power automate",
     "powerautomate",
-    "flows",
     "power automate flows",
     "automated flows",
     "cloud flows",
     "desktop flows",
     "rpa",
-    "process automation",
   ],
 
   // ------------------------------------------------------------
@@ -171,11 +109,8 @@ module.exports = {
     "powerbi",
     "dax",
     "power query",
-    "bi developer",
+    "bi dashboards",
     "business intelligence",
-    "data visualization",
-    "reporting",
-    "dashboards",
   ],
 
   // ------------------------------------------------------------
@@ -184,8 +119,9 @@ module.exports = {
   copilotAI: [
     "copilot",
     "microsoft copilot",
-    "power platform copilot",
     "dynamics copilot",
+    "power platform copilot",
+    "azure openai",
     "ai",
     "artificial intelligence",
     "machine learning",
@@ -194,8 +130,6 @@ module.exports = {
     "gpt",
     "gen ai",
     "generative ai",
-    "chatgpt",
-    "azure openai",
   ],
 
   // ------------------------------------------------------------
@@ -203,88 +137,83 @@ module.exports = {
   // ------------------------------------------------------------
   azure: [
     "azure",
-    "azure devops",
     "azure functions",
     "logic apps",
     "azure logic apps",
-    "azure service bus",
+    "azure devops",
     "api management",
     "apim",
+    "azure service bus",
+    "azure synapse",
     "azure data factory",
     "adf",
-    "azure synapse",
-    "azure data lake",
     "event grid",
     "event hub",
-    "cloud engineer",
-    "cloud integration",
     "azure integration",
   ],
 
   // ------------------------------------------------------------
-  // 10. COMMERCE / RETAIL
+  // 10. COMMERCE / RETAIL (D365 Commerce)
   // ------------------------------------------------------------
   commerce: [
-    "commerce",
     "d365 commerce",
+    "commerce",
     "retail",
-    "dynamics retail",
-    "pos",
     "retail pos",
+    "pos",
     "mpo",
-    "e-commerce",
-    "ecommerce",
     "commerce scale unit",
     "csu",
+    "ecommerce",
+    "e-commerce",
   ],
 
   // ------------------------------------------------------------
-  // 11. PROJECT OPERATIONS (optional)
+  // 11. PROJECT OPERATIONS
   // ------------------------------------------------------------
   projectOperations: [
-    "project operations",
     "d365 project operations",
-    "pro",
+    "project operations",
     "project ops",
+    "pro",
   ],
 
   // ------------------------------------------------------------
-  // 12. HR MODULE (F&O)
+  // 12. HR (D365 Talent / HR)
   // ------------------------------------------------------------
   humanResources: [
     "d365 hr",
-    "human resources",
-    "talent",
+    "d365 human resources",
     "dynamics talent",
+    "talent mgmt",
   ],
 
   // ------------------------------------------------------------
-  // 13. FINANCE / SUPPLY CHAIN (explicit modules)
+  // 13. FINANCE & SUPPLY CHAIN MODULES
   // ------------------------------------------------------------
   financeSCMModules: [
     "finance module",
     "general ledger",
     "gl module",
     "accounts payable",
-    "ap module",
     "accounts receivable",
+    "ap module",
     "ar module",
-    "procurement",
     "inventory management",
     "warehouse management",
     "supply chain management",
-    "scm",
+    "scm module",
   ],
 
   // ------------------------------------------------------------
-  // 14. OTHER MISC MICROSOFT CLOUD TOOLS
+  // 14. MISC MICROSOFT CLOUD TOOLS (Optional)
   // ------------------------------------------------------------
   miscMicrosoft: [
     "sharepoint",
     "teams",
-    "azure ad",
-    "microsoft 365",
     "office 365",
     "o365",
+    "microsoft 365",
+    "azure ad",
   ],
 };
