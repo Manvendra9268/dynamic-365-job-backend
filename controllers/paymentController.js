@@ -8,6 +8,7 @@ const User = require("../models/User");
 const logger = require("../utils/logger");
 
 const stripeService = require("../services/stripeService");
+const PromoCode = require("../models/promoCode");
 const {
   finalizeCheckoutSession,
   getCheckoutStatusPayload,
@@ -66,6 +67,7 @@ const createCheckoutRecord = async ({
     finalPrice: payload.finalPrice ?? plan.price,
     discountApplied: payload.discountApplied || 0,
     promoCode: payload.promoCode || null,
+    stripePromotionCodeId: payload.stripePromotionCodeId || null,
     currency,
     isSubscription,
 
@@ -109,6 +111,17 @@ const createPublicCheckoutSession = asyncHandler(async (req, res) => {
     planId: plan._id.toString(),
   };
 
+  // Check if a promo code was provided and if it maps to a Stripe promotion
+  let discounts = undefined;
+  let stripePromotionCodeId = undefined;
+  if (promoCode) {
+    const promoDoc = await PromoCode.findOne({ code: promoCode });
+    if (promoDoc && promoDoc.stripePromotionCodeId) {
+      stripePromotionCodeId = promoDoc.stripePromotionCodeId;
+      discounts = [{ promotion_code: stripePromotionCodeId }];
+    }
+  }
+
   const session = await stripeService.createCheckoutSession({
     customerEmail: user.email,
     mode: isSub ? "subscription" : "payment",
@@ -116,6 +129,7 @@ const createPublicCheckoutSession = asyncHandler(async (req, res) => {
     successUrl,
     cancelUrl,
     metadata,
+    discounts,
   });
 
   // Hash user password before storing temporarily
@@ -134,6 +148,7 @@ const createPublicCheckoutSession = asyncHandler(async (req, res) => {
       finalPrice,
       discountApplied,
       promoCode,
+      stripePromotionCodeId,
       userData,
       metadata,
     },
@@ -176,6 +191,17 @@ const createAuthenticatedCheckoutSession = asyncHandler(async (req, res) => {
     userId: userId.toString(),
   };
 
+  // If the frontend provided a promoCode, try to find Stripe promotion id
+  let discounts = undefined;
+  let stripePromotionCodeId = undefined;
+  if (promoCode) {
+    const promoDoc = await PromoCode.findOne({ code: promoCode });
+    if (promoDoc && promoDoc.stripePromotionCodeId) {
+      stripePromotionCodeId = promoDoc.stripePromotionCodeId;
+      discounts = [{ promotion_code: stripePromotionCodeId }];
+    }
+  }
+
   const session = await stripeService.createCheckoutSession({
     customerEmail: userDoc.email,
     mode: isSub ? "subscription" : "payment",
@@ -183,6 +209,7 @@ const createAuthenticatedCheckoutSession = asyncHandler(async (req, res) => {
     successUrl,
     cancelUrl,
     metadata,
+    discounts,
   });
 
   await createCheckoutRecord({
@@ -196,8 +223,9 @@ const createAuthenticatedCheckoutSession = asyncHandler(async (req, res) => {
       finalPrice,
       discountApplied,
       promoCode,
+      stripePromotionCodeId,
       metadata,
-      userId
+      userId,
     },
   });
 

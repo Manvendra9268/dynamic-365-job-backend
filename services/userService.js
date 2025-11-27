@@ -10,6 +10,7 @@ const UserSubscription = require("../models/userSubscription");
 const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
 const promoCode = require("../models/promoCode");
+const Payment = require("../models/Payment");
 
 const createUser = async ({
   fullName,
@@ -702,7 +703,6 @@ const getAllTransactions = async (
     }
 
     const skip = (pageNumber - 1) * limitNumber;
-    const currentDate = new Date();
 
     const pipeline = [];
 
@@ -719,12 +719,12 @@ const getAllTransactions = async (
       { $unwind: "$user" }
     );
 
-    // Lookup Subscription
+    // Lookup Subscription (Plan)
     pipeline.push(
       {
         $lookup: {
           from: "subscriptions",
-          localField: "subscriptionId",
+          localField: "planId",
           foreignField: "_id",
           as: "subscription",
         },
@@ -737,7 +737,7 @@ const getAllTransactions = async (
       {
         $lookup: {
           from: "promocodes",
-          localField: "promoId",
+          localField: "promoCodeId",
           foreignField: "_id",
           as: "promo",
         },
@@ -753,19 +753,21 @@ const getAllTransactions = async (
           $or: [
             { "user.fullName": keyword },
             { "user.organizationName": keyword },
+            { promoCode: keyword },
+            { checkoutSessionId: keyword },
           ],
         },
       });
     }
 
-    // MONTH FILTER (startDate)
-    if (month && month.toLowerCase() !== "All") {
+    // MONTH FILTER (createdAt)
+    if (month && month.toLowerCase() !== "all") {
       const m = monthMap[month.trim()];
       if (m !== undefined) {
         const year = new Date().getFullYear();
         pipeline.push({
           $match: {
-            startDate: {
+            createdAt: {
               $gte: new Date(year, m, 1),
               $lte: new Date(year, m + 1, 0, 23, 59, 59),
             },
@@ -774,23 +776,23 @@ const getAllTransactions = async (
       }
     }
 
-    // DATE RANGE FILTER (endDate)
+    // DATE RANGE FILTER (createdAt)
     if (fromDate || toDate) {
       const range = {};
       if (fromDate) range.$gte = new Date(fromDate);
       if (toDate) range.$lte = new Date(toDate);
 
-      pipeline.push({ $match: { endDate: range } });
+      pipeline.push({ $match: { createdAt: range } });
     }
 
     // SORT
-    pipeline.push({ $sort: { startDate: -1 } });
+    pipeline.push({ $sort: { createdAt: -1 } });
 
     // PAGINATION
     pipeline.push({ $skip: skip }, { $limit: limitNumber });
 
     // Fetch paginated data
-    const subscriptions = await UserSubscription.aggregate(pipeline);
+    const payments = await Payment.aggregate(pipeline);
 
     // Count without pagination
     const countPipeline = pipeline.filter(
@@ -798,23 +800,23 @@ const getAllTransactions = async (
     );
     countPipeline.push({ $count: "total" });
 
-    const countResult = await UserSubscription.aggregate(countPipeline);
+    const countResult = await Payment.aggregate(countPipeline);
     const total = countResult[0]?.total || 0;
     const totalPages = Math.ceil(total / limitNumber);
 
     // Format Response
-    const formattedData = subscriptions.map((item) => ({
+    const formattedData = payments.map((item) => ({
+      _id: item._id,
       employerName: item.user.fullName,
       organizationName: item.user.organizationName,
-      amount: item.subscription.price,
+      amount: item.amount,
+      finalPrice: item.amount,
       subscriptionType: item.subscription.name,
-      purchaseDate: item.startDate,
-      renewalDate: item.endDate,
-      status:
-        item.endDate && item.endDate >= currentDate ? "Active" : "Completed",
+      purchaseDate: item.createdAt,
+      renewalDate: null, // Payment records don't have renewal date
+      status: item.status === "paid" ? "Paid" : item.status,
       paymentMethod: "Stripe",
-      promoCode: item.promo ? item.promo.code : null,
-      finalPrice: item.finalPrice,
+      promoCode: item.promoCode || (item.promo ? item.promo.code : null),
       discountApplied: item.discountApplied,
     }));
 

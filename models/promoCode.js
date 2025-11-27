@@ -25,6 +25,15 @@ const promoCodeSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    // Stripe identifiers for coupon and promotion code (created in Stripe)
+    stripeCouponId: {
+        type: String,
+        default: null
+    },
+    stripePromotionCodeId: {
+        type: String,
+        default: null
+    },
     promoStartDate: {
         type: Date,
         required: true

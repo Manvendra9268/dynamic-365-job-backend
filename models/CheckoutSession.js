@@ -67,6 +67,11 @@ const checkoutSessionSchema = new mongoose.Schema(
     stripeSubscriptionId: {
       type: String,
     },
+    // Stripe promotion code ID applied to this checkout (if any)
+    stripePromotionCodeId: {
+      type: String,
+      default: null,
+    },
     stripePaymentIntentId: {
       type: String,
     },
