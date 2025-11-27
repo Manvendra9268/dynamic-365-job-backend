@@ -25,7 +25,7 @@ exports.createPromoCode = async (data) => {
         }
 
         // allow callers to override duration or name/metadata
-        couponPayload.duration = data.duration || "forever";
+        couponPayload.duration = data.duration || "once";
         if (
           data.stripeCouponOptions &&
           typeof data.stripeCouponOptions === "object"
@@ -34,9 +34,13 @@ exports.createPromoCode = async (data) => {
         }
 
         stripeCoupon = await stripeService.createCoupon(couponPayload);
-
+        console.log("Created stripeCoupon", stripeCoupon);
+        const couponId = stripeCoupon.id;
         const promotionPayload = {
-          coupon: stripeCoupon.id,
+          promotion:{
+            type: "coupon",
+            coupon: couponId,
+          },
           code: data.code,
           active: data.isActive !== false,
         };

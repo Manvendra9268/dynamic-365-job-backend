@@ -99,7 +99,7 @@ const createCoupon = async (opts = {}) => {
  * @param {{coupon: string, code?: string, active?: boolean, restrictions?: object, metadata?: object}} opts
  */
 const createPromotionCode = async (opts = {}) => {
-  if (!opts.coupon)
+  if (!opts.promotion?.coupon)
     throw new Error("coupon id is required to create a promotion code");
   const payload = { ...opts };
   return stripe.promotionCodes.create(payload);

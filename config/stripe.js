@@ -10,7 +10,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
 }
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: process.env.STRIPE_API_VERSION || '2024-11-20.acacia',
+  apiVersion: process.env.STRIPE_API_VERSION || '2025-11-17.clover',
   appInfo: {
     name: 'dynamic-365-job-backend',
   },
