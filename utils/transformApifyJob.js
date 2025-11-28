@@ -319,6 +319,7 @@ function transformApifyJobToJobRequest(job) {
     jobTitle: job.title || null,
     jobRole: detectRoles(job),
     otherRole: null,
+    status: "Active",
 
     companyHomePage: job.organization_url
       ? job.organization_url

@@ -4,7 +4,6 @@ const Role = require("../models/Role");
 const userSubscription = require("../models/userSubscription");
 const ApiError = require("../utils/error");
 const logger = require("../utils/logger");
-const { extractResponsibilities, buildRequirements, buildSkillChips, determineExperienceLevel, determineJobLocationType, masterCountries, formatSalary, deriveIndustry, deriveHeadquarters } = require("../utils/apifyUtils");
 
 //new job request
 exports.createJobRequest = async (data) => {

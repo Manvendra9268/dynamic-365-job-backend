@@ -221,6 +221,5 @@ module.exports = {
   postJobAndSubscribe,
   updateJobDetailsByAdmin,
   getAdminDashboardStats,
-  updateApplyClicks,
-  createJobsFromApify
+  updateApplyClicks
 };

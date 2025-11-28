@@ -2,7 +2,7 @@
 
 const importApifyJobs = require("../services/importApifyJobsService");
 const { fetchApifyJobs } = require("../utils/apifyClient");
-
+const jobData = require('./data');
 /**
  * Controller that:
  * 1. Fetches jobs from Apify
@@ -11,16 +11,16 @@ const { fetchApifyJobs } = require("../utils/apifyClient");
  */
 exports.importFromApify = async (req, res) => {
   try {
-    const { apifyUrl } = req.body;
+    // const { apifyUrl } = req.body;
     const employerId = req.user.id;
 
-    if (!apifyUrl) {
-      return res.status(400).json({ error: "apifyUrl is required" });
-    }
+    // if (!apifyUrl) {
+    //   return res.status(400).json({ error: "apifyUrl is required" });
+    // }
 
     // 1. Fetch jobs from Apify API
-    const apifyJobsArray = await fetchApifyJobs(apifyUrl);
-
+    //const apifyJobsArray = await fetchApifyJobs(apifyUrl);
+    const apifyJobsArray = jobData.jobs;
     // 2. Transform + Save
     const summary = await importApifyJobs(apifyJobsArray, employerId);
 

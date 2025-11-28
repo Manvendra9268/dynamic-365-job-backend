@@ -13,9 +13,7 @@
  */
 
 const JobRequest = require("../models/JobRequest");
-const {
-  transformApifyJobToJobRequest,
-} = require("../utils/transformApifyJob");
+const { transformApifyJobToJobRequest } = require("../utils/transformApifyJob");
 
 /* ============================================================
    1. SAVE TRANSFORMED JOB (INSERT OR UPDATE)
@@ -27,16 +25,17 @@ async function saveTransformedJob(transformedJob, employerId = null) {
 
   let query = {};
 
-if (transformedJob.apifyJobId) {
-  query.apifyJobId = transformedJob.apifyJobId;
-} else {
-  query = {
-    jobTitle: transformedJob.jobTitle,
-    organization: transformedJob.organization,
-    country: transformedJob.country,
-  };
-}
+  if(transformedJob.status) query.status = transformedJob.status;
 
+  if (transformedJob.apifyJobId) {
+    query.apifyJobId = transformedJob.apifyJobId;
+  } else {
+    query = {
+      jobTitle: transformedJob.jobTitle,
+      organization: transformedJob.organization,
+      country: transformedJob.country,
+    };
+  }
 
   // Check existing
   let existingJob = await JobRequest.findOne(query);
