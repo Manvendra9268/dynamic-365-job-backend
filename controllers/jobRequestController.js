@@ -40,12 +40,16 @@ const getAllJobRequests = asyncHandler(async (req, res) => {
     ? [jobRoleRaw]
     : [];
 
+  const tagsRaw = req.query.tags || req.query["tags[]"];
+  const tags = Array.isArray(tagsRaw) ? tagsRaw : tagsRaw ? [tagsRaw] : [];
+
   const filters = {
     status: req.query.status,
     search: req.query.search,
     jobRole,
     jobType: req.query.jobType,
     country: req.query.country,
+    tags,
   };
   const pageNumber = parseInt(req.query.page, 10) || 1;
   const limitNumber = parseInt(req.query.limit, 10) || 10;
@@ -221,5 +225,5 @@ module.exports = {
   postJobAndSubscribe,
   updateJobDetailsByAdmin,
   getAdminDashboardStats,
-  updateApplyClicks
+  updateApplyClicks,
 };
