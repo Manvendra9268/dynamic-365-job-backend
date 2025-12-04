@@ -45,7 +45,7 @@ exports.getAllJobRequests = async (
   limitNumber = 10
 ) => {
   try {
-    const { status, search, jobRole, jobType, country } = filters;
+    const { status, search, jobRole, jobType, country, tags } = filters;
     const query = {};
 
     if (
@@ -57,6 +57,14 @@ exports.getAllJobRequests = async (
     if (country) query.country = country;
     if (jobRole && jobRole.length > 0) {
       query.jobRole = { $in: jobRole.map((role) => role.trim()) };
+    }
+    if (tags && tags.length > 0) {
+      if (tags.includes("Others")) {
+        const otherTags = ["Microsoft Cloud Tools", "Azure", "Power Apps"];
+        query.product_tags = { $in: otherTags };
+      } else {
+        query.product_tags = { $in: tags.map((tag) => tag.trim()) };
+      }
     }
 
     const jobRequests = await JobRequest.find(query)
