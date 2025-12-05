@@ -19,7 +19,7 @@ const buildAuthToken = (user) => {
     {
       id: user._id,
       email: user.email,
-      role: { roleName: "employer" },
+      role: { _id:user.role,roleName: "employer" },
     },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
