@@ -41,15 +41,8 @@ async function saveTransformedJob(transformedJob, employerId = null) {
   let existingJob = await JobRequest.findOne(query);
 
   if (existingJob) {
-    // ---------------------------------------------
-    // UPDATE EXISTING RECORD
-    // ---------------------------------------------
-    await JobRequest.updateOne(
-      { _id: existingJob._id },
-      { $set: transformedJob }
-    );
-
-    return { updated: true, created: false, jobId: existingJob._id };
+    // ⛔ DO NOT UPDATE — JUST SKIP
+    return { updated: false, created: false, skipped: true, jobId: existingJob._id };
   }
 
   // ---------------------------------------------
