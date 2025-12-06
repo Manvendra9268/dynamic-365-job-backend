@@ -276,12 +276,12 @@ const cancelSubscription = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-  const { subscriptionId } = req.body;
-  if (!subscriptionId) {
+  const { subscriptionId: stripeSubscriptionId } = req.body;
+  if (!stripeSubscriptionId) {
     return res.status(400).json({ message: "subscriptionId required" });
   }
 
-  const record = await UserSubscription.findOne({ _id: subscriptionId, userId });
+  const record = await UserSubscription.findOne({stripeSubscriptionId, userId });
   if (!record) return res.status(404).json({ message: "Subscription not found" });
 
   if (!record.stripeSubscriptionId) {
@@ -293,6 +293,7 @@ const cancelSubscription = asyncHandler(async (req, res) => {
   record.status = "cancelled";
   record.paymentStatus = "cancelled";
   record.endDate = new Date();
+  record.stripeSubscriptionId = null; //so that it cannot click cancel again
   await record.save();
 
   return res.status(200).json({ message: "Subscription cancelled" });

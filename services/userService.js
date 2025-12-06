@@ -9,8 +9,8 @@ const Role = require("../models/Role");
 const UserSubscription = require("../models/userSubscription");
 const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
-const promoCode = require("../models/promoCode");
 const Payment = require("../models/Payment");
+const buildPipeline = require('../utils/buildTransactionPipeline');
 
 const createUser = async ({
   fullName,
@@ -694,14 +694,6 @@ const getAllTransactions = async (
   toDate
 ) => {
   try {
-    // ADMIN CHECK
-    if (userType !== "admin") {
-      logger.warn(
-        `${userType} tried to fetch transactions without admin rights`
-      );
-      throw new Error("Access denied: Admin only", 403);
-    }
-
     const skip = (pageNumber - 1) * limitNumber;
 
     const pipeline = [];
@@ -804,24 +796,8 @@ const getAllTransactions = async (
     const total = countResult[0]?.total || 0;
     const totalPages = Math.ceil(total / limitNumber);
 
-    // Format Response
-    const formattedData = payments.map((item) => ({
-      _id: item._id,
-      employerName: item.user.fullName,
-      organizationName: item.user.organizationName,
-      amount: item.amount,
-      finalPrice: item.amount,
-      subscriptionType: item.subscription.name,
-      purchaseDate: item.createdAt,
-      renewalDate: null, // Payment records don't have renewal date
-      status: item.status === "paid" ? "Paid" : item.status,
-      paymentMethod: "Stripe",
-      promoCode: item.promoCode || (item.promo ? item.promo.code : null),
-      discountApplied: item.discountApplied,
-    }));
-
     return {
-      data: formattedData,
+      data: formatTransactions(payments),
       pagination: {
         currentPage: pageNumber,
         totalPages,
@@ -835,22 +811,99 @@ const getAllTransactions = async (
   }
 };
 
-// const deleteUser = async (userId, requestingUser) => {
-//   if (requestingUser.role !== 'Admin' && requestingUser.id !== userId) {
-//     throw new Error('Unauthorized to delete this user', 403);
-//   }
+const employerOwnTransactions = async (
+  userId = null,
+  pageNumber,
+  limitNumber,
+  search,
+  month,
+  fromDate,
+  toDate
+) => {
+  try {
+    const skip = (pageNumber - 1) * limitNumber;
 
-//   const user = await User.findOne({ _id: userId, deleted_at: null });
-//   if (!user) {
-//     throw new Error('User not found', 404);
-//   }
+    const pipeline = buildPipeline(search, month, fromDate, toDate, userId);
+    
+    // PAGINATION
+    const paginatedPipeline = [
+      ...pipeline,
+      { $skip: skip },
+      { $limit: limitNumber },
+    ];
 
-//   user.deleted_at = new Date();
-//   user.isActive = false;
-//   await user.save();
-//   logger.info(`User soft-deleted: ${user.phone}`);
-//   return user;
-// };
+    const payments = await Payment.aggregate(paginatedPipeline);
+
+    // COUNT
+    const countPipeline = [...pipeline, { $count: "total" }];
+    const countResult = await Payment.aggregate(countPipeline);
+    const total = countResult[0]?.total || 0;
+
+    return {
+      data: formatTransactions(payments),
+      pagination: {
+        currentPage: pageNumber,
+        totalPages: Math.ceil(total / limitNumber),
+        totalItems: total,
+        limit: limitNumber,
+      },
+    };
+  } catch (error) {
+    logger.error("Error fetching user transactions:", error);
+    throw new Error("Failed to fetch transactions", 500);
+  }
+};
+
+//format transactions
+const formatTransactions = (payments) => {
+  return payments.map((item) => {
+    const createdAt = new Date(item.createdAt);
+    const renewalDate = new Date(createdAt);
+    renewalDate.setMonth(renewalDate.getMonth() + 1);
+    // ================================
+    //   STRIPE SUBSCRIPTION LOGIC
+    // ================================
+    let isActiveCancellation = false;
+    let stripeSubscriptionId = null;
+
+    const paymentSubId = item.stripeSubscriptionId || null;
+    const userSubId = item.activeSubscription?.stripeSubscriptionId || null;
+
+    if (!paymentSubId) {  
+      // CASE 1: Payment has no subscription ID (One-Time)
+      isActiveCancellation = false;
+      stripeSubscriptionId = null;
+
+    } else if (paymentSubId && paymentSubId !== userSubId) {
+      // CASE 2: Payment subscription ID does NOT match active subscription (Old)
+      isActiveCancellation = false;
+      stripeSubscriptionId = null;
+
+    } else if (paymentSubId && paymentSubId === userSubId) {
+      // CASE 3: Matches active subscription (Current subscription)
+      isActiveCancellation = true;
+      stripeSubscriptionId = userSubId;
+    }
+
+    return {
+      _id: item._id,
+      employerName: item.user.fullName,
+      organizationName: item.user.organizationName,
+      amount: item.amount,
+      finalPrice: item.amount,
+      subscriptionType: item.subscription.name,
+      purchaseDate: item.createdAt,
+      renewalDate:
+        item.subscription.name === "One-Time Posting" ? null : renewalDate,
+      status: item.status === "paid" ? "Paid" : item.status,
+      paymentMethod: "Stripe",
+      promoCode: item.promoCode || (item.promo ? item.promo.code : null),
+      discountApplied: item.discountApplied,
+      isActiveCancellation,
+      stripeSubscriptionId,
+    };
+  });
+};
 
 module.exports = {
   createUser,
@@ -865,6 +918,7 @@ module.exports = {
   getAllUsersService,
   updateUserByAdminService,
   getAllTransactions,
+  employerOwnTransactions,
 };
 
 // const generateOtp = async (phone) => {

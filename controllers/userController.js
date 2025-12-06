@@ -23,6 +23,7 @@ const {
   getAllUsersService,
   updateUserByAdminService,
   getAllTransactions,
+  employerOwnTransactions
 } = require("../services/userService");
 
 const Role = require("../models/Role");
@@ -437,14 +438,41 @@ const updateUserByAdmin = [
   }),
 ];
 
+//ADMIN transaction interface
 const userTransactions = [
   asyncHandler(async (req, res) => {
     const userType = req.user.role.roleName;
+    if (userType !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admin only" });
+    }
     const { page = 1, limit = 10, search = "", month = "All", fromDate, toDate } = req.query;
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
     const result = await getAllTransactions(
       userType,
+      pageNumber,
+      limitNumber,
+      search,
+      month,
+      fromDate,
+      toDate
+    );
+    res.status(200).json({
+      message: "User transactions fetched successfully",
+      ...result,
+    });
+  }),
+];
+
+//Employer interface transactions
+const getMyTransactions = [
+  asyncHandler(async (req, res) => {
+    const userId = req.user?.id;
+    const { page = 1, limit = 10, search = "", month = "All", fromDate, toDate } = req.query;
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+    const result = await employerOwnTransactions(
+      userId,
       pageNumber,
       limitNumber,
       search,
@@ -471,7 +499,8 @@ module.exports = {
   resetUserPassword,
   userSubscribeAndRegister,
   updateUserByAdmin,
-  userTransactions
+  userTransactions,
+  getMyTransactions
 };
 
 // const generateOtpHandler = [
